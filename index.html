@@ -3,209 +3,106 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>Poppy Oyunu</title>
+<title>Poppy Oyunu - GrabPack</title>
 <style>
-* { margin:0; padding:0; box-sizing:border-box; }
-body { background:#000; overflow:hidden; font-family:'Arial Black',sans-serif; }
-canvas { display:block; position:fixed; top:0; left:0; }
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:#000;overflow:hidden;font-family:'Arial Black',sans-serif;}
+canvas{display:block;position:fixed;top:0;left:0;}
 
-#overlay {
-  position:fixed; inset:0; background:rgba(0,0,0,0.92);
-  display:flex; flex-direction:column; align-items:center; justify-content:center;
-  gap:16px; z-index:200; color:#fff; text-align:center;
-}
-#overlay h1 { font-size:clamp(26px,5vw,52px); color:#ff3333;
-  text-shadow:0 0 30px #ff0000,0 0 70px #ff000055; letter-spacing:4px; }
-#overlay p { font-size:14px; color:#ccc; line-height:2; max-width:400px; }
-#overlay b { color:#fff; }
-.sbtn {
-  padding:13px 44px; border-radius:30px; border:none; cursor:pointer;
-  background:linear-gradient(135deg,#0077ff,#002299);
-  color:#fff; font-size:19px; font-weight:900;
-  box-shadow:0 0 28px #0055ffbb; animation:gp 2s infinite;
-}
-@keyframes gp {
-  0%,100%{box-shadow:0 0 28px #0055ffbb}
-  50%{box-shadow:0 0 55px #0077ffdd,0 0 90px #0033ff44}
-}
+#overlay{position:fixed;inset:0;background:rgba(0,0,0,0.93);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;z-index:200;color:#fff;text-align:center;}
+#overlay h1{font-size:clamp(24px,5vw,50px);color:#ff2222;text-shadow:0 0 30px #ff0000,0 0 70px #ff000044;letter-spacing:4px;}
+#overlay .cols{display:flex;gap:28px;flex-wrap:wrap;justify-content:center;max-width:580px;}
+#overlay .col{text-align:left;font-size:13px;color:#ccc;line-height:2.1;}
+#overlay .col b{color:#fff;}
+.sbtn{padding:13px 46px;border-radius:30px;border:none;cursor:pointer;background:linear-gradient(135deg,#0077ff,#002299);color:#fff;font-size:20px;font-weight:900;box-shadow:0 0 28px #0055ffbb;animation:gp 2s infinite;}
+@keyframes gp{0%,100%{box-shadow:0 0 28px #0055ffbb}50%{box-shadow:0 0 55px #0077ffdd,0 0 90px #0033ff44}}
 
-/* HAND SWITCH BAR - top center */
-#hand-switch-bar {
-  position:fixed; top:14px; left:50%; transform:translateX(-50%);
-  display:flex; gap:8px; z-index:20; pointer-events:all;
-}
-.hsbtn {
-  width:64px; height:64px; border-radius:14px;
-  border:2px solid rgba(255,255,255,0.25);
-  color:#fff; font-size:10px; font-weight:900;
-  cursor:pointer; background:rgba(0,0,0,0.65);
-  display:flex; flex-direction:column; align-items:center; justify-content:center;
-  gap:3px; line-height:1.2; user-select:none; -webkit-user-select:none;
-  transition:all 0.15s;
-}
-.hsbtn span { font-size:22px; line-height:1; }
-.hsbtn.active { border:3px solid #fff; transform:scale(1.1); background:rgba(255,255,255,0.12); }
-#hsb-red    { box-shadow:0 0 14px #ff222288; }
-#hsb-yellow { box-shadow:0 0 14px #ffcc0088; }
-#hsb-green  { box-shadow:0 0 14px #22dd4488; }
-#hsb-purple { box-shadow:0 0 14px #aa22ff88; }
+#hand-switch-bar{position:fixed;top:10px;left:50%;transform:translateX(-50%);display:flex;gap:7px;z-index:20;pointer-events:all;}
+.hsbtn{width:66px;height:66px;border-radius:14px;border:2px solid rgba(255,255,255,0.2);color:#fff;font-size:9px;font-weight:900;cursor:pointer;background:rgba(0,0,0,0.7);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;line-height:1.2;user-select:none;-webkit-user-select:none;transition:all .15s;}
+.hsbtn span{font-size:22px;line-height:1;}
+.hsbtn kbd{font-size:9px;background:rgba(255,255,255,0.18);border-radius:4px;padding:1px 4px;font-family:monospace;}
+.hsbtn.active{border:3px solid #fff;transform:scale(1.1);background:rgba(255,255,255,0.13);}
 
-/* HUD */
-#hud { position:fixed; inset:0; pointer-events:none; z-index:10; }
-#ch {
-  position:absolute; top:50%; left:50%;
-  transform:translate(-50%,-50%); width:20px; height:20px;
-}
-#ch::before,#ch::after { content:''; position:absolute; background:rgba(255,255,255,0.88); }
-#ch::before { width:2px; height:100%; left:50%; transform:translateX(-50%); }
-#ch::after  { width:100%; height:2px; top:50%; transform:translateY(-50%); }
+#hud{position:fixed;inset:0;pointer-events:none;z-index:10;}
+#ch{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:20px;height:20px;}
+#ch::before,#ch::after{content:'';position:absolute;background:rgba(255,255,255,0.88);}
+#ch::before{width:2px;height:100%;left:50%;transform:translateX(-50%);}
+#ch::after{width:100%;height:2px;top:50%;transform:translateY(-50%);}
 
-#info {
-  position:absolute; bottom:100px; left:50%; transform:translateX(-50%);
-  background:rgba(0,0,0,0.55); padding:5px 16px; border-radius:16px;
-  color:#fff; font-size:12px; font-weight:700; white-space:nowrap;
-}
+#healthbar{position:fixed;top:88px;left:12px;background:rgba(0,0,0,0.55);border:2px solid rgba(255,255,255,0.18);border-radius:10px;padding:6px 12px;color:#fff;font-size:13px;font-weight:700;z-index:10;pointer-events:none;display:flex;align-items:center;gap:8px;}
+#hp-inner{width:110px;height:10px;background:#222;border-radius:6px;overflow:hidden;}
+#hp-fill{height:100%;width:100%;background:linear-gradient(90deg,#ff2222,#ff7722);border-radius:6px;transition:width .18s;}
 
-#healthbar {
-  position:fixed; top:90px; left:14px;
-  background:rgba(0,0,0,0.55); border:2px solid rgba(255,255,255,0.2);
-  border-radius:10px; padding:6px 12px;
-  color:#fff; font-size:13px; font-weight:700; z-index:10; pointer-events:none;
-  display:flex; align-items:center; gap:8px;
-}
-#hp-inner { width:110px; height:11px; background:#222; border-radius:6px; overflow:hidden; }
-#hp-fill  { height:100%; width:100%; background:linear-gradient(90deg,#ff2222,#ff7722);
-            border-radius:6px; transition:width 0.18s; }
+#carry-indicator{position:fixed;top:88px;right:12px;background:rgba(0,0,0,0.6);border:2px solid rgba(255,255,255,0.18);border-radius:10px;padding:6px 14px;color:#fff;font-size:13px;font-weight:700;z-index:10;pointer-events:none;display:none;}
 
-/* CARRY INDICATOR */
-#carry-indicator {
-  position:fixed; top:90px; right:14px;
-  background:rgba(0,0,0,0.6); border:2px solid rgba(255,255,255,0.2);
-  border-radius:10px; padding:6px 14px;
-  color:#fff; font-size:13px; font-weight:700; z-index:10; pointer-events:none;
-  display:none;
-}
+/* El durumu göstergesi */
+#hand-status{position:fixed;top:130px;left:12px;background:rgba(0,0,0,0.55);border:2px solid rgba(255,255,255,0.12);border-radius:10px;padding:6px 12px;color:#fff;font-size:11px;font-weight:700;z-index:10;pointer-events:none;display:flex;flex-direction:column;gap:3px;}
+.hs-row{display:flex;align-items:center;gap:6px;}
+.hs-dot{width:10px;height:10px;border-radius:50%;background:#333;}
+.hs-dot.latched{background:#ffdd00;box-shadow:0 0 6px #ffdd00;}
+.hs-dot.flying{background:#44aaff;box-shadow:0 0 6px #44aaff;animation:blink .4s infinite;}
+.hs-dot.ready{background:#22dd44;box-shadow:0 0 4px #22dd44;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
 
-/* COOLDOWN CIRCLES */
-#hcooldown {
-  position:absolute; bottom:24px; left:50%; transform:translateX(-50%);
-  display:flex; gap:20px;
-}
-.hcd {
-  width:62px; height:62px; border-radius:50%;
-  border:3px solid rgba(255,255,255,0.4);
-  display:flex; align-items:center; justify-content:center;
-  font-size:11px; font-weight:900; color:#fff; text-shadow:0 1px 3px #000;
-  transition:all 0.15s;
-}
-#hcd-left  { background:radial-gradient(circle at 40% 35%,#66bbff,#0055cc); box-shadow:0 0 18px #0066ffbb; }
-#hcd-right { background:radial-gradient(circle at 40% 35%,#ff7777,#cc0000); box-shadow:0 0 18px #ff2222bb; }
-.hcd.cooldown { opacity:0.32; transform:scale(0.88); }
+#hcooldown{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);display:flex;gap:18px;pointer-events:none;z-index:10;}
+.hcd{width:62px;height:62px;border-radius:50%;border:3px solid rgba(255,255,255,0.4);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;color:#fff;text-shadow:0 1px 3px #000;transition:all .15s;position:relative;}
+.hcd.cooldown{opacity:0.3;transform:scale(0.88);}
+.hcd.latched-glow{border-color:#ffdd00!important;box-shadow:0 0 18px #ffdd00!important;}
+.hcd .latch-icon{position:absolute;top:-8px;right:-8px;font-size:14px;display:none;}
+.hcd.latched-glow .latch-icon{display:block;}
 
-/* NOTIFY */
-#notify {
-  position:fixed; top:50%; left:50%; transform:translate(-50%,-50%);
-  background:rgba(0,0,0,0.78); border:2px solid rgba(255,255,255,0.3);
-  border-radius:18px; padding:12px 28px;
-  color:#fff; font-size:20px; font-weight:900; text-align:center;
-  z-index:100; pointer-events:none; opacity:0; transition:opacity 0.25s;
-  text-shadow:0 0 20px currentColor;
-}
+#notify{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,0.8);border:2px solid rgba(255,255,255,0.25);border-radius:18px;padding:12px 28px;color:#fff;font-size:20px;font-weight:900;text-align:center;z-index:100;pointer-events:none;opacity:0;transition:opacity .25s;}
+#hint{position:fixed;bottom:105px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.6);border-radius:12px;padding:5px 16px;color:#ffcc44;font-size:12px;font-weight:700;z-index:10;pointer-events:none;opacity:0;transition:opacity .3s;}
+#dmg-flash{position:fixed;inset:0;background:rgba(255,0,0,0.42);opacity:0;pointer-events:none;z-index:50;transition:opacity .07s;}
+#sprint-label{position:fixed;bottom:200px;left:28px;background:rgba(0,0,0,0.5);border-radius:8px;padding:4px 10px;color:#aaffaa;font-size:11px;font-weight:700;z-index:10;pointer-events:none;opacity:0;transition:opacity .2s;}
 
-/* DAMAGE FLASH */
-#dmg-flash {
-  position:fixed; inset:0; background:rgba(255,0,0,0.42);
-  opacity:0; pointer-events:none; z-index:50; transition:opacity 0.07s;
-}
+/* Elektrik direği durumu */
+#elec-status{position:fixed;top:88px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.7);border:2px solid rgba(255,200,0,0.3);border-radius:10px;padding:5px 14px;color:#ffcc00;font-size:12px;font-weight:700;z-index:10;pointer-events:none;display:none;gap:6px;align-items:center;}
 
-/* DEAD SCREEN */
-#dead-screen {
-  position:fixed; inset:0; background:rgba(80,0,0,0.88);
-  display:none; align-items:center; justify-content:center;
-  flex-direction:column; gap:22px; z-index:300; color:#fff; text-align:center;
-}
-#dead-screen h2 { font-size:52px; color:#ff4444; text-shadow:0 0 40px #ff0000; }
-#dead-screen p  { font-size:18px; color:#ffaaaa; }
-.rbtn {
-  padding:13px 38px; border-radius:26px; border:none; cursor:pointer;
-  background:#cc0000; color:#fff; font-size:18px; font-weight:900;
-  box-shadow:0 0 24px #ff000099;
-}
+#dead-screen{position:fixed;inset:0;background:rgba(80,0,0,0.88);display:none;align-items:center;justify-content:center;flex-direction:column;gap:22px;z-index:300;color:#fff;text-align:center;}
+#dead-screen h2{font-size:52px;color:#ff4444;text-shadow:0 0 40px #ff0000;}
+#dead-screen p{font-size:18px;color:#ffaaaa;}
+.rbtn{padding:13px 38px;border-radius:26px;border:none;cursor:pointer;background:#cc0000;color:#fff;font-size:18px;font-weight:900;box-shadow:0 0 24px #ff000099;}
 
-/* MOBILE CONTROLS */
-#joy-zone {
-  position:fixed; bottom:28px; left:28px;
-  width:140px; height:140px; pointer-events:all; z-index:20;
-}
-#joy-base {
-  width:140px; height:140px; border-radius:50%;
-  background:rgba(255,255,255,0.07);
-  border:3px solid rgba(255,255,255,0.22); position:relative;
-}
-#joy-knob {
-  width:56px; height:56px; border-radius:50%;
-  background:radial-gradient(circle at 40% 35%,rgba(255,255,255,0.9),rgba(160,160,160,0.5));
-  border:2px solid rgba(255,255,255,0.4);
-  position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
-  box-shadow:0 4px 14px rgba(0,0,0,0.5);
-}
-#jump-btn {
-  position:fixed; bottom:115px; right:148px;
-  width:62px; height:62px; border-radius:50%;
-  background:radial-gradient(circle at 40% 35%,#aaffaa,#22cc44,#006622);
-  border:3px solid rgba(255,255,255,0.35); box-shadow:0 0 14px #22cc4477;
-  color:#fff; font-size:11px; font-weight:900;
-  cursor:pointer; pointer-events:all; z-index:20;
-  display:flex; align-items:center; justify-content:center;
-  user-select:none; -webkit-user-select:none;
-}
-#jump-btn:active { transform:scale(0.88); }
-#mob-left-btn {
-  position:fixed; bottom:28px; right:190px;
-  width:82px; height:82px; border-radius:50%;
-  background:radial-gradient(circle at 40% 35%,#88ddff,#0066ff,#003399);
-  border:4px solid rgba(255,255,255,0.4); box-shadow:0 0 24px #0066ffbb;
-  color:#fff; font-size:11px; font-weight:900;
-  cursor:pointer; pointer-events:all; z-index:20;
-  display:flex; align-items:center; justify-content:center; text-align:center; line-height:1.3;
-  user-select:none; -webkit-user-select:none;
-}
-#mob-right-btn {
-  position:fixed; bottom:28px; right:90px;
-  width:82px; height:82px; border-radius:50%;
-  border:4px solid rgba(255,255,255,0.4);
-  color:#fff; font-size:11px; font-weight:900;
-  cursor:pointer; pointer-events:all; z-index:20;
-  display:flex; align-items:center; justify-content:center; text-align:center; line-height:1.3;
-  user-select:none; -webkit-user-select:none;
-  background:radial-gradient(circle at 40% 35%,#ffaaaa,#ff2222,#880000);
-  box-shadow:0 0 24px #ff2222bb;
-}
-#mob-left-btn:active, #mob-right-btn:active { transform:scale(0.88); }
-/* Sprint label */
-#sprint-label {
-  position:fixed; bottom:200px; left:28px;
-  background:rgba(0,0,0,0.5); border-radius:8px; padding:4px 10px;
-  color:#aaffaa; font-size:11px; font-weight:700; z-index:10; pointer-events:none;
-  opacity:0; transition:opacity 0.2s;
-}
+#joy-zone{position:fixed;bottom:28px;left:28px;width:140px;height:140px;pointer-events:all;z-index:20;}
+#joy-base{width:140px;height:140px;border-radius:50%;background:rgba(255,255,255,0.07);border:3px solid rgba(255,255,255,0.22);position:relative;}
+#joy-knob{width:56px;height:56px;border-radius:50%;background:radial-gradient(circle at 40% 35%,rgba(255,255,255,0.9),rgba(160,160,160,0.5));border:2px solid rgba(255,255,255,0.4);position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);box-shadow:0 4px 14px rgba(0,0,0,0.5);}
+#jump-btn{position:fixed;bottom:115px;right:148px;width:62px;height:62px;border-radius:50%;background:radial-gradient(circle at 40% 35%,#aaffaa,#22cc44,#006622);border:3px solid rgba(255,255,255,0.35);box-shadow:0 0 14px #22cc4477;color:#fff;font-size:11px;font-weight:900;cursor:pointer;pointer-events:all;z-index:20;display:flex;align-items:center;justify-content:center;user-select:none;-webkit-user-select:none;}
+#jump-btn:active{transform:scale(0.88);}
+#mob-left-btn{position:fixed;bottom:28px;right:190px;width:82px;height:82px;border-radius:50%;background:radial-gradient(circle at 40% 35%,#88ddff,#0066ff,#003399);border:4px solid rgba(255,255,255,0.4);box-shadow:0 0 24px #0066ffbb;color:#fff;font-size:11px;font-weight:900;cursor:pointer;pointer-events:all;z-index:20;display:flex;align-items:center;justify-content:center;text-align:center;line-height:1.3;user-select:none;-webkit-user-select:none;}
+#mob-right-btn{position:fixed;bottom:28px;right:90px;width:82px;height:82px;border-radius:50%;border:4px solid rgba(255,255,255,0.4);color:#fff;font-size:11px;font-weight:900;cursor:pointer;pointer-events:all;z-index:20;display:flex;align-items:center;justify-content:center;text-align:center;line-height:1.3;user-select:none;-webkit-user-select:none;background:radial-gradient(circle at 40% 35%,#ffaaaa,#ff2222,#880000);box-shadow:0 0 24px #ff2222bb;}
+#mob-left-btn:active,#mob-right-btn:active{transform:scale(0.88);}
 </style>
 </head>
 <body>
 
 <div id="overlay">
   <h1>🎮 POPPY OYUNU</h1>
-  <p>
-    <b>WASD</b> — Yürü &nbsp;|&nbsp; <b>Shift</b> — Sprint<br>
-    <b>SPACE</b> — Zıpla<br>
-    <b>Q</b> — 🔵 Sol El (Mavi, değişmez)<br>
-    <b>E</b> — Sağ El (seçilen renk)<br>
-    <b>1/2/3/4</b> — Sağ El değiştir<br><br>
-    <b style="color:#ffcc00">🟡 Sarı:</b> Ateş/Buz al, panellere ver<br>
-    <b style="color:#22dd44">🟢 Yeşil:</b> Elektrik panellerini aç<br>
-    <b style="color:#aa22ff">🟣 Mor:</b> Mor plakalara fırlat → Uç!<br>
-    <b style="color:#ff3333">🔴 Kırmızı:</b> Elektrik devrelerini kırar<br>
-  </p>
+  <div class="cols">
+    <div class="col">
+      <b>WASD</b> — Yürü<br>
+      <b>Shift</b> — Sprint<br>
+      <b>Space</b> — Zıpla<br>
+      <b>Q</b> — 🔵 Sol El Fırlat / Geri Al<br>
+      <b>E</b> — Sağ El Fırlat / Geri Al<br>
+      <b>Fare</b> — Bak<br>
+    </div>
+    <div class="col">
+      <b>Z</b> — 🔴 Kırmızı El<br>
+      <b>X</b> — 🟡 Sarı El<br>
+      <b>C</b> — 🟢 Yeşil El<br>
+      <b>V</b> — 🟣 Mor El<br><br>
+      <b style="color:#ffcc44">El koldan ayrılır!</b><br>
+    </div>
+    <div class="col">
+      <b style="color:#66aaff">🔵 Mavi:</b> Bağlan / Kapı aç<br>
+      <b style="color:#ff5555">🔴 Kırmızı:</b> Kırmızı tarayıcı<br>
+      <b style="color:#ffcc00">🟡 Sarı:</b> Ateş/Buz taşı<br>
+      <b style="color:#22dd44">🟢 Yeşil:</b> Elektrik aktar<br>
+      <b style="color:#aa44ff">🟣 Mor:</b> Fırlatma plakası!<br>
+      <b style="color:#ffdd00">⚡ Elektrik:</b> Kablo direklere değsin!<br>
+    </div>
+  </div>
   <button class="sbtn" onclick="startGame()">OYNAMAYA BAŞLA!</button>
 </div>
 
@@ -217,899 +114,1200 @@ canvas { display:block; position:fixed; top:0; left:0; }
 
 <div id="dmg-flash"></div>
 <div id="notify"></div>
+<div id="hint"></div>
 
-<!-- Hand switch bar - top center -->
 <div id="hand-switch-bar">
-  <button class="hsbtn active" id="hsb-red"    onclick="switchRightHand('red')">   <span>🔴</span>KIRMIZI</button>
-  <button class="hsbtn"        id="hsb-yellow" onclick="switchRightHand('yellow')"><span>🟡</span>SARI</button>
-  <button class="hsbtn"        id="hsb-green"  onclick="switchRightHand('green')"> <span>🟢</span>YEŞİL</button>
-  <button class="hsbtn"        id="hsb-purple" onclick="switchRightHand('purple')"><span>🟣</span>MOR</button>
+  <button class="hsbtn active" id="hsb-red"    onclick="switchRightHand('red')"   ><span>🔴</span>KIRMIZI<kbd>Z</kbd></button>
+  <button class="hsbtn"        id="hsb-yellow" onclick="switchRightHand('yellow')"><span>🟡</span>SARI<kbd>X</kbd></button>
+  <button class="hsbtn"        id="hsb-green"  onclick="switchRightHand('green')" ><span>🟢</span>YEŞİL<kbd>C</kbd></button>
+  <button class="hsbtn"        id="hsb-purple" onclick="switchRightHand('purple')"><span>🟣</span>MOR<kbd>V</kbd></button>
 </div>
 
 <div id="hud">
   <div id="ch"></div>
-  <div id="info">Q: 🔵 Sol El &nbsp;|&nbsp; E: Sağ El &nbsp;|&nbsp; SPACE: Zıpla &nbsp;|&nbsp; Shift: Sprint</div>
-  <div id="healthbar">❤️ <div id="hp-inner"><div id="hp-fill"></div></div></div>
+  <div id="healthbar">❤️<div id="hp-inner"><div id="hp-fill"></div></div></div>
   <div id="carry-indicator"></div>
+  <div id="hand-status">
+    <div class="hs-row"><div class="hs-dot ready" id="hs-left"></div><span id="hs-left-txt">🔵 Sol: Hazır</span></div>
+    <div class="hs-row"><div class="hs-dot ready" id="hs-right"></div><span id="hs-right-txt">🔴 Sağ: Hazır</span></div>
+  </div>
+  <div id="elec-status">⚡ Elektrik: <span id="elec-txt">0/3 direk</span></div>
   <div id="hcooldown">
-    <div class="hcd" id="hcd-left"><div>🔵<br>SOL</div></div>
-    <div class="hcd" id="hcd-right"><div id="hcd-right-label">🔴<br>SAĞ</div></div>
+    <div class="hcd" id="hcd-left"  style="background:radial-gradient(circle at 40% 35%,#66bbff,#0055cc);box-shadow:0 0 18px #0066ffbb;">🔵<br>SOL<div class="latch-icon">📌</div></div>
+    <div class="hcd" id="hcd-right" style="background:radial-gradient(circle at 40% 35%,#ff7777,#cc0000);box-shadow:0 0 18px #ff2222bb;"><div id="hcd-right-label">🔴<br>SAĞ</div><div class="latch-icon">📌</div></div>
   </div>
 </div>
-
 <div id="sprint-label">⚡ SPRİNT</div>
 
 <div id="joy-zone"><div id="joy-base"><div id="joy-knob"></div></div></div>
 <button id="jump-btn" ontouchstart="keys['Space']=true" ontouchend="keys['Space']=false">ZIPLA</button>
 <button id="mob-left-btn"  ontouchstart="tryFireHand('left')"  onmousedown="tryFireHand('left')">🔵<br>SOL<br>EL</button>
-<button id="mob-right-btn" ontouchstart="tryFireHand('right')" onmousedown="tryFireHand('right')" id="mob-right-btn">🔴<br>SAĞ<br>EL</button>
+<button id="mob-right-btn" ontouchstart="tryFireHand('right')" onmousedown="tryFireHand('right')">🔴<br>SAĞ<br>EL</button>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
-// ============================================================
+// ================================================================
 // GLOBALS
-// ============================================================
-let started = false;
-const keys = {};
-let yaw = 0, pitch = 0;
-let velY = 0, onGround = false;
-let playerPos = new THREE.Vector3(0, 2, 18);
-let playerHP = 100, playerDead = false;
-let joyX = 0, joyZ = 0;
+// ================================================================
+let started=false, playerDead=false;
+const keys={};
+// Key press tracking - prevent repeat
+const keyJustPressed={};
+let yaw=0, pitch=0, velY=0, onGround=false;
+let playerPos = new THREE.Vector3(0,2,18);
+let playerHP=100;
+let joyX=0, joyZ=0;
+let elapsed=0;
+let lastHitTime=-999;
 
-// Hand states: 'left' = always blue, 'right' = currentRightType
-let handState = { left: null, right: null };
-let currentRightType = 'red';
-let rightHandCarrying = null; // null | 'fire' | 'ice'
-let handSwitching = false;
-let switchState = null; // { targetType, phase:'down'|'up', timer }
+// Hand states
+let HS = { left:null, right:null };
+let rightType='red';
+let rightCarrying=null;
+let handSwitching=false, switchState=null;
 
-let scene, camera, renderer, clock;
-let monster, monsterLight, monsterArms = [];
-let leftArmVM, rightArmVM;
-let leftWristMarker, rightWristMarker;
-let rightArmCarryGlow; // point light on right arm showing carry state
+// Scene objects
+let scene,camera,renderer,clock;
+let monster,monsterLight,monsterArms=[];
+let leftArmGroup, rightArmGroup;
+let leftHandMesh,  leftStumpCap;
+let rightHandMesh, rightStumpCap;
+let leftWristPos,  rightWristPos;
+let rightArmCarryLight;
 
-let wallBoxes = [];
-let interactives = [];
-let elapsed = 0;
-let notifyTimer = 0;
+let wallBoxes=[];
+let scanners=[];
+let interactObjs=[];
+let doorList=[];
+let notifyTO=null;
 
-const MAX_HAND_DIST = 40;
-const HAND_SPEED    = 44;
+// ================================================================
+// ELEKTRİK DİREĞİ SİSTEMİ
+// Kablo direklere değince aktive olur, zincir açılırsa kapı açılır
+// ================================================================
+let powerPoles=[]; // {pos, mesh, ball, light, active, cableGroup}
+let powerPoleChains=[]; // [{poles:[idx,...], door:scannerIdx, activated:false}]
 
-const HDEFS = {
-  blue:   { armCol:0x1155dd, handCol:0x3377ff, glow:0x0044ff, name:'🔵 MAVİ',   yband:false },
-  red:    { armCol:0xcc1111, handCol:0xff3333, glow:0xff0000, name:'🔴 KIRMIZI', yband:false },
-  yellow: { armCol:0xcc9900, handCol:0xffcc00, glow:0xffaa00, name:'🟡 SARI',   yband:true  },
-  green:  { armCol:0x009922, handCol:0x22dd44, glow:0x00ff44, name:'🟢 YEŞİL',  yband:false },
-  purple: { armCol:0x7700cc, handCol:0xaa22ff, glow:0xcc00ff, name:'🟣 MOR',    yband:false },
+// ================================================================
+// HAND DEFINITIONS
+// ================================================================
+const HD={
+  blue:  {arm:0x1155dd, hand:0x3377ff, glow:0x0044ff, emo:'🔵'},
+  red:   {arm:0xcc1111, hand:0xff3333, glow:0xff0000, emo:'🔴'},
+  yellow:{arm:0xcc9900, hand:0xffcc00, glow:0xffaa00, emo:'🟡'},
+  green: {arm:0x009922, hand:0x22dd44, glow:0x00ff44, emo:'🟢'},
+  purple:{arm:0x7700cc, hand:0xaa22ff, glow:0xcc00ff, emo:'🟣'},
 };
 
-// ============================================================
+// ================================================================
+// LATCH TYPES - hangi objeler eli tutar, hangisi tutmaz
+// ================================================================
+// 'latch' = el orada kalır, tekrar Q/E ile geri çekilir
+// 'bounce' = el değer, efekt tetiklenir, hemen geri döner
+// Normal duvar = anında geri döner (latch yok)
+
+// ================================================================
 // START / RESPAWN
-// ============================================================
-function startGame() {
-  document.getElementById('overlay').style.display = 'none';
-  started = true;
-  if (!renderer) init();
+// ================================================================
+function startGame(){
+  document.getElementById('overlay').style.display='none';
+  started=true;
+  if(!renderer) init();
   document.body.requestPointerLock?.();
 }
-
-function respawn() {
-  document.getElementById('dead-screen').style.display = 'none';
-  playerHP = 100; playerDead = false;
-  playerPos.set(0, 2, 18);
-  velY = 0; onGround = false;
-  rightHandCarrying = null;
-  handSwitching = false; switchState = null;
-  ['left','right'].forEach(side => {
-    if (handState[side]) {
-      scene.remove(handState[side].mesh);
-      scene.remove(handState[side].cable);
-      handState[side] = null;
-    }
+function respawn(){
+  document.getElementById('dead-screen').style.display='none';
+  playerHP=100; playerDead=false;
+  playerPos.set(0,2,18); velY=0; onGround=false;
+  rightCarrying=null; handSwitching=false; switchState=null;
+  lastHitTime=-999;
+  ['left','right'].forEach(s=>{
+    if(HS[s]){ scene.remove(HS[s].mesh); scene.remove(HS[s].cable); HS[s]=null; }
   });
-  updateHPBar(); updateCooldownUI(); updateRightArmGlow();
+  if(leftHandMesh)  leftHandMesh.visible=true;
+  if(leftStumpCap)  leftStumpCap.visible=false;
+  if(rightHandMesh) rightHandMesh.visible=true;
+  if(rightStumpCap) rightStumpCap.visible=false;
+  updateHPBar(); updateCooldownUI(); updateCarryUI(); updateHandStatusUI();
   monster.position.set(0,0,-25);
-  started = true;
+  started=true;
 }
 
-// ============================================================
+// ================================================================
 // INIT
-// ============================================================
-function init() {
-  scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x050010);
-  scene.fog = new THREE.Fog(0x050010, 28, 110);
+// ================================================================
+function init(){
+  scene=new THREE.Scene();
+  scene.background=new THREE.Color(0x050010);
+  scene.fog=new THREE.Fog(0x050010,30,120);
 
-  camera = new THREE.PerspectiveCamera(82, innerWidth/innerHeight, 0.04, 220);
+  camera=new THREE.PerspectiveCamera(82,innerWidth/innerHeight,0.04,220);
   scene.add(camera);
 
-  renderer = new THREE.WebGLRenderer({ antialias:true });
-  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
-  renderer.setSize(innerWidth, innerHeight);
-  renderer.shadowMap.enabled = true;
-  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  renderer=new THREE.WebGLRenderer({antialias:true});
+  renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+  renderer.setSize(innerWidth,innerHeight);
+  renderer.shadowMap.enabled=true;
+  renderer.shadowMap.type=THREE.PCFSoftShadowMap;
   document.body.appendChild(renderer.domElement);
+  clock=new THREE.Clock();
 
-  clock = new THREE.Clock();
-
-  scene.add(new THREE.AmbientLight(0x1a0a2a, 1.1));
-  const dir = new THREE.DirectionalLight(0xffffff, 0.45);
+  scene.add(new THREE.AmbientLight(0x1a0a2a,1.1));
+  const dir=new THREE.DirectionalLight(0xffffff,0.45);
   dir.position.set(10,25,10); dir.castShadow=true; scene.add(dir);
-  addLight(0x003399, 2, 45, -12,5,-12);
-  addLight(0xff2200, 2, 45,  12,5,-12);
-  addLight(0x330066, 1.5, 50, 0,8,0);
+  mkLight(0x003399,2,50,-14,5,-14);
+  mkLight(0xff2200,2,50, 14,5,-14);
+  mkLight(0x330066,1.5,55,0,8,0);
 
   buildLevel();
   buildViewmodelArms();
   buildMonster();
   buildInteractives();
+  buildPowerPoles();
   setupControls();
   animate();
 }
-function addLight(col,int,dist,x,y,z) {
-  const l = new THREE.PointLight(col,int,dist);
-  l.position.set(x,y,z); scene.add(l); return l;
-}
+function mkLight(c,i,d,x,y,z){const l=new THREE.PointLight(c,i,d);l.position.set(x,y,z);scene.add(l);return l;}
 
-// ============================================================
-// LEVEL (150×150)
-// ============================================================
-function buildLevel() {
-  // Floor
-  const fl = new THREE.Mesh(
-    new THREE.PlaneGeometry(150,150),
-    new THREE.MeshLambertMaterial({color:0x0c0820})
-  );
+// ================================================================
+// LEVEL
+// ================================================================
+function buildLevel(){
+  const fl=new THREE.Mesh(new THREE.PlaneGeometry(160,160),new THREE.MeshLambertMaterial({color:0x0c0820}));
   fl.rotation.x=-Math.PI/2; fl.receiveShadow=true; scene.add(fl);
-  scene.add(new THREE.GridHelper(150,30,0x1a0033,0x0d0020));
-
-  // Ceiling
-  const ceil = new THREE.Mesh(
-    new THREE.PlaneGeometry(150,150),
-    new THREE.MeshLambertMaterial({color:0x060012})
-  );
+  scene.add(new THREE.GridHelper(160,32,0x1a0033,0x0d0020));
+  const ceil=new THREE.Mesh(new THREE.PlaneGeometry(160,160),new THREE.MeshLambertMaterial({color:0x060012}));
   ceil.rotation.x=Math.PI/2; ceil.position.y=14; scene.add(ceil);
 
-  const wallMat = new THREE.MeshLambertMaterial({color:0x110d22});
-  function mkWall(px,py,pz,sx,sy,sz) {
-    const m = new THREE.Mesh(new THREE.BoxGeometry(sx,sy,sz), wallMat);
+  const wm=new THREE.MeshLambertMaterial({color:0x110d22});
+  function mkW(px,py,pz,sx,sy,sz){
+    const m=new THREE.Mesh(new THREE.BoxGeometry(sx,sy,sz),wm);
     m.position.set(px,py,pz); m.receiveShadow=true; m.castShadow=true; scene.add(m);
     wallBoxes.push({minX:px-sx/2,maxX:px+sx/2,minY:py-sy/2,maxY:py+sy/2,minZ:pz-sz/2,maxZ:pz+sz/2});
   }
-  // Outer walls
-  mkWall(0,7,-75, 150,14,2);
-  mkWall(0,7, 75, 150,14,2);
-  mkWall(-75,7,0, 2,14,150);
-  mkWall( 75,7,0, 2,14,150);
+  mkW(0,7,-80, 160,14,2); mkW(0,7,80, 160,14,2);
+  mkW(-80,7,0, 2,14,160); mkW(80,7,0, 2,14,160);
+  mkW(-32,7,-18,2,14,64); mkW(32,7,-18,2,14,64);
+  mkW(-32,7,32,2,14,32);  mkW(32,7,32,2,14,32);
+  mkW(0,7,-42,62,14,2);   mkW(0,7,48,62,14,2);
+  mkW(-52,7,12,2,14,64);  mkW(52,7,12,2,14,64);
+  mkW(0,7,-62,44,14,2);   mkW(0,7,65,44,14,2);
 
-  // Inner dividers / corridors
-  mkWall(-30,7,-20, 2,14,60);
-  mkWall( 30,7,-20, 2,14,60);
-  mkWall(-30,7, 30, 2,14,30);
-  mkWall( 30,7, 30, 2,14,30);
-  mkWall(0,7,-40, 58,14,2);
-  mkWall(0,7, 45, 58,14,2);
-  mkWall(-50,7,10, 2,14,60);
-  mkWall( 50,7,10, 2,14,60);
-  mkWall(0,7,-60, 40,14,2);
-  mkWall(0,7, 62, 40,14,2);
-
-  // Obstacles
-  const obMat = new THREE.MeshLambertMaterial({color:0x1a1030});
-  function mkBox(px,py,pz,sx,sy,sz) {
-    const m = new THREE.Mesh(new THREE.BoxGeometry(sx,sy,sz),obMat);
+  const om=new THREE.MeshLambertMaterial({color:0x1a1030});
+  function mkB(px,py,pz,sx,sy,sz){
+    const m=new THREE.Mesh(new THREE.BoxGeometry(sx,sy,sz),om);
     m.position.set(px,py,pz); m.castShadow=true; m.receiveShadow=true; scene.add(m);
     wallBoxes.push({minX:px-sx/2,maxX:px+sx/2,minY:py-sy/2,maxY:py+sy/2,minZ:pz-sz/2,maxZ:pz+sz/2});
   }
-  [
-    [8,2,-12,3,4,3],[-9,2,-8,4,3,4],[14,2,5,3,3,3],[-12,2,6,3,4,3],
-    [0,2,-22,5,3,5],[-18,2,-16,3,4,3],[18,2,-16,3,4,3],[0,2,25,4,3,4],
-    [-22,2,0,3,5,3],[22,2,0,3,5,3],[40,2,-30,4,4,4],[-40,2,-30,4,4,4],
-    [40,2,50,5,4,5],[-40,2,50,5,4,5],[0,2,-55,6,5,4],[55,2,-30,4,5,4],
-    [-55,2,-30,4,5,4],[55,2,40,4,4,4],[-55,2,40,4,4,4],[0,2,60,6,4,6],
-    [15,2,55,3,3,3],[-15,2,55,3,3,3],[38,2,20,3,4,3],[-38,2,20,3,4,3],
-    [60,2,0,4,5,4],[-60,2,0,4,5,4],
-  ].forEach(a => mkBox(...a));
+  [[8,2,-12,3,4,3],[-9,2,-8,4,3,4],[15,2,5,3,3,3],[-12,2,6,3,4,3],
+   [0,2,-22,5,3,5],[-19,2,-17,3,4,3],[19,2,-17,3,4,3],[0,2,26,4,3,4],
+   [-23,2,0,3,5,3],[23,2,0,3,5,3],[42,2,-32,4,4,4],[-42,2,-32,4,4,4],
+   [42,2,52,5,4,5],[-42,2,52,5,4,5],[0,2,-58,6,5,4],[57,2,-32,4,5,4],
+   [-57,2,-32,4,5,4],[57,2,42,4,4,4],[-57,2,42,4,4,4],[0,2,62,6,4,6],
+   [62,2,0,4,5,4],[-62,2,0,4,5,4]].forEach(a=>mkB(...a));
 
-  // Ceiling pipes
-  const pipeMat = new THREE.MeshLambertMaterial({color:0x2a2244});
-  for(let i=-60;i<=60;i+=15) {
-    const p = new THREE.Mesh(new THREE.CylinderGeometry(0.28,0.28,150,8),pipeMat);
+  const pm=new THREE.MeshLambertMaterial({color:0x2a2244});
+  for(let i=-70;i<=70;i+=16){
+    const p=new THREE.Mesh(new THREE.CylinderGeometry(0.28,0.28,160,8),pm);
     p.rotation.z=Math.PI/2; p.position.set(0,13,i); scene.add(p);
   }
-  // Atmosphere lights spread around
-  const ac = [0xff0000,0x0044ff,0xff6600,0x00ffcc,0xaa00ff,0xffff00];
-  ac.forEach((c,i) => {
-    const l = new THREE.PointLight(c,1.2,30);
-    const a = (i/ac.length)*Math.PI*2;
-    l.position.set(Math.cos(a)*35,11,Math.sin(a)*35);
-    scene.add(l);
+  const ac=[0xff0000,0x0044ff,0xff6600,0x00ffcc,0xaa00ff,0xffff00];
+  ac.forEach((c,i)=>{
+    const l=new THREE.PointLight(c,1.1,32);
+    const a=(i/ac.length)*Math.PI*2;
+    l.position.set(Math.cos(a)*40,11,Math.sin(a)*40); scene.add(l);
   });
 }
 
-// ============================================================
+// ================================================================
 // VIEWMODEL ARMS
-// ============================================================
-function buildViewmodelArms() {
-  leftArmVM = makeViewArm('blue', true);
-  camera.add(leftArmVM);
-
-  rightArmVM = makeViewArm(currentRightType, false);
-  camera.add(rightArmVM);
-
+// ================================================================
+function buildViewmodelArms(){
+  leftArmGroup  = buildArmVM('blue', true);
+  rightArmGroup = buildArmVM(rightType, false);
+  camera.add(leftArmGroup);
+  camera.add(rightArmGroup);
   resetArmPos();
 }
 
-function makeViewArm(type, isLeft) {
-  const g  = new THREE.Group();
-  const d  = HDEFS[type];
-  const aM = () => new THREE.MeshLambertMaterial({color:d.armCol, emissive:d.armCol, emissiveIntensity:0.2});
-  const hM = () => new THREE.MeshLambertMaterial({color:d.handCol, emissive:d.handCol, emissiveIntensity:0.22});
-  const yM = new THREE.MeshLambertMaterial({color:0xffcc00, emissive:0xffcc00, emissiveIntensity:0.18});
+function buildArmVM(type, isLeft){
+  const g=new THREE.Group();
+  const d=HD[type];
+  const aM=new THREE.MeshLambertMaterial({color:d.arm, emissive:d.arm, emissiveIntensity:0.22});
+  const hM=new THREE.MeshLambertMaterial({color:d.hand,emissive:d.hand,emissiveIntensity:0.25});
+  const yM=new THREE.MeshLambertMaterial({color:0xffcc00,emissive:0xffcc00,emissiveIntensity:0.2});
 
-  // Long forearm tube going toward camera (+Z = back into screen)
-  const fore = new THREE.Mesh(new THREE.CylinderGeometry(0.058,0.075,1.6,10), aM());
-  fore.rotation.x = Math.PI/2;
-  fore.position.set(0, 0, 0.72);
-  g.add(fore);
+  const fore=new THREE.Mesh(new THREE.CylinderGeometry(0.058,0.075,1.8,10),aM);
+  fore.rotation.x=Math.PI/2; fore.position.set(0,0,0.82); g.add(fore);
 
-  // Yellow wrist band
-  const wb = new THREE.Mesh(new THREE.CylinderGeometry(0.083,0.083,0.12,10), yM);
-  wb.rotation.x = Math.PI/2;
-  wb.position.set(0, 0, 0.02);
-  g.add(wb);
+  const wb=new THREE.Mesh(new THREE.CylinderGeometry(0.083,0.083,0.12,10),yM);
+  wb.rotation.x=Math.PI/2; wb.position.set(0,0,0.02); g.add(wb);
 
-  // Palm
-  const palm = new THREE.Mesh(new THREE.BoxGeometry(0.25,0.29,0.10), hM());
-  palm.position.set(0, 0, -0.26); g.add(palm);
+  const stump=new THREE.Mesh(
+    new THREE.CylinderGeometry(0.072,0.072,0.06,14),
+    new THREE.MeshLambertMaterial({color:d.glow,emissive:d.glow,emissiveIntensity:1.0})
+  );
+  stump.rotation.x=Math.PI/2; stump.position.set(0,0,-0.05);
+  stump.visible=false; g.add(stump);
+  if(isLeft) leftStumpCap=stump; else rightStumpCap=stump;
 
-  for(let k=-1;k<=1;k++) {
-    const kn = new THREE.Mesh(new THREE.SphereGeometry(0.044,6,6), hM());
-    kn.position.set(k*0.083,0.145,-0.26); g.add(kn);
+  const hg=new THREE.Group();
+  const palm=new THREE.Mesh(new THREE.BoxGeometry(0.25,0.29,0.10),hM);
+  palm.position.set(0,0,-0.26); hg.add(palm);
+  for(let k=-1;k<=1;k++){
+    const kn=new THREE.Mesh(new THREE.SphereGeometry(0.044,6,6),hM);
+    kn.position.set(k*0.083,0.145,-0.26); hg.add(kn);
+  }
+  for(let f=0;f<4;f++){
+    const fx=(f-1.5)*0.068;
+    const p1=new THREE.Mesh(new THREE.CylinderGeometry(0.027,0.029,0.18,6),hM);
+    p1.position.set(fx,0.26,-0.25); hg.add(p1);
+    const p2=new THREE.Mesh(new THREE.CylinderGeometry(0.022,0.027,0.13,6),hM);
+    p2.position.set(fx,0.41,-0.24); hg.add(p2);
+    const tip=new THREE.Mesh(new THREE.SphereGeometry(0.025,5,5),
+      new THREE.MeshLambertMaterial({color:0x111111}));
+    tip.position.set(fx,0.5,-0.24); hg.add(tip);
+  }
+  const thumb=new THREE.Mesh(new THREE.CylinderGeometry(0.029,0.031,0.15,6),hM);
+  thumb.position.set(isLeft?0.16:-0.16,0.12,-0.24);
+  thumb.rotation.z=isLeft?-0.5:0.5; hg.add(thumb);
+
+  g.add(hg);
+  if(isLeft) leftHandMesh=hg; else rightHandMesh=hg;
+
+  const mark=new THREE.Object3D(); mark.position.set(0,0,-0.05); g.add(mark);
+  if(isLeft) leftWristPos=mark; else rightWristPos=mark;
+
+  if(!isLeft){
+    rightArmCarryLight=new THREE.PointLight(0xffffff,0,1.5);
+    g.add(rightArmCarryLight);
   }
 
-  for(let f=0;f<4;f++) {
+  return g;
+}
+
+function rebuildRightArm(type){
+  if(rightArmGroup) camera.remove(rightArmGroup);
+  rightType=type;
+  rightArmGroup=buildArmVM(type,false);
+  camera.add(rightArmGroup);
+  rightArmGroup.position.set(0.3, 2.8,-0.65);
+  rightArmGroup.rotation.set(0.2,-0.15,-0.06);
+  updateCarryUI(); updateCooldownUI(); updateHandBar();
+}
+
+function resetArmPos(){
+  leftArmGroup.position.set(-0.3,-0.44,-0.65);
+  leftArmGroup.rotation.set(0.2,0.15,0.06);
+  rightArmGroup.position.set(0.3,-0.44,-0.65);
+  rightArmGroup.rotation.set(0.2,-0.15,-0.06);
+}
+
+// ================================================================
+// HAND SWITCH ANIMATION
+// ================================================================
+function switchRightHand(type){
+  if(type===rightType||handSwitching||HS.right) return;
+  handSwitching=true; rightCarrying=null;
+  switchState={targetType:type,phase:'down',timer:0};
+  updateCarryUI();
+}
+function updateSwitchAnim(dt){
+  if(!switchState) return;
+  switchState.timer+=dt;
+  if(switchState.phase==='down'){
+    const t=Math.min(switchState.timer/0.15,1);
+    rightArmGroup.position.y=-0.44+(-3.2+0.44)*t;
+    if(t>=1){ rebuildRightArm(switchState.targetType); switchState.phase='up'; switchState.timer=0; }
+  } else {
+    const t=Math.min(switchState.timer/0.15,1);
+    rightArmGroup.position.y=2.8+(-0.44-2.8)*t;
+    if(t>=1){ rightArmGroup.position.y=-0.44; switchState=null; handSwitching=false; }
+  }
+}
+
+// ================================================================
+// MONSTER
+// ================================================================
+function buildMonster(){
+  monster=new THREE.Group();
+  monster.position.set(0,0,-25);
+  const B=0x1a55dd,LB=0x2266ee,Y=0xffcc00,R=0xff1111,BK=0x111111;
+  const bM=c=>new THREE.MeshLambertMaterial({color:c});
+
+  const body=new THREE.Mesh(new THREE.BoxGeometry(3.6,5,2.6),bM(B));
+  body.position.y=3.5; body.castShadow=true; monster.add(body);
+  const head=new THREE.Mesh(new THREE.BoxGeometry(3.1,3.1,2.6),bM(LB));
+  head.position.y=7.2; head.castShadow=true; monster.add(head);
+  [-0.72,0.72].forEach(x=>{
+    const sc=new THREE.Mesh(new THREE.SphereGeometry(0.45,12,12),bM(0xffffff));
+    sc.position.set(x,7.3,1.28); monster.add(sc);
+    const pu=new THREE.Mesh(new THREE.SphereGeometry(0.24,8,8),bM(BK));
+    pu.position.set(x,7.3,1.66); monster.add(pu);
+  });
+  const lip=new THREE.Mesh(new THREE.BoxGeometry(2.0,0.38,0.18),bM(R));
+  lip.position.set(0,6.5,1.3); monster.add(lip);
+  for(let i=-2;i<=2;i++){
+    const t=new THREE.Mesh(new THREE.BoxGeometry(0.22,0.3,0.12),bM(0xffffee));
+    t.position.set(i*0.31,6.33,1.38); monster.add(t);
+  }
+  [-1,1].forEach(side=>{
+    const arm=new THREE.Group();
+    const up=new THREE.Mesh(new THREE.CylinderGeometry(0.38,0.32,4.5,8),bM(B));
+    up.position.set(0,-2.2,0); arm.add(up);
+    const fore=new THREE.Mesh(new THREE.CylinderGeometry(0.3,0.26,4.0,8),bM(LB));
+    fore.position.set(0,-6.7,0); arm.add(fore);
+    const wb=new THREE.Mesh(new THREE.CylinderGeometry(0.3,0.3,0.5,10),bM(Y));
+    wb.position.set(0,-8.75,0); arm.add(wb);
+    const palm=new THREE.Mesh(new THREE.BoxGeometry(0.95,1.05,0.58),bM(Y));
+    palm.position.set(0,-9.4,0); arm.add(palm);
+    for(let f=0;f<4;f++){
+      const fx=(f-1.5)*0.23;
+      [[-9.98,0.52,0.085,0.095],[-10.52,0.4,0.07,0.085],[-11.0,0,0.072,0]].forEach(([py,h,r1,r2])=>{
+        const seg=r2>0
+          ? new THREE.Mesh(new THREE.CylinderGeometry(r1,r2,h,6),bM(Y))
+          : new THREE.Mesh(new THREE.SphereGeometry(r1,6,6),bM(0x222200));
+        seg.position.set(fx,py,0); arm.add(seg);
+      });
+    }
+    const th=new THREE.Mesh(new THREE.CylinderGeometry(0.09,0.095,0.5,6),bM(Y));
+    th.position.set(side*0.58,-9.38,0.1); th.rotation.z=side*0.72; arm.add(th);
+    arm.position.set(side*2.35,6.5,0); arm.rotation.z=side*0.38;
+    monster.add(arm); monsterArms.push(arm);
+  });
+  [-0.72,0.72].forEach(x=>{
+    const leg=new THREE.Mesh(new THREE.CylinderGeometry(0.52,0.42,4.0,8),bM(B));
+    leg.position.set(x,0.9,0); monster.add(leg);
+    const foot=new THREE.Mesh(new THREE.BoxGeometry(1.1,0.52,1.8),bM(Y));
+    foot.position.set(x,-1.1,0.38); monster.add(foot);
+    for(let t=0;t<3;t++){
+      const toe=new THREE.Mesh(new THREE.SphereGeometry(0.14,6,6),bM(Y));
+      toe.position.set(x+(t-1)*0.3,-1.05,1.3); monster.add(toe);
+    }
+  });
+  monsterLight=new THREE.PointLight(0x1144ff,3,24);
+  monsterLight.position.set(0,5,0); monster.add(monsterLight);
+  monster.scale.set(0.62,0.62,0.62);
+  scene.add(monster);
+}
+
+// ================================================================
+// ELEKTRİK DİREKLERİ - KABLO DEĞİNCE AKTİF OLUR
+// ================================================================
+function buildPowerPoles(){
+  // Zincir 1: sol taraf küme - 3 direk
+  const chain1Positions=[[40,0,-44],[44,0,-44],[42,0,-40]];
+  // Zincir 2: sağ taraf küme - 3 direk
+  const chain2Positions=[[-44,0,48],[-40,0,48],[-42,0,44]];
+
+  [chain1Positions, chain2Positions].forEach((cluster, ci)=>{
+    const chainPoles=[];
+    cluster.forEach(([x,,z])=>{
+      const poleIdx=powerPoles.length;
+      const mat=new THREE.MeshLambertMaterial({color:0x334455,emissive:0x111122,emissiveIntensity:0.3});
+      const pole=new THREE.Mesh(new THREE.CylinderGeometry(0.22,0.22,5,8),mat);
+      pole.position.set(x,2.5,z); scene.add(pole);
+
+      // Metal kafes / çerçeve
+      const frameMat=new THREE.MeshLambertMaterial({color:0x445566,emissive:0x112233,emissiveIntensity:0.2});
+      const frame=new THREE.Mesh(new THREE.TorusGeometry(0.55,0.08,8,12),frameMat);
+      frame.position.set(x,5,z); scene.add(frame);
+
+      const ball=new THREE.Mesh(new THREE.SphereGeometry(0.38,12,12),
+        new THREE.MeshLambertMaterial({color:0x334455,emissive:0x001122,emissiveIntensity:0.3}));
+      ball.position.set(x,5.4,z); scene.add(ball);
+
+      // İzolasyon halkaları
+      [4.0,3.0,2.0].forEach(h=>{
+        const ring=new THREE.Mesh(new THREE.CylinderGeometry(0.28,0.28,0.2,8),
+          new THREE.MeshLambertMaterial({color:0x222222}));
+        ring.position.set(x,h,z); scene.add(ring);
+      });
+
+      const l=new THREE.PointLight(0x334455,0.3,5); l.position.set(x,5.5,z); scene.add(l);
+
+      // Etiket: DEVRE KAPALI
+      const labelSprite=makeTextSprite('⚡ KAPALI',x,6.2,z,0xff4400);
+
+      const poleObj={
+        pos:new THREE.Vector3(x,5.4,z),
+        posMid:new THREE.Vector3(x,3.0,z), // kablo için orta nokta
+        ball, pole, frame, light:l,
+        mat, ballMat:ball.material, poleMat:mat, frameMat,
+        active:false, labelSprite,
+        poleIdx
+      };
+      powerPoles.push(poleObj);
+      chainPoles.push(poleIdx);
+    });
+
+    // Zincir kapısı - her zincir farklı bir kapı açar
+    // Zincir 1 → 2. kapı (sağ taraf), Zincir 2 → 3. kapı (sol taraf)
+    powerPoleChains.push({
+      poleIndices: chainPoles,
+      activated: false,
+      scannerIdx: ci+1 // 1. ve 2. door scanner'ı bypass eder
+    });
+  });
+
+  // Direkleri tel ile birleştir (görsel)
+  powerPoleChains.forEach(chain=>{
+    for(let i=0;i<chain.poleIndices.length-1;i++){
+      const a=powerPoles[chain.poleIndices[i]];
+      const b=powerPoles[chain.poleIndices[i+1]];
+      const wireGeo=new THREE.BufferGeometry().setFromPoints([a.posMid.clone(),b.posMid.clone()]);
+      const wire=new THREE.Line(wireGeo,new THREE.LineBasicMaterial({color:0x223344,linewidth:2}));
+      scene.add(wire);
+      // Store wire for later activation
+      if(!a.wires) a.wires=[];
+      a.wires.push({line:wire, other:b});
+    }
+  });
+}
+
+function makeTextSprite(text, x, y, z, color){
+  // Basit bir ışıklı top kullanıyoruz etiket yerine (sprite API yok)
+  const l=new THREE.PointLight(color||0xff4400, 0.2, 3);
+  l.position.set(x,y,z); scene.add(l);
+  return l;
+}
+
+// Kablo direğe değiyor mu kontrol et
+function checkCableHitsPoles(cableFrom, cableTo){
+  // Kablo doğrusu ile her direği kontrol et
+  powerPoles.forEach((pole, idx)=>{
+    if(pole.active) return;
+    // Direğin silindir eksenine en yakın nokta
+    const closestDist=distanceFromLineToPoint(cableFrom, cableTo, pole.posMid);
+    if(closestDist < 1.8){ // 1.8 birim içinde → aktive et
+      activatePole(idx);
+    }
+  });
+}
+
+function distanceFromLineToPoint(lineStart, lineEnd, point){
+  const lineDiff=new THREE.Vector3().subVectors(lineEnd, lineStart);
+  const lineLen=lineDiff.length();
+  if(lineLen<0.001) return lineStart.distanceTo(point);
+  const t=Math.max(0,Math.min(1,
+    new THREE.Vector3().subVectors(point, lineStart).dot(lineDiff)/(lineLen*lineLen)
+  ));
+  const proj=lineStart.clone().addScaledVector(lineDiff,t);
+  return proj.distanceTo(point);
+}
+
+function activatePole(idx){
+  const pole=powerPoles[idx];
+  pole.active=true;
+
+  // Görsel güncelle
+  pole.ballMat.color.setHex(0xffee44);
+  pole.ballMat.emissive.setHex(0xffdd00);
+  pole.ballMat.emissiveIntensity=1.5;
+  pole.light.color.setHex(0xffcc00);
+  pole.light.intensity=4;
+  pole.light.distance=12;
+  pole.poleMat.color.setHex(0x557744);
+  pole.poleMat.emissive.setHex(0x224422);
+  pole.frameMat.color.setHex(0xffcc00);
+  pole.frameMat.emissive.setHex(0xaaaa00);
+  pole.frameMat.emissiveIntensity=0.8;
+
+  // Etiket ışığı yap sarı
+  if(pole.labelSprite){
+    pole.labelSprite.color.setHex(0xffdd00);
+    pole.labelSprite.intensity=1.5;
+  }
+
+  showNotify('⚡ DİREK AKTİF!','#ffdd00');
+
+  // Telleri parlat
+  if(pole.wires) pole.wires.forEach(w=>{
+    w.line.material.color.setHex(0xffcc00);
+  });
+
+  // Zincir kontrolü
+  checkPoleChains();
+  updateElecStatus();
+}
+
+function checkPoleChains(){
+  powerPoleChains.forEach(chain=>{
+    if(chain.activated) return;
+    const allActive=chain.poleIndices.every(idx=>powerPoles[idx].active);
+    if(allActive){
+      chain.activated=true;
+      showNotify('⚡⚡ ELEKTRİK ZİNCİRİ TAMAMLANDI!','#ffff00');
+      // Bu zincirin kapısını aç
+      if(chain.scannerIdx < scanners.length){
+        const sc=scanners[chain.scannerIdx];
+        if(!sc.open){
+          sc.open=true;
+          openDoor(sc);
+        }
+      }
+    }
+  });
+}
+
+function updateElecStatus(){
+  const active=powerPoles.filter(p=>p.active).length;
+  const total=powerPoles.length;
+  const el=document.getElementById('elec-status');
+  const txt=document.getElementById('elec-txt');
+  el.style.display='flex';
+  txt.textContent=`${active}/${total} direk`;
+  el.style.borderColor=active>0?'rgba(255,220,0,0.6)':'rgba(255,200,0,0.3)';
+}
+
+// ================================================================
+// INTERACTIVES
+// ================================================================
+function buildInteractives(){
+  function mkWallPlate(px,py,pz,col,axis){
+    const mat=new THREE.MeshLambertMaterial({color:col,emissive:col,emissiveIntensity:0.65});
+    const disc=new THREE.Mesh(new THREE.CylinderGeometry(1.7,1.7,0.22,20),mat);
+    if(axis==='x') disc.rotation.z=Math.PI/2; else disc.rotation.x=Math.PI/2;
+    disc.position.set(px,py,pz); scene.add(disc);
+    const inner=new THREE.Mesh(new THREE.CylinderGeometry(0.6,0.6,0.28,16),
+      new THREE.MeshLambertMaterial({color:0xffffff,emissive:0xffffff,emissiveIntensity:0.9}));
+    inner.rotation.copy(disc.rotation); inner.position.set(px,py,pz); scene.add(inner);
+    const ring=new THREE.Mesh(new THREE.TorusGeometry(1.55,0.12,8,20),
+      new THREE.MeshLambertMaterial({color:col,emissive:col,emissiveIntensity:1.0}));
+    ring.rotation.copy(disc.rotation); ring.position.set(px,py,pz); scene.add(ring);
+    const l=new THREE.PointLight(col,2.0,9); l.position.set(px,py,pz); scene.add(l);
+    return {disc,inner,ring,light:l};
+  }
+
+  // ── LAUNCH PLATES (purple, on floor) ── MOR EL İÇİN
+  const lpPos=[[0,0,-34],[19,0,9],[-19,0,9],[0,0,37],[30,0,-24],[-30,0,-24],
+               [47,0,32],[-47,0,32],[0,0,-62],[57,0,-12],[-57,0,-12]];
+  lpPos.forEach(([x,,z])=>{
+    const mat=new THREE.MeshLambertMaterial({color:0xaa22ff,emissive:0xaa22ff,emissiveIntensity:0.65});
+    const disc=new THREE.Mesh(new THREE.CylinderGeometry(1.7,1.7,0.22,20),mat);
+    disc.position.set(x,0.12,z); scene.add(disc);
+    const inner=new THREE.Mesh(new THREE.CylinderGeometry(0.6,0.6,0.28,16),
+      new THREE.MeshLambertMaterial({color:0xffffff,emissive:0xffffff,emissiveIntensity:0.9}));
+    inner.position.set(x,0.22,z); scene.add(inner);
+    const ring=new THREE.Mesh(new THREE.TorusGeometry(1.55,0.12,8,20),
+      new THREE.MeshLambertMaterial({color:0xaa22ff,emissive:0xaa22ff,emissiveIntensity:1.0}));
+    ring.position.set(x,0.14,z); scene.add(ring);
+    // "MOR EL" etiketi ışığı
+    const label=new THREE.PointLight(0xdd00ff,0.5,5);
+    label.position.set(x,1.5,z); scene.add(label);
+    const l=new THREE.PointLight(0xaa22ff,1.5,7); l.position.set(x,1,z); scene.add(l);
+    interactObjs.push({type:'launch',pos:new THREE.Vector3(x,0.5,z),ring,disc,light:l,labelLight:label,radius:2.5});
+  });
+
+  // ── DOOR SCANNERS ──
+  // latchType: 'latch' = el kalır, tekrar tuşa basınca geri gelir
+  const doorDefs=[
+    {bp:[-30,4,-50,'z'], rp:[-26,4,-50,'z'], dp:[0,3.5,-50.5], ds:[55,7,1.5], col:0xff3333},
+    {bp:[ 26,4, 48,'z'], rp:[ 30,4, 48,'z'], dp:[0,3.5,48.5],  ds:[55,7,1.5], col:0xffcc00},
+    {bp:[-79,4,-10,'x'], rp:[-79,4,-6, 'x'], dp:[-79.5,3.5,0], ds:[1.5,7,18], col:0x22dd44},
+  ];
+  doorDefs.forEach(dd=>{
+    const doorMat=new THREE.MeshLambertMaterial({color:0x1e1e2e,emissive:0x0a0a1a,emissiveIntensity:0.3});
+    const doorMesh=new THREE.Mesh(new THREE.BoxGeometry(...dd.ds),doorMat);
+    doorMesh.position.set(...dd.dp); doorMesh.castShadow=true; scene.add(doorMesh);
+    wallBoxes.push({minX:dd.dp[0]-dd.ds[0]/2,maxX:dd.dp[0]+dd.ds[0]/2,
+                    minY:dd.dp[1]-dd.ds[1]/2,maxY:dd.dp[1]+dd.ds[1]/2,
+                    minZ:dd.dp[2]-dd.ds[2]/2,maxZ:dd.dp[2]+dd.ds[2]/2});
+    doorList.push(doorMesh);
+
+    const bScan=mkWallPlate(...dd.bp.slice(0,3),0x0066ff,dd.bp[3]);
+    const rScan=mkWallPlate(...dd.rp.slice(0,3),dd.col,dd.rp[3]);
+    const bPos=new THREE.Vector3(...dd.bp.slice(0,3));
+    const rPos=new THREE.Vector3(...dd.rp.slice(0,3));
+
+    scanners.push({
+      type:'door',
+      bluePos:bPos, rightPos:rPos,
+      blueScan:bScan, rightScan:rScan,
+      doorMesh, wallEntry:wallBoxes[wallBoxes.length-1],
+      blueLit:false, rightLit:false,
+      open:false,
+    });
+  });
+
+  // ── FIRE SOURCE wall plate (orange) ── EL DOKUNUP HEMEN GERI DONER, ateşi alir
+  {const {disc,light}=mkWallPlate(-79,4,22,0xff5500,'x');
+  interactObjs.push({type:'fire',pos:new THREE.Vector3(-79,4,22),mesh:disc,light,radius:3.5});}
+
+  // ── ICE SOURCE wall plate (cyan) ──
+  {const {disc,light}=mkWallPlate(79,4,-22,0x44ccff,'x');
+  interactObjs.push({type:'ice',pos:new THREE.Vector3(79,4,-22),mesh:disc,light,radius:3.5});}
+
+  // ── WOOD BLOCKS ──
+  [[-6,1,-18],[9,1,7],[-13,1,23],[41,1,-44],[-41,1,46]].forEach(([x,y,z])=>{
+    const m=new THREE.Mesh(new THREE.BoxGeometry(2.5,2,2.5),
+      new THREE.MeshLambertMaterial({color:0x7a4010}));
+    m.position.set(x,y,z); m.castShadow=true; scene.add(m);
+    interactObjs.push({type:'wood',pos:new THREE.Vector3(x,y,z),mesh:m,radius:2,burning:false});
+  });
+
+  // ── ICE BLOCKS ──
+  [[7,1,-10],[-8,1,17],[43,1,32],[-43,1,-33]].forEach(([x,y,z])=>{
+    const m=new THREE.Mesh(new THREE.BoxGeometry(2,2,2),
+      new THREE.MeshLambertMaterial({color:0x7799aa}));
+    m.position.set(x,y,z); m.castShadow=true; scene.add(m);
+    interactObjs.push({type:'block',pos:new THREE.Vector3(x,y,z),mesh:m,radius:1.8,frozen:false});
+  });
+
+  // ── GRAB HOOKS - EL ORADA KALIR ──
+  const hookPositions=[
+    [0,5,-79,'z'],[0,8,-79,'z'],[20,5,-79,'z'],[-20,5,-79,'z'],
+    [0,5,79,'z'],[20,5,79,'z'],[-20,5,79,'z'],
+    [-79,5,0,'x'],[-79,8,0,'x'],[-79,5,20,'x'],[-79,5,-20,'x'],
+    [79,5,0,'x'],[79,8,0,'x'],[79,5,20,'x'],[79,5,-20,'x'],
+    [0,13.5,-20,'y'],[15,13.5,-10,'y'],[-15,13.5,-10,'y'],
+    [0,13.5,20,'y'],[30,13.5,0,'y'],[-30,13.5,0,'y'],
+  ];
+  hookPositions.forEach(([x,y,z,ax])=>{
+    const mat=new THREE.MeshLambertMaterial({color:0xddaa00,emissive:0xddaa00,emissiveIntensity:0.6});
+    const stub=new THREE.Mesh(new THREE.CylinderGeometry(0.14,0.14,0.55,8),mat);
+    if(ax==='x')      stub.rotation.z=Math.PI/2;
+    else if(ax==='y') stub.rotation.x=Math.PI/2;
+    stub.position.set(x,y,z); scene.add(stub);
+    const cap=new THREE.Mesh(new THREE.SphereGeometry(0.2,8,8),
+      new THREE.MeshLambertMaterial({color:0xffdd22,emissive:0xffdd22,emissiveIntensity:0.85}));
+    const capOff=ax==='x'?new THREE.Vector3(0.35,0,0):ax==='y'?new THREE.Vector3(0,0,-0.35):new THREE.Vector3(0,0,0.35);
+    if(x<0) capOff.x*=-1; if(z>0&&ax==='z') capOff.z*=-1;
+    cap.position.set(x+capOff.x,y+capOff.y,z+capOff.z); scene.add(cap);
+    const l=new THREE.PointLight(0xffdd22,0.8,4); l.position.set(x,y,z); scene.add(l);
+    interactObjs.push({type:'hook',pos:new THREE.Vector3(x,y,z),cap,light:l,radius:1.4});
+  });
+}
+
+// ================================================================
+// FIRE HAND
+// ================================================================
+function tryFireHand(side){
+  if(!started||playerDead) return;
+  if(side==='right'&&handSwitching) return;
+
+  // Eğer el zaten latched ise → geri çek
+  if(HS[side]){
+    if(HS[side].latched){
+      recallLatchedHand(side);
+    }
+    return;
+  }
+  fireHand(side);
+}
+
+// Latched elin geri çekilmesi
+function recallLatchedHand(side){
+  const h=HS[side];
+  if(!h||!h.latched) return;
+  h.latched=false;
+  h.returning=true;
+  h.returnTrav=0;
+  h.hitPos=h.mesh.position.clone();
+
+  // Scanner reset
+  for(const sc of scanners){
+    if(!sc.open){
+      if(side==='left'&&sc.blueLit){ sc.blueLit=false; resetScanner(sc,'blue'); }
+      if(side==='right'&&sc.rightLit){ sc.rightLit=false; resetScanner(sc,'right'); }
+    }
+  }
+  updateCooldownUI();
+  updateHandStatusUI();
+}
+
+function resetScanner(sc, side){
+  if(side==='blue'){
+    sc.blueScan.disc.material.emissiveIntensity=0.65;
+    sc.blueScan.light.intensity=2;
+    sc.blueScan.light.color.setHex(0x0066ff);
+  } else {
+    sc.rightScan.disc.material.emissiveIntensity=0.65;
+    sc.rightScan.light.intensity=2;
+  }
+}
+
+function buildFlyHand(type){
+  const d=HD[type];
+  const g=new THREE.Group();
+  const hM=new THREE.MeshLambertMaterial({color:d.hand,emissive:d.hand,emissiveIntensity:0.4});
+  const aM=new THREE.MeshLambertMaterial({color:d.arm,emissive:d.arm,emissiveIntensity:0.22});
+  const yM=new THREE.MeshLambertMaterial({color:0xffcc00,emissive:0xffcc00,emissiveIntensity:0.3});
+
+  const fore=new THREE.Mesh(new THREE.CylinderGeometry(0.058,0.075,0.5,10),aM);
+  fore.rotation.x=Math.PI/2; fore.position.z=0.22; g.add(fore);
+  const wb=new THREE.Mesh(new THREE.CylinderGeometry(0.083,0.083,0.12,10),yM);
+  wb.rotation.x=Math.PI/2; g.add(wb);
+
+  const palm=new THREE.Mesh(new THREE.BoxGeometry(0.25,0.29,0.10),hM);
+  palm.position.set(0,0,-0.26); g.add(palm);
+  for(let k=-1;k<=1;k++){
+    const kn=new THREE.Mesh(new THREE.SphereGeometry(0.044,6,6),hM);
+    kn.position.set(k*0.083,0.145,-0.26); g.add(kn);
+  }
+  for(let f=0;f<4;f++){
     const fx=(f-1.5)*0.068;
-    const p1=new THREE.Mesh(new THREE.CylinderGeometry(0.027,0.029,0.18,6),hM());
+    const p1=new THREE.Mesh(new THREE.CylinderGeometry(0.027,0.029,0.18,6),hM);
     p1.position.set(fx,0.26,-0.25); g.add(p1);
-    const p2=new THREE.Mesh(new THREE.CylinderGeometry(0.022,0.027,0.13,6),hM());
+    const p2=new THREE.Mesh(new THREE.CylinderGeometry(0.022,0.027,0.13,6),hM);
     p2.position.set(fx,0.41,-0.24); g.add(p2);
     const tip=new THREE.Mesh(new THREE.SphereGeometry(0.025,5,5),
       new THREE.MeshLambertMaterial({color:0x111111}));
     tip.position.set(fx,0.5,-0.24); g.add(tip);
   }
+  const thumb=new THREE.Mesh(new THREE.CylinderGeometry(0.029,0.031,0.15,6),hM);
+  const iB=type==='blue';
+  thumb.position.set(iB?0.16:-0.16,0.12,-0.24); thumb.rotation.z=iB?-0.5:0.5; g.add(thumb);
 
-  const thumb=new THREE.Mesh(new THREE.CylinderGeometry(0.029,0.031,0.15,6),hM());
-  thumb.position.set(isLeft ? 0.16:-0.16, 0.12,-0.24);
-  thumb.rotation.z = isLeft ? -0.5:0.5;
-  g.add(thumb);
-
-  // Wrist marker
-  const marker = new THREE.Object3D();
-  g.add(marker);
-  if(isLeft) leftWristMarker = marker;
-  else {
-    rightWristMarker = marker;
-    // Carry glow (starts off)
-    rightArmCarryGlow = new THREE.PointLight(0xffffff, 0, 1.2);
-    g.add(rightArmCarryGlow);
-  }
-
+  const gl=new THREE.PointLight(d.glow,5,7); g.add(gl);
   return g;
 }
 
-function rebuildRightArm(type) {
-  if(rightArmVM) camera.remove(rightArmVM);
-  currentRightType = type;
-  rightArmVM = makeViewArm(type, false);
-  camera.add(rightArmVM);
-  rightArmVM.position.set(0.3, 2.5, -0.65); // start from top (will slide down)
-  rightArmVM.rotation.set(0.2,-0.15,-0.06);
-  updateRightArmGlow();
-  updateCooldownUI();
-  updateHandSwitchBar();
-}
+function fireHand(side){
+  const type=side==='left'?'blue':rightType;
+  const hg=buildFlyHand(type);
 
-function resetArmPos() {
-  leftArmVM.position.set(-0.3,-0.44,-0.65);
-  leftArmVM.rotation.set(0.2,0.15,0.06);
-  rightArmVM.position.set(0.3,-0.44,-0.65);
-  rightArmVM.rotation.set(0.2,-0.15,-0.06);
-}
+  const mark=side==='left'?leftWristPos:rightWristPos;
+  const startW=new THREE.Vector3(); mark.getWorldPosition(startW);
 
-function updateRightArmGlow() {
-  if(!rightArmCarryGlow) return;
-  if(!rightHandCarrying) {
-    rightArmCarryGlow.intensity = 0;
-  } else if(rightHandCarrying === 'fire') {
-    rightArmCarryGlow.color.setHex(0xff5500);
-    rightArmCarryGlow.intensity = 4;
-  } else if(rightHandCarrying === 'ice') {
-    rightArmCarryGlow.color.setHex(0x44ccff);
-    rightArmCarryGlow.intensity = 4;
-  }
+  const dir=new THREE.Vector3(0,0,-1).applyQuaternion(camera.quaternion).normalize();
+  const targetPos=startW.clone().addScaledVector(dir,40);
 
-  const ci = document.getElementById('carry-indicator');
-  if(rightHandCarrying === 'fire') {
-    ci.style.display='block'; ci.textContent='🔥 ATEŞ TAŞIYOR';
-    ci.style.color='#ff6600';
-  } else if(rightHandCarrying === 'ice') {
-    ci.style.display='block'; ci.textContent='❄️ BUZ TAŞIYOR';
-    ci.style.color='#44ccff';
+  hg.position.copy(startW);
+  hg.quaternion.copy(camera.quaternion);
+
+  const cGeo=new THREE.BufferGeometry().setFromPoints([startW.clone(),startW.clone()]);
+  const cable=new THREE.Line(cGeo,new THREE.LineBasicMaterial({color:0x080808,linewidth:5}));
+  scene.add(cable); scene.add(hg);
+
+  if(side==='left'){
+    leftHandMesh.visible=false;
+    leftStumpCap.visible=true;
   } else {
-    ci.style.display='none';
-  }
-}
-
-// ============================================================
-// HAND SWITCH ANIMATION
-// ============================================================
-function switchRightHand(type) {
-  if(type === currentRightType) return;
-  if(handSwitching || handState.right) return; // can't switch mid-flight
-  handSwitching = true;
-  rightHandCarrying = null;
-  switchState = { targetType:type, phase:'down', timer:0 };
-  updateRightArmGlow();
-}
-
-function updateSwitchAnim(dt) {
-  if(!switchState) return;
-  switchState.timer += dt;
-
-  if(switchState.phase === 'down') {
-    const t = Math.min(switchState.timer/0.16, 1);
-    rightArmVM.position.y = -0.44 + (-3.0+0.44)*t; // slide down to -3
-    if(t >= 1) {
-      rebuildRightArm(switchState.targetType);
-      switchState.phase='up'; switchState.timer=0;
-    }
-  } else {
-    const t = Math.min(switchState.timer/0.16, 1);
-    rightArmVM.position.y = 2.5 + (-0.44-2.5)*t; // slide up to rest
-    if(t >= 1) {
-      rightArmVM.position.y=-0.44;
-      switchState=null; handSwitching=false;
-    }
-  }
-}
-
-function updateHandSwitchBar() {
-  ['red','yellow','green','purple'].forEach(t => {
-    document.getElementById('hsb-'+t).classList.toggle('active', t===currentRightType);
-  });
-  // Update right cooldown color
-  const d = HDEFS[currentRightType];
-  const el = document.getElementById('hcd-right');
-  el.style.background=`radial-gradient(circle at 40% 35%, #fff4, #${d.handCol.toString(16).padStart(6,'0')})`;
-  el.style.boxShadow=`0 0 18px #${d.glow.toString(16).padStart(6,'0')}99`;
-  const emo = {red:'🔴',yellow:'🟡',green:'🟢',purple:'🟣'};
-  document.getElementById('hcd-right-label').innerHTML=emo[currentRightType]+'<br>SAĞ';
-  // Update mobile button
-  const mb = document.getElementById('mob-right-btn');
-  const names = {red:'KIRMIZI',yellow:'SARI',green:'YEŞİL',purple:'MOR'};
-  const bgMap = {
-    red:'radial-gradient(circle at 40% 35%,#ffaaaa,#ff2222,#880000)',
-    yellow:'radial-gradient(circle at 40% 35%,#ffee88,#ffcc00,#886600)',
-    green:'radial-gradient(circle at 40% 35%,#aaffaa,#22dd44,#006622)',
-    purple:'radial-gradient(circle at 40% 35%,#ddaaff,#aa22ff,#550088)',
-  };
-  mb.style.background = bgMap[currentRightType];
-  mb.innerHTML = emo[currentRightType]+'<br>SAĞ<br>'+names[currentRightType];
-}
-
-// ============================================================
-// MONSTER
-// ============================================================
-function buildMonster() {
-  monster = new THREE.Group();
-  monster.position.set(0,0,-25);
-
-  const BLUE=0x1a55dd,LBLUE=0x2266ee,YELLOW=0xffcc00,RED=0xff1111,BLACK=0x111111;
-  const bMat=c=>new THREE.MeshLambertMaterial({color:c});
-
-  const body=new THREE.Mesh(new THREE.BoxGeometry(3.6,5,2.6),bMat(BLUE));
-  body.position.y=3.5; body.castShadow=true; monster.add(body);
-
-  const head=new THREE.Mesh(new THREE.BoxGeometry(3.1,3.1,2.6),bMat(LBLUE));
-  head.position.y=7.2; head.castShadow=true; monster.add(head);
-
-  [-0.72,0.72].forEach(x=>{
-    const sc=new THREE.Mesh(new THREE.SphereGeometry(0.45,12,12),bMat(0xffffff));
-    sc.position.set(x,7.3,1.28); monster.add(sc);
-    const pu=new THREE.Mesh(new THREE.SphereGeometry(0.24,8,8),bMat(BLACK));
-    pu.position.set(x,7.3,1.66); monster.add(pu);
-  });
-
-  const lip=new THREE.Mesh(new THREE.BoxGeometry(2.0,0.38,0.18),bMat(RED));
-  lip.position.set(0,6.5,1.3); monster.add(lip);
-  for(let i=-2;i<=2;i++){
-    const t=new THREE.Mesh(new THREE.BoxGeometry(0.22,0.3,0.12),bMat(0xffffee));
-    t.position.set(i*0.31,6.33,1.38); monster.add(t);
+    rightHandMesh.visible=false;
+    rightStumpCap.visible=true;
   }
 
-  [-1,1].forEach(side=>{
-    const arm=new THREE.Group();
-    const up=new THREE.Mesh(new THREE.CylinderGeometry(0.38,0.32,4.5,8),bMat(BLUE));
-    up.position.set(0,-2.2,0); arm.add(up);
-    const fore=new THREE.Mesh(new THREE.CylinderGeometry(0.3,0.26,4.0,8),bMat(LBLUE));
-    fore.position.set(0,-6.7,0); arm.add(fore);
-    const wb=new THREE.Mesh(new THREE.CylinderGeometry(0.3,0.3,0.5,10),bMat(YELLOW));
-    wb.position.set(0,-8.75,0); arm.add(wb);
-    const palm=new THREE.Mesh(new THREE.BoxGeometry(0.95,1.05,0.58),bMat(YELLOW));
-    palm.position.set(0,-9.4,0); arm.add(palm);
-    for(let f=0;f<4;f++){
-      const fx=(f-1.5)*0.23;
-      const p1=new THREE.Mesh(new THREE.CylinderGeometry(0.085,0.095,0.52,6),bMat(YELLOW));
-      p1.position.set(fx,-9.98,0); arm.add(p1);
-      const p2=new THREE.Mesh(new THREE.CylinderGeometry(0.07,0.085,0.4,6),bMat(YELLOW));
-      p2.position.set(fx,-10.52,0); arm.add(p2);
-      const tip=new THREE.Mesh(new THREE.SphereGeometry(0.072,6,6),bMat(0x222200));
-      tip.position.set(fx,-11.0,0); arm.add(tip);
-    }
-    const th=new THREE.Mesh(new THREE.CylinderGeometry(0.09,0.095,0.5,6),bMat(YELLOW));
-    th.position.set(side*0.58,-9.38,0.1); th.rotation.z=side*0.72; arm.add(th);
-    arm.position.set(side*2.35,6.5,0); arm.rotation.z=side*0.38;
-    monster.add(arm); monsterArms.push(arm);
-  });
-
-  [-0.72,0.72].forEach(x=>{
-    const leg=new THREE.Mesh(new THREE.CylinderGeometry(0.52,0.42,4.0,8),bMat(BLUE));
-    leg.position.set(x,0.9,0); monster.add(leg);
-    const foot=new THREE.Mesh(new THREE.BoxGeometry(1.1,0.52,1.8),bMat(YELLOW));
-    foot.position.set(x,-1.1,0.38); monster.add(foot);
-    for(let t=0;t<3;t++){
-      const toe=new THREE.Mesh(new THREE.SphereGeometry(0.14,6,6),bMat(YELLOW));
-      toe.position.set(x+(t-1)*0.3,-1.05,1.3); monster.add(toe);
-    }
-  });
-
-  monsterLight = new THREE.PointLight(0x1144ff,3,24);
-  monsterLight.position.set(0,5,0); monster.add(monsterLight);
-
-  monster.scale.set(0.62,0.62,0.62); // smaller
-  scene.add(monster);
-}
-
-// ============================================================
-// INTERACTIVES
-// ============================================================
-function buildInteractives() {
-  // Purple launch plates scattered all over
-  const platePositions = [
-    [0,0,-32],[18,0,8],[-18,0,8],[0,0,35],[28,0,-22],[-28,0,-22],
-    [45,0,30],[-45,0,30],[0,0,-60],[55,0,-10],[-55,0,-10],
-  ];
-  platePositions.forEach(([x,,z])=>{
-    const mat=new THREE.MeshLambertMaterial({color:0xaa22ff,emissive:0xaa22ff,emissiveIntensity:0.6});
-    const m=new THREE.Mesh(new THREE.CylinderGeometry(1.6,1.6,0.2,16),mat);
-    m.position.set(x,0.1,z); scene.add(m);
-    // Arrow glyph
-    const arrow=new THREE.Mesh(new THREE.CylinderGeometry(0.15,0.15,0.9,6),
-      new THREE.MeshLambertMaterial({color:0xffffff,emissive:0xffffff,emissiveIntensity:0.8}));
-    arrow.position.set(x,0.8,z); scene.add(arrow);
-    const l=new THREE.PointLight(0xaa22ff,1.5,6);
-    l.position.set(x,1,z); scene.add(l);
-    interactives.push({type:'launch',pos:new THREE.Vector3(x,1,z),mesh:m,light:l,radius:2.5});
-  });
-
-  // Electrical panels on walls
-  const elecPositions = [
-    [-74,4,0],[74,4,0],[0,4,-74.5],[0,4,74.5],
-    [-74,4,-30],[74,4,30],
-  ];
-  elecPositions.forEach(([x,y,z])=>{
-    const m=new THREE.Mesh(new THREE.BoxGeometry(2.0,1.4,0.25),
-      new THREE.MeshLambertMaterial({color:0x222222,emissive:0x002200,emissiveIntensity:0.4}));
-    m.position.set(x,y,z); scene.add(m);
-    // Screen on panel
-    const screen=new THREE.Mesh(new THREE.BoxGeometry(1.4,0.9,0.05),
-      new THREE.MeshLambertMaterial({color:0x003300,emissive:0x00ff44,emissiveIntensity:0.1}));
-    screen.position.set(x,y,z+(z<0?0.16:-0.16)); scene.add(screen);
-    const pl=new THREE.PointLight(0x00ff44,0.5,5);
-    pl.position.set(x,y,z); scene.add(pl);
-    interactives.push({type:'elec',pos:new THREE.Vector3(x,y,z),mesh:m,screenMesh:screen,
-      panelLight:pl,radius:3,activated:false});
-  });
-
-  // Fire source (orange glowing panel on west wall)
-  const fireMesh=new THREE.Mesh(new THREE.BoxGeometry(1.4,1.4,0.3),
-    new THREE.MeshLambertMaterial({color:0xff4400,emissive:0xff4400,emissiveIntensity:0.8}));
-  fireMesh.position.set(-74,3,20); scene.add(fireMesh);
-  const fireL=new THREE.PointLight(0xff4400,2.5,10);
-  fireL.position.set(-74,3,20); scene.add(fireL);
-  interactives.push({type:'fire',pos:new THREE.Vector3(-74,3,21),mesh:fireMesh,light:fireL,radius:3.5});
-
-  // Ice source (cyan glowing panel on east wall)
-  const iceMesh=new THREE.Mesh(new THREE.BoxGeometry(1.4,1.4,0.3),
-    new THREE.MeshLambertMaterial({color:0x44aaff,emissive:0x44aaff,emissiveIntensity:0.8}));
-  iceMesh.position.set(74,3,-20); scene.add(iceMesh);
-  const iceL=new THREE.PointLight(0x44aaff,2.5,10);
-  iceL.position.set(74,3,-20); scene.add(iceL);
-  interactives.push({type:'ice',pos:new THREE.Vector3(74,3,-21),mesh:iceMesh,light:iceL,radius:3.5});
-
-  // Wooden blocks (flammable - brown)
-  const woodPos=[[-6,1,-16],[9,1,6],[-13,1,22],[40,1,-42],[-40,1,45]];
-  woodPos.forEach(([x,y,z])=>{
-    const m=new THREE.Mesh(new THREE.BoxGeometry(2.5,2,2.5),
-      new THREE.MeshLambertMaterial({color:0x7a4010}));
-    m.position.set(x,y,z); m.castShadow=true; scene.add(m);
-    interactives.push({type:'wood',pos:new THREE.Vector3(x,y,z),mesh:m,radius:2,burning:false,frozen:false});
-  });
-
-  // Freezable blocks (gray-blue)
-  const iceBlockPos=[[6,1,-9],[-8,1,16],[42,1,30],[-42,1,-32]];
-  iceBlockPos.forEach(([x,y,z])=>{
-    const m=new THREE.Mesh(new THREE.BoxGeometry(2,2,2),
-      new THREE.MeshLambertMaterial({color:0x7799aa}));
-    m.position.set(x,y,z); m.castShadow=true; scene.add(m);
-    interactives.push({type:'block',pos:new THREE.Vector3(x,y,z),mesh:m,radius:1.8,frozen:false});
-  });
-}
-
-// ============================================================
-// FIRE HAND
-// ============================================================
-function tryFireHand(side) {
-  if(!started||playerDead) return;
-  if(handState[side]) return;
-  if(side==='right' && handSwitching) return;
-  fireHand(side);
-}
-
-function buildProjectileHand(type) {
-  const d = HDEFS[type];
-  let actualHandCol = d.handCol;
-  let actualGlow = d.glow;
-  // If carrying fire/ice and this is the right hand, tint the projectile
-  if(type!=='blue') {
-    if(rightHandCarrying==='fire') { actualHandCol=0xff6600; actualGlow=0xff4400; }
-    if(rightHandCarrying==='ice')  { actualHandCol=0x44ddff; actualGlow=0x00aaff; }
-  }
-
-  const g = new THREE.Group();
-  const hM=()=>new THREE.MeshLambertMaterial({color:actualHandCol,emissive:actualHandCol,emissiveIntensity:0.4});
-  const yM=new THREE.MeshLambertMaterial({color:0xffcc00,emissive:0xffcc00,emissiveIntensity:0.3});
-  const armM=()=>new THREE.MeshLambertMaterial({color:d.armCol,emissive:d.armCol,emissiveIntensity:0.25});
-
-  // Forearm stub
-  const fore=new THREE.Mesh(new THREE.CylinderGeometry(0.078,0.098,0.65,10),armM());
-  fore.rotation.x=Math.PI/2; fore.position.z=0.26; g.add(fore);
-
-  // Yellow wrist band
-  const wb=new THREE.Mesh(new THREE.CylinderGeometry(0.102,0.102,0.13,10),yM);
-  wb.rotation.x=Math.PI/2; g.add(wb);
-
-  // Palm
-  const palm=new THREE.Mesh(new THREE.BoxGeometry(0.28,0.32,0.11),hM());
-  palm.position.set(0,0,-0.27); g.add(palm);
-
-  for(let k=-1;k<=1;k++){
-    const kn=new THREE.Mesh(new THREE.SphereGeometry(0.05,6,6),hM());
-    kn.position.set(k*0.093,0.17,-0.27); g.add(kn);
-  }
-  for(let f=0;f<4;f++){
-    const fx=(f-1.5)*0.075;
-    const p1=new THREE.Mesh(new THREE.CylinderGeometry(0.029,0.032,0.19,6),hM());
-    p1.position.set(fx,0.27,-0.26); g.add(p1);
-    const p2=new THREE.Mesh(new THREE.CylinderGeometry(0.024,0.029,0.14,6),hM());
-    p2.position.set(fx,0.44,-0.25); g.add(p2);
-    const tip=new THREE.Mesh(new THREE.SphereGeometry(0.027,5,5),
-      new THREE.MeshLambertMaterial({color:0x111111}));
-    tip.position.set(fx,0.54,-0.25); g.add(tip);
-  }
-  const thumb=new THREE.Mesh(new THREE.CylinderGeometry(0.031,0.033,0.16,6),hM());
-  const isBlueSide = type==='blue';
-  thumb.position.set(isBlueSide?0.18:-0.18, 0.13,-0.25);
-  thumb.rotation.z=isBlueSide?-0.52:0.52; g.add(thumb);
-
-  const gl=new THREE.PointLight(actualGlow,5,7); g.add(gl);
-  return g;
-}
-
-function fireHand(side) {
-  const type = side==='left' ? 'blue' : currentRightType;
-  const hg = buildProjectileHand(type);
-
-  const startWorld = new THREE.Vector3();
-  const marker = side==='left' ? leftWristMarker : rightWristMarker;
-  marker.getWorldPosition(startWorld);
-
-  const dir = new THREE.Vector3(0,0,-1).applyQuaternion(camera.quaternion).normalize();
-  const targetPos = startWorld.clone().addScaledVector(dir, MAX_HAND_DIST);
-
-  hg.position.copy(startWorld);
-  hg.quaternion.copy(camera.quaternion); // orient toward target, NO spinning
-
-  // BLACK cable
-  const cableGeo = new THREE.BufferGeometry().setFromPoints([startWorld.clone(),startWorld.clone()]);
-  const cable = new THREE.Line(cableGeo,
-    new THREE.LineBasicMaterial({color:0x0a0a0a, linewidth:4}));
-  scene.add(cable);
-  scene.add(hg);
-
-  handState[side] = {
+  HS[side]={
     mesh:hg, cable,
-    startPos:startWorld.clone(),
-    targetPos,
+    startPos:startW.clone(), targetPos,
     dir:dir.clone(),
-    distTraveled:0,
-    returning:false,
-    hitPos:null,
-    type, // hand type for interaction
+    dist:0, returning:false, hitPos:null,
+    returnTrav:0,
+    type,
+    latched:false,
+    latchPos:null,
+    pullTriggered:false,
   };
-
   updateCooldownUI();
+  updateHandStatusUI();
 
-  // Viewmodel punch animation
-  const vm = side==='left' ? leftArmVM : rightArmVM;
-  vm.position.z -= 0.1;
-  setTimeout(()=>{
-    if(side==='left'){ leftArmVM.position.z=-0.65; }
-    else             { rightArmVM.position.z=-0.65; }
-  },170);
+  const ag=side==='left'?leftArmGroup:rightArmGroup;
+  ag.position.z-=0.09;
+  setTimeout(()=>{ ag.position.z=-0.65; },160);
 }
 
-// ============================================================
-// CHECK INTERACTIVES
-// ============================================================
-function checkHandInteractives(handPos, type, h) {
-  for(const iv of interactives) {
-    const dist = handPos.distanceTo(iv.pos);
-    if(dist > iv.radius) continue;
+// ================================================================
+// INTERACT - hangi obje eli tutar?
+// LATCH = el kalır (scanner, hook)
+// BOUNCE = el geri döner (launch plate, fire/ice source, wood/ice block)
+// NORMAL DUVAR = zaten hemen geri döner
+// ================================================================
+function checkInteract(handPos, side, h){
+  const type=h.type;
 
-    if(iv.type==='launch' && type==='purple') {
-      // Launch player!
-      velY = 28; onGround = false;
-      showNotify('🚀 FIRLATILDI!', '#aa22ff');
-      // Make hand return immediately
-      if(!h.returning){ h.hitPos=handPos.clone(); h.returning=true; h.distTraveled=Math.max(h.distTraveled,1); }
+  // ── DOOR SCANNERS (LATCH) ──
+  for(const sc of scanners){
+    if(sc.open) continue;
+    const bDist=handPos.distanceTo(sc.bluePos);
+    const rDist=handPos.distanceTo(sc.rightPos);
+
+    if(side==='left' && bDist<2.2 && !sc.blueLit){
+      sc.blueLit=true;
+      sc.blueScan.disc.material.emissiveIntensity=1.2;
+      sc.blueScan.light.intensity=4;
+      sc.blueScan.light.color.setHex(0x44aaff);
+      latchHand(h,handPos); // EL KALIR
+      showNotify('🔵 Bağlandı! Sağ eli de bağla! (Q = geri al)','#44aaff');
+      updateHandStatusUI();
       return;
     }
-
-    if(iv.type==='elec' && (type==='red'||type==='yellow'||type==='green') && !iv.activated) {
-      iv.activated = true;
-      // Activate panel: bright green
-      if(iv.mesh.material){ iv.mesh.material.emissive.setHex(0x00ff44); iv.mesh.material.emissiveIntensity=1; }
-      if(iv.screenMesh){ iv.screenMesh.material.emissive.setHex(0x00ff44); iv.screenMesh.material.emissiveIntensity=1; }
-      if(iv.panelLight){ iv.panelLight.intensity=3; iv.panelLight.color.setHex(0x00ff44); }
-      showNotify('⚡ ELEKTRİK AÇILDI!', '#22ff44');
-      if(!h.returning){ h.hitPos=handPos.clone(); h.returning=true; }
+    if(side==='right' && rDist<2.2 && !sc.rightLit){
+      sc.rightLit=true;
+      sc.rightScan.disc.material.emissiveIntensity=1.2;
+      sc.rightScan.light.intensity=4;
+      latchHand(h,handPos); // EL KALIR
+      showNotify(`${HD[type].emo} Bağlandı! Sol eli de bağla! (E = geri al)`,`#${HD[type].glow.toString(16).padStart(6,'0')}`);
+      updateHandStatusUI();
       return;
     }
+    if(sc.blueLit && sc.rightLit && !sc.open){
+      sc.open=true;
+      openDoor(sc);
+    }
+  }
 
-    if(iv.type==='fire' && type==='yellow' && !rightHandCarrying) {
-      rightHandCarrying='fire';
-      updateRightArmGlow();
-      showNotify('🔥 ATEŞ ALINDI!', '#ff6600');
-      if(!h.returning){ h.hitPos=handPos.clone(); h.returning=true; }
+  // ── GRAB HOOKS (LATCH) - el kalır, Q/E ile geri gelir ──
+  for(const iv of interactObjs){
+    if(iv.type!=='hook') continue;
+    if(handPos.distanceTo(iv.pos)<iv.radius){
+      latchHand(h,handPos);
+      iv.light.intensity=3;
+      showHint(`📌 El bağlandı! ${side==='left'?'Q':'E'} ile geri al veya ${side==='left'?'Q':'E'} ile kendini çek!`);
+      updateHandStatusUI();
       return;
     }
+  }
 
-    if(iv.type==='ice' && type==='yellow' && !rightHandCarrying) {
-      rightHandCarrying='ice';
-      updateRightArmGlow();
-      showNotify('❄️ BUZ ALINDI!', '#44ccff');
-      if(!h.returning){ h.hitPos=handPos.clone(); h.returning=true; }
+  // ── LAUNCH PLATE - SADECE MOR EL (BOUNCE - hemen geri döner) ──
+  for(const iv of interactObjs){
+    if(iv.type!=='launch') continue;
+    if(handPos.distanceTo(iv.pos)<iv.radius){
+      // Sadece MOR el fırlatır
+      if(type==='purple'){
+        velY=30; onGround=false;
+        showNotify('🚀 MOR EL FIRLATILDI!','#aa22ff');
+        // Bounce: geri döner
+        h.returning=true; h.returnTrav=0; h.hitPos=handPos.clone();
+      } else {
+        // Diğer eller: sadece dokun geri gel, fırlatma yok
+        showHint('🟣 Bu plaka sadece MOR el ile çalışır!');
+        h.returning=true; h.returnTrav=0; h.hitPos=handPos.clone();
+      }
       return;
     }
+  }
 
-    if(iv.type==='wood' && type==='yellow' && rightHandCarrying==='fire' && !iv.burning) {
+  // ── POWER NODES (eski sistem - artık KABLO sistemi var ama bunu da bırakıyorum) ──
+  // (artık powerPoles sistemi var, eski powercluster kaldırıldı)
+
+  // ── FIRE SOURCE - SARGI EL (BOUNCE) ──
+  for(const iv of interactObjs){
+    if(iv.type!=='fire') continue;
+    if(type==='yellow' && !rightCarrying && handPos.distanceTo(iv.pos)<iv.radius){
+      rightCarrying='fire'; updateCarryUI();
+      showNotify('🔥 ATEŞ ALINDI!','#ff6600');
+      // Bounce
+      h.returning=true; h.returnTrav=0; h.hitPos=handPos.clone();
+      return;
+    }
+  }
+  // ── ICE SOURCE (BOUNCE) ──
+  for(const iv of interactObjs){
+    if(iv.type!=='ice') continue;
+    if(type==='yellow' && !rightCarrying && handPos.distanceTo(iv.pos)<iv.radius){
+      rightCarrying='ice'; updateCarryUI();
+      showNotify('❄️ BUZ ALINDI!','#44ccff');
+      h.returning=true; h.returnTrav=0; h.hitPos=handPos.clone();
+      return;
+    }
+  }
+
+  // ── WOOD BLOCK (BOUNCE) ──
+  for(const iv of interactObjs){
+    if(iv.type!=='wood'||iv.burning) continue;
+    if(type==='yellow' && rightCarrying==='fire' && handPos.distanceTo(iv.pos)<iv.radius){
       iv.burning=true;
       iv.mesh.material.color.setHex(0xff3300);
-      iv.mesh.material.emissive = new THREE.Color(0xff2200);
-      iv.mesh.material.emissiveIntensity = 0.6;
+      iv.mesh.material.emissive=new THREE.Color(0xff2200);
+      iv.mesh.material.emissiveIntensity=0.6;
       const fl=new THREE.PointLight(0xff4400,3,8); fl.position.copy(iv.pos); scene.add(fl);
-      rightHandCarrying=null; updateRightArmGlow();
-      showNotify('🔥 TAHTA YANIYOR!', '#ff4400');
-      if(!h.returning){ h.hitPos=handPos.clone(); h.returning=true; }
+      rightCarrying=null; updateCarryUI();
+      showNotify('🔥 TAHTA YANIYOR!','#ff4400');
+      h.returning=true; h.returnTrav=0; h.hitPos=handPos.clone();
       return;
     }
-
-    if(iv.type==='block' && type==='yellow' && rightHandCarrying==='ice' && !iv.frozen) {
+  }
+  // ── ICE BLOCK (BOUNCE) ──
+  for(const iv of interactObjs){
+    if(iv.type!=='block'||iv.frozen) continue;
+    if(type==='yellow' && rightCarrying==='ice' && handPos.distanceTo(iv.pos)<iv.radius){
       iv.frozen=true;
       iv.mesh.material.color.setHex(0x88ddff);
-      iv.mesh.material.emissive = new THREE.Color(0x2288aa);
-      iv.mesh.material.emissiveIntensity = 0.5;
+      iv.mesh.material.emissive=new THREE.Color(0x2288aa);
+      iv.mesh.material.emissiveIntensity=0.5;
       const il=new THREE.PointLight(0x44aaff,2,8); il.position.copy(iv.pos); scene.add(il);
-      rightHandCarrying=null; updateRightArmGlow();
-      showNotify('❄️ BLOK DONDU!', '#44ccff');
-      if(!h.returning){ h.hitPos=handPos.clone(); h.returning=true; }
+      rightCarrying=null; updateCarryUI();
+      showNotify('❄️ BLOK DONDU!','#44ccff');
+      h.returning=true; h.returnTrav=0; h.hitPos=handPos.clone();
       return;
     }
   }
 }
 
-// ============================================================
-// UPDATE HANDS
-// ============================================================
-function updateHands(dt) {
-  ['left','right'].forEach(side => {
-    const h = handState[side];
+function latchHand(h, pos){
+  h.latched=true;
+  h.hitPos=pos.clone();
+  h.latchPos=pos.clone();
+}
+
+function openDoor(sc){
+  showNotify('🚪 KAPI AÇILDI!','#22ff44');
+  const dm=sc.doorMesh;
+  const startY=dm.position.y;
+  let t=0;
+  function slide(){
+    t+=0.025;
+    dm.position.y=startY+t*9;
+    dm.material.opacity=1-t;
+    dm.material.transparent=true;
+    if(t<1) requestAnimationFrame(slide);
+    else {
+      scene.remove(dm);
+      const idx=wallBoxes.indexOf(sc.wallEntry);
+      if(idx>-1) wallBoxes.splice(idx,1);
+    }
+  }
+  slide();
+}
+
+// ================================================================
+// UPDATE HANDS each frame
+// ================================================================
+function updateHands(dt){
+  ['left','right'].forEach(side=>{
+    const h=HS[side];
     if(!h) return;
 
-    const vm = side==='left' ? leftArmVM : rightArmVM;
-    const marker = side==='left' ? leftWristMarker : rightWristMarker;
-    const wristWorld = new THREE.Vector3();
-    marker.getWorldPosition(wristWorld);
+    const mark=side==='left'?leftWristPos:rightWristPos;
+    const wW=new THREE.Vector3(); mark.getWorldPosition(wW);
 
-    if(!h.returning) {
-      const step = HAND_SPEED*dt;
-      h.distTraveled += step;
+    // ── LATCHED ──
+    if(h.latched){
+      h.mesh.position.copy(h.latchPos);
+      updateCablePts(h.cable,wW,h.latchPos);
 
-      const newPos = h.startPos.clone().addScaledVector(h.dir, h.distTraveled);
+      // Kablo direğe değiyor mu? (latched durumda da kontrol)
+      checkCableHitsPoles(wW, h.latchPos);
 
-      // Check wall
-      if(isInWall(newPos, 0.20) || h.distTraveled >= MAX_HAND_DIST) {
-        if(isInWall(newPos, 0.20)) {
-          h.distTraveled = Math.max(0, h.distTraveled-step*1.5);
-        } else {
-          h.distTraveled = MAX_HAND_DIST;
-          // Check interactives at max range
-          checkHandInteractives(newPos, h.type, h);
-        }
-        if(!h.hitPos) h.hitPos = h.startPos.clone().addScaledVector(h.dir, h.distTraveled);
-        h.mesh.position.copy(h.hitPos);
-        if(!h.returning){ h.returning=true; }
-      } else {
-        h.mesh.position.copy(newPos);
-        // NO rotation - hand keeps orientation
-        checkHandInteractives(newPos, h.type, h);
-      }
-    } else {
-      // Return to wrist
-      const returnDist = h.hitPos.distanceTo(h.startPos);
-      const returnSpeed = HAND_SPEED;
-      if(!h.returnTraveled) h.returnTraveled=0;
-      h.returnTraveled += returnSpeed*dt;
-      const t = Math.min(h.returnTraveled/Math.max(returnDist,0.1), 1);
-      h.mesh.position.lerpVectors(h.hitPos, wristWorld, t);
-      if(t >= 1) {
-        scene.remove(h.mesh);
-        scene.remove(h.cable);
-        handState[side] = null;
-        updateCooldownUI();
-        return;
-      }
+      // Hook latched → Q/E ile çek
+      // (recallLatchedHand tryFireHand'dan çağrılıyor)
+      return;
     }
 
-    // Update black cable
-    updateCablePts(h.cable, wristWorld, h.mesh.position);
+    if(!h.returning){
+      const step=44*dt;
+      h.dist+=step;
+      const np=h.startPos.clone().addScaledVector(h.dir,h.dist);
+
+      // Kablo yolunu direklere karşı kontrol et
+      checkCableHitsPoles(wW, np);
+
+      if(isInWall(np,0.20)||h.dist>=40){
+        h.dist=Math.min(h.dist,40);
+        h.hitPos=h.startPos.clone().addScaledVector(h.dir,h.dist);
+        h.mesh.position.copy(h.hitPos);
+        checkInteract(h.hitPos,side,h);
+        if(!h.latched&&!h.returning){
+          // Normal duvar = ANİNDE geri döner
+          h.returning=true; h.returnTrav=0;
+        }
+        updateCablePts(h.cable,wW,h.mesh.position);
+      } else {
+        h.mesh.position.copy(np);
+        checkInteract(np,side,h);
+        updateCablePts(h.cable,wW,np);
+      }
+    } else {
+      // Geri dönüş
+      h.returnTrav+=44*dt;
+      const d=h.hitPos.distanceTo(wW)||0.01;
+      const t=Math.min(h.returnTrav/d,1);
+      h.mesh.position.lerpVectors(h.hitPos,wW,t);
+      updateCablePts(h.cable,wW,h.mesh.position);
+
+      // Kablo geri gelirken de direkleri kontrol et
+      checkCableHitsPoles(wW, h.mesh.position);
+
+      if(t>=1){
+        scene.remove(h.mesh); scene.remove(h.cable);
+        HS[side]=null;
+        if(side==='left'){ leftHandMesh.visible=true; leftStumpCap.visible=false; }
+        else { rightHandMesh.visible=true; rightStumpCap.visible=false; }
+        updateCooldownUI();
+        updateHandStatusUI();
+        // Scanner reset
+        for(const sc of scanners){
+          if(!sc.open){
+            if(side==='left'&&sc.blueLit){ sc.blueLit=false; resetScanner(sc,'blue'); }
+            if(side==='right'&&sc.rightLit){ sc.rightLit=false; resetScanner(sc,'right'); }
+          }
+        }
+        showHint('');
+      }
+    }
   });
 }
 
-function isInWall(pos, r) {
-  for(const b of wallBoxes) {
-    if(pos.x+r>b.minX && pos.x-r<b.maxX &&
-       pos.y+r>b.minY && pos.y-r<b.maxY &&
-       pos.z+r>b.minZ && pos.z-r<b.maxZ) return true;
+function isInWall(pos,r){
+  for(const b of wallBoxes){
+    if(pos.x+r>b.minX&&pos.x-r<b.maxX&&pos.y+r>b.minY&&pos.y-r<b.maxY&&pos.z+r>b.minZ&&pos.z-r<b.maxZ) return true;
   }
   return false;
 }
-
-function updateCablePts(line, from, to) {
-  const pts=[from.clone(),to.clone()];
-  line.geometry.setFromPoints(pts);
+function updateCablePts(line,from,to){
+  line.geometry.setFromPoints([from.clone(),to.clone()]);
   line.geometry.attributes.position.needsUpdate=true;
 }
 
-// ============================================================
-// NOTIFY
-// ============================================================
-let notifyTO = null;
-function showNotify(text, color) {
-  const el = document.getElementById('notify');
-  el.textContent = text;
-  el.style.color = color||'#fff';
-  el.style.borderColor = (color||'#fff')+'55';
-  el.style.opacity='1';
-  if(notifyTO) clearTimeout(notifyTO);
-  notifyTO = setTimeout(()=>{ el.style.opacity='0'; }, 2200);
-}
-
-// ============================================================
+// ================================================================
 // MONSTER AI
-// ============================================================
-function updateMonster(dt, el) {
-  monster.position.y = Math.sin(el*1.4)*0.2;
-
+// ================================================================
+function updateMonster(dt,el){
+  monster.position.y=Math.sin(el*1.4)*0.2;
   if(monsterArms[0]) monsterArms[0].rotation.z=0.38+Math.sin(el*2)*0.42;
   if(monsterArms[1]) monsterArms[1].rotation.z=-0.38+Math.sin(el*2+Math.PI)*0.42;
 
-  const toP = new THREE.Vector3().subVectors(playerPos, monster.position);
-  toP.y=0;
-  const dist=toP.length();
-
+  const toP=new THREE.Vector3().subVectors(playerPos,monster.position);
+  toP.y=0; const dist=toP.length();
   let spd=1.6;
-  if(dist<35) spd=2.4;
-  if(dist<20) spd=4.8;
-  if(dist<10) spd=7.5;
-  if(dist<5)  spd=10;
-
-  if(dist>2.4) {
-    toP.normalize().multiplyScalar(spd*dt);
-    monster.position.add(toP);
-  }
-  const ang=Math.atan2(playerPos.x-monster.position.x, playerPos.z-monster.position.z);
+  if(dist<35) spd=2.4; if(dist<20) spd=4.8; if(dist<10) spd=7.5; if(dist<5) spd=10;
+  if(dist>2.4){ toP.normalize().multiplyScalar(spd*dt); monster.position.add(toP); }
+  const ang=Math.atan2(playerPos.x-monster.position.x,playerPos.z-monster.position.z);
   monster.rotation.y=ang;
 
-  if(dist<3.0 && !playerDead) damagePlayer(24*dt);
+  if(dist<3.2&&!playerDead&&elapsed-lastHitTime>1.1){
+    lastHitTime=elapsed;
+    damagePlayer(22);
+    const knock=new THREE.Vector3().subVectors(playerPos,monster.position);
+    knock.y=0; if(knock.length()<0.01) knock.set(0,0,1);
+    knock.normalize().multiplyScalar(7.5);
+    playerPos.add(knock); velY=5; onGround=false;
+  }
   if(monsterLight) monsterLight.intensity=2.5+Math.sin(el*3)*1.0;
 }
 
-// ============================================================
+// ================================================================
 // DAMAGE / HP
-// ============================================================
-function damagePlayer(amt) {
+// ================================================================
+function damagePlayer(a){
   if(playerDead) return;
-  playerHP -= amt;
-  if(playerHP<=0){ playerHP=0; killPlayer(); }
+  playerHP-=a; if(playerHP<=0){playerHP=0;killPlayer();}
   updateHPBar();
   const f=document.getElementById('dmg-flash');
   f.style.opacity='1'; setTimeout(()=>f.style.opacity='0',80);
 }
-function killPlayer() {
-  playerDead=true; started=false;
-  document.getElementById('dead-screen').style.display='flex';
-}
-function updateHPBar() {
-  document.getElementById('hp-fill').style.width=Math.max(0,playerHP)+'%';
-}
-function updateCooldownUI() {
-  document.getElementById('hcd-left').classList.toggle('cooldown', !!handState.left);
-  document.getElementById('hcd-right').classList.toggle('cooldown', !!handState.right);
+function killPlayer(){ playerDead=true; started=false; document.getElementById('dead-screen').style.display='flex'; }
+function updateHPBar(){ document.getElementById('hp-fill').style.width=Math.max(0,playerHP)+'%'; }
+
+function updateCooldownUI(){
+  const leftLatched=HS.left&&HS.left.latched;
+  const rightLatched=HS.right&&HS.right.latched;
+
+  const lEl=document.getElementById('hcd-left');
+  const rEl=document.getElementById('hcd-right');
+
+  lEl.classList.toggle('cooldown',!!HS.left&&!leftLatched);
+  lEl.classList.toggle('latched-glow',!!leftLatched);
+
+  rEl.classList.toggle('cooldown',!!HS.right&&!rightLatched);
+  rEl.classList.toggle('latched-glow',!!rightLatched);
 }
 
-// ============================================================
-// WALL COLLISION (player)
-// ============================================================
-function resolveWallCollision(pos, r) {
-  for(const b of wallBoxes) {
+function updateHandStatusUI(){
+  const ls=HS.left, rs=HS.right;
+  const lDot=document.getElementById('hs-left');
+  const rDot=document.getElementById('hs-right');
+  const lTxt=document.getElementById('hs-left-txt');
+  const rTxt=document.getElementById('hs-right-txt');
+
+  if(!ls){ lDot.className='hs-dot ready'; lTxt.textContent='🔵 Sol: Hazır'; }
+  else if(ls.latched){ lDot.className='hs-dot latched'; lTxt.textContent='🔵 Sol: 📌 Bağlı (Q=geri al)'; }
+  else { lDot.className='hs-dot flying'; lTxt.textContent='🔵 Sol: Uçuyor...'; }
+
+  if(!rs){ rDot.className='hs-dot ready'; rTxt.textContent=HD[rightType].emo+' Sağ: Hazır'; }
+  else if(rs.latched){ rDot.className='hs-dot latched'; rTxt.textContent=HD[rightType].emo+' Sağ: 📌 Bağlı (E=geri al)'; }
+  else { rDot.className='hs-dot flying'; rTxt.textContent=HD[rightType].emo+' Sağ: Uçuyor...'; }
+}
+
+function updateCarryUI(){
+  const ci=document.getElementById('carry-indicator');
+  if(rightCarrying==='fire'){ci.style.display='block';ci.textContent='🔥 ATEŞ TAŞIYOR';ci.style.color='#ff6600';}
+  else if(rightCarrying==='ice'){ci.style.display='block';ci.textContent='❄️ BUZ TAŞIYOR';ci.style.color='#44ccff';}
+  else ci.style.display='none';
+  if(rightArmCarryLight){
+    if(rightCarrying==='fire'){rightArmCarryLight.color.setHex(0xff5500);rightArmCarryLight.intensity=4;}
+    else if(rightCarrying==='ice'){rightArmCarryLight.color.setHex(0x44ccff);rightArmCarryLight.intensity=4;}
+    else rightArmCarryLight.intensity=0;
+  }
+}
+function updateHandBar(){
+  ['red','yellow','green','purple'].forEach(t=>{
+    document.getElementById('hsb-'+t).classList.toggle('active',t===rightType);
+  });
+  const d=HD[rightType];
+  const el=document.getElementById('hcd-right');
+  el.style.background=`radial-gradient(circle at 40% 35%,#aaa4,#${d.hand.toString(16).padStart(6,'0')})`;
+  el.style.boxShadow=`0 0 18px #${d.glow.toString(16).padStart(6,'0')}99`;
+  document.getElementById('hcd-right-label').innerHTML=d.emo+'<br>SAĞ';
+  const mb=document.getElementById('mob-right-btn');
+  const bg={red:'radial-gradient(circle at 40% 35%,#ffaaaa,#ff2222,#880000)',
+             yellow:'radial-gradient(circle at 40% 35%,#ffee88,#ffcc00,#886600)',
+             green:'radial-gradient(circle at 40% 35%,#aaffaa,#22dd44,#006622)',
+             purple:'radial-gradient(circle at 40% 35%,#ddaaff,#aa22ff,#550088)'};
+  mb.style.background=bg[rightType];
+  mb.innerHTML=d.emo+'<br>SAĞ';
+  updateHandStatusUI();
+}
+
+// ================================================================
+// NOTIFY / HINT
+// ================================================================
+function showNotify(text,color){
+  const el=document.getElementById('notify');
+  el.textContent=text; el.style.color=color||'#fff';
+  el.style.borderColor=(color||'#fff')+'44'; el.style.opacity='1';
+  if(notifyTO) clearTimeout(notifyTO);
+  notifyTO=setTimeout(()=>el.style.opacity='0',2800);
+}
+function showHint(text){
+  const el=document.getElementById('hint');
+  if(!text){el.style.opacity='0';return;}
+  el.textContent=text; el.style.opacity='1';
+}
+
+// ================================================================
+// WALL COLLISION
+// ================================================================
+function resolveWall(pos,r){
+  for(const b of wallBoxes){
     const cx=Math.max(b.minX,Math.min(pos.x,b.maxX));
     const cz=Math.max(b.minZ,Math.min(pos.z,b.maxZ));
     const dx=pos.x-cx, dz=pos.z-cz;
     const d2=dx*dx+dz*dz;
-    if(d2<r*r && d2>0.00001) {
-      const d=Math.sqrt(d2);
-      pos.x+=(dx/d)*(r-d);
-      pos.z+=(dz/d)*(r-d);
-    }
+    if(d2<r*r&&d2>0.00001){ const d=Math.sqrt(d2); pos.x+=(dx/d)*(r-d); pos.z+=(dz/d)*(r-d); }
   }
 }
 
-// ============================================================
+// ================================================================
 // CONTROLS
-// ============================================================
-function setupControls() {
-  document.addEventListener('keydown', e=>{
+// ================================================================
+function setupControls(){
+  document.addEventListener('keydown',e=>{
+    if(keys[e.code]) return; // Repeat önle
     keys[e.code]=true;
+
     if(e.code==='KeyQ') tryFireHand('left');
     if(e.code==='KeyE') tryFireHand('right');
-    if(e.code==='Digit1') switchRightHand('red');
-    if(e.code==='Digit2') switchRightHand('yellow');
-    if(e.code==='Digit3') switchRightHand('green');
-    if(e.code==='Digit4') switchRightHand('purple');
-    if(e.code==='Space')  e.preventDefault();
+    if(e.code==='KeyZ') switchRightHand('red');
+    if(e.code==='KeyX') switchRightHand('yellow');
+    if(e.code==='KeyC') switchRightHand('green');
+    if(e.code==='KeyV') switchRightHand('purple');
+    if(e.code==='Space') e.preventDefault();
   });
-  document.addEventListener('keyup', e=>{ keys[e.code]=false; });
+  document.addEventListener('keyup',e=>{ keys[e.code]=false; });
 
-  document.addEventListener('mousemove', e=>{
+  document.addEventListener('mousemove',e=>{
     if(!document.pointerLockElement) return;
-    yaw   -= e.movementX*0.002;
-    pitch -= e.movementY*0.002;
-    pitch = Math.max(-1.2,Math.min(1.2,pitch));
+    yaw-=e.movementX*0.002; pitch-=e.movementY*0.002;
+    pitch=Math.max(-1.2,Math.min(1.2,pitch));
   });
-  document.addEventListener('click',()=>{
-    if(started && !playerDead) renderer?.domElement.requestPointerLock?.();
-  });
+  document.addEventListener('click',()=>{ if(started&&!playerDead) renderer?.domElement.requestPointerLock?.(); });
 
   let lastLook=null;
   renderer.domElement.addEventListener('touchstart',e=>{
     for(const t of e.touches){
-      if(t.clientX>innerWidth*0.38 && t.clientX<innerWidth*0.72)
+      if(t.clientX>innerWidth*0.38&&t.clientX<innerWidth*0.72)
         lastLook={x:t.clientX,y:t.clientY,id:t.identifier};
     }
   },{passive:true});
@@ -1117,27 +1315,21 @@ function setupControls() {
     if(!lastLook) return;
     for(const t of e.touches){
       if(t.identifier===lastLook.id){
-        yaw   -=(t.clientX-lastLook.x)*0.005;
-        pitch -=(t.clientY-lastLook.y)*0.005;
+        yaw-=(t.clientX-lastLook.x)*0.005; pitch-=(t.clientY-lastLook.y)*0.005;
         pitch=Math.max(-1.2,Math.min(1.2,pitch));
         lastLook={x:t.clientX,y:t.clientY,id:t.identifier};
       }
     }
   },{passive:false});
   renderer.domElement.addEventListener('touchend',e=>{
-    if(lastLook){
-      const ids=[...e.touches].map(t=>t.identifier);
-      if(!ids.includes(lastLook.id)) lastLook=null;
-    }
+    if(lastLook){ const ids=[...e.touches].map(t=>t.identifier); if(!ids.includes(lastLook.id)) lastLook=null; }
   },{passive:true});
 
-  // Joystick
   const jBase=document.getElementById('joy-base');
   const jKnob=document.getElementById('joy-knob');
   function handleJoy(cx,cy){
     const r=jBase.getBoundingClientRect();
-    const cx2=r.left+r.width/2, cy2=r.top+r.height/2;
-    let dx=cx-cx2, dy=cy-cy2;
+    let dx=cx-(r.left+r.width/2), dy=cy-(r.top+r.height/2);
     const max=46, d=Math.sqrt(dx*dx+dy*dy);
     if(d>max){dx=dx/d*max;dy=dy/d*max;}
     jKnob.style.transform=`translate(calc(-50% + ${dx}px),calc(-50% + ${dy}px))`;
@@ -1147,83 +1339,77 @@ function setupControls() {
   jBase.addEventListener('touchmove', e=>{handleJoy(e.touches[0].clientX,e.touches[0].clientY);},{passive:true});
   jBase.addEventListener('touchend',  ()=>{joyX=0;joyZ=0;jKnob.style.transform='translate(-50%,-50%)';});
 
-  window.addEventListener('resize',()=>{
-    camera.aspect=innerWidth/innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(innerWidth,innerHeight);
-  });
+  window.addEventListener('resize',()=>{ camera.aspect=innerWidth/innerHeight; camera.updateProjectionMatrix(); renderer.setSize(innerWidth,innerHeight); });
 }
 
-// ============================================================
+// ================================================================
 // MAIN LOOP
-// ============================================================
-function animate() {
+// ================================================================
+function animate(){
   requestAnimationFrame(animate);
-  if(!scene){ return; }
-  if(!started && !playerDead){ renderer.render(scene,camera); return; }
+  if(!scene) return;
+  if(!started&&!playerDead){ renderer.render(scene,camera); return; }
   if(playerDead){ renderer.render(scene,camera); return; }
 
   const dt=Math.min(clock.getDelta(),0.05);
   elapsed+=dt;
 
-  // Sprint
-  const sprinting = keys['ShiftLeft']||keys['ShiftRight'];
-  const speed = sprinting ? 17 : 8;
-  document.getElementById('sprint-label').style.opacity = sprinting?'1':'0';
+  const sprinting=keys['ShiftLeft']||keys['ShiftRight'];
+  const speed=sprinting?16:8;
+  document.getElementById('sprint-label').style.opacity=sprinting?'1':'0';
 
-  // Movement
   const move=new THREE.Vector3();
   if(keys['KeyW']||keys['ArrowUp'])    move.z-=1;
   if(keys['KeyS']||keys['ArrowDown'])  move.z+=1;
   if(keys['KeyA']||keys['ArrowLeft'])  move.x-=1;
   if(keys['KeyD']||keys['ArrowRight']) move.x+=1;
   move.x+=joyX; move.z+=joyZ;
-  if(move.length()>0){
-    move.normalize().applyEuler(new THREE.Euler(0,yaw,0));
-    playerPos.addScaledVector(move,speed*dt);
-  }
+  if(move.length()>0){ move.normalize().applyEuler(new THREE.Euler(0,yaw,0)); playerPos.addScaledVector(move,speed*dt); }
 
-  resolveWallCollision(playerPos,0.6);
+  resolveWall(playerPos,0.6);
 
-  // Jump & gravity
-  if(keys['Space'] && onGround){ velY=9.5; onGround=false; }
-  velY -= 23*dt;
-  playerPos.y+=velY*dt;
+  if(keys['Space']&&onGround){ velY=9.5; onGround=false; }
+  velY-=23*dt; playerPos.y+=velY*dt;
   if(playerPos.y<=2){ playerPos.y=2; velY=0; onGround=true; }
 
-  // Camera
   camera.position.copy(playerPos);
   camera.rotation.order='YXZ';
-  camera.rotation.y=yaw;
-  camera.rotation.x=pitch;
+  camera.rotation.y=yaw; camera.rotation.x=pitch;
 
-  // Arm bobbing
   const moving=move.length()>0.01;
-  const bobTarget = -0.44;
+  const bobT=-0.44;
   if(moving){
     const bob=Math.sin(elapsed*13)*0.013;
-    leftArmVM.position.y = bobTarget+bob;
-    if(!switchState) rightArmVM.position.y = bobTarget-bob;
+    leftArmGroup.position.y=bobT+bob;
+    if(!switchState) rightArmGroup.position.y=bobT-bob;
   } else {
-    leftArmVM.position.y += (bobTarget-leftArmVM.position.y)*0.15;
-    if(!switchState) rightArmVM.position.y += (bobTarget-rightArmVM.position.y)*0.15;
+    leftArmGroup.position.y+=(bobT-leftArmGroup.position.y)*0.15;
+    if(!switchState) rightArmGroup.position.y+=(bobT-rightArmGroup.position.y)*0.15;
   }
 
   // Pulse launch plates
-  interactives.filter(v=>v.type==='launch').forEach(v=>{
-    if(v.light) v.light.intensity = 1.5+Math.sin(elapsed*3+v.pos.x)*0.7;
-    if(v.mesh)  v.mesh.material.emissiveIntensity = 0.5+Math.sin(elapsed*3+v.pos.z)*0.3;
+  interactObjs.filter(v=>v.type==='launch').forEach(v=>{
+    if(v.light) v.light.intensity=1.5+Math.sin(elapsed*3+v.pos.x)*0.7;
+    if(v.disc)  v.disc.material.emissiveIntensity=0.5+Math.sin(elapsed*3+v.pos.z)*0.3;
+    if(v.labelLight) v.labelLight.intensity=0.4+Math.sin(elapsed*4+v.pos.z)*0.3;
+  });
+
+  // Elektrik direklerini pulse et
+  powerPoles.forEach(pole=>{
+    if(pole.active){
+      pole.light.intensity=3+Math.sin(elapsed*8+pole.pos.x)*1.5;
+    }
   });
 
   updateSwitchAnim(dt);
   updateHands(dt);
   updateMonster(dt,elapsed);
-
   renderer.render(scene,camera);
 }
 
-// Init hand switch bar visually
-updateHandSwitchBar();
+// Init UI
+updateHandBar();
+updateHandStatusUI();
 </script>
 </body>
 </html>
