@@ -8,121 +8,123 @@
 *{margin:0;padding:0;box-sizing:border-box;}
 body{background:#000;overflow:hidden;font-family:'Arial Black',sans-serif;}
 canvas{display:block;position:fixed;top:0;left:0;}
-
 #overlay{position:fixed;inset:0;background:rgba(0,0,0,0.93);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;z-index:200;color:#fff;text-align:center;}
 #overlay h1{font-size:clamp(24px,5vw,50px);color:#ff2222;text-shadow:0 0 30px #ff0000,0 0 70px #ff000044;letter-spacing:4px;}
-#overlay .cols{display:flex;gap:28px;flex-wrap:wrap;justify-content:center;max-width:580px;}
-#overlay .col{text-align:left;font-size:13px;color:#ccc;line-height:2.1;}
+#overlay .cols{display:flex;gap:22px;flex-wrap:wrap;justify-content:center;max-width:680px;}
+#overlay .col{text-align:left;font-size:12px;color:#ccc;line-height:2.0;}
 #overlay .col b{color:#fff;}
 .sbtn{padding:13px 46px;border-radius:30px;border:none;cursor:pointer;background:linear-gradient(135deg,#0077ff,#002299);color:#fff;font-size:20px;font-weight:900;box-shadow:0 0 28px #0055ffbb;animation:gp 2s infinite;}
-@keyframes gp{0%,100%{box-shadow:0 0 28px #0055ffbb}50%{box-shadow:0 0 55px #0077ffdd,0 0 90px #0033ff44}}
-
+@keyframes gp{0%,100%{box-shadow:0 0 28px #0055ffbb}50%{box-shadow:0 0 55px #0077ffdd}}
 #hand-switch-bar{position:fixed;top:10px;left:50%;transform:translateX(-50%);display:flex;gap:7px;z-index:20;pointer-events:all;}
-.hsbtn{width:66px;height:66px;border-radius:14px;border:2px solid rgba(255,255,255,0.2);color:#fff;font-size:9px;font-weight:900;cursor:pointer;background:rgba(0,0,0,0.7);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;line-height:1.2;user-select:none;-webkit-user-select:none;transition:all .15s;}
-.hsbtn span{font-size:22px;line-height:1;}
+.hsbtn{width:62px;height:62px;border-radius:14px;border:2px solid rgba(255,255,255,0.2);color:#fff;font-size:9px;font-weight:900;cursor:pointer;background:rgba(0,0,0,0.7);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;line-height:1.2;user-select:none;-webkit-user-select:none;transition:all .15s;}
+.hsbtn span{font-size:20px;line-height:1;}
 .hsbtn kbd{font-size:9px;background:rgba(255,255,255,0.18);border-radius:4px;padding:1px 4px;font-family:monospace;}
 .hsbtn.active{border:3px solid #fff;transform:scale(1.1);background:rgba(255,255,255,0.13);}
-
 #hud{position:fixed;inset:0;pointer-events:none;z-index:10;}
 #ch{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:20px;height:20px;}
 #ch::before,#ch::after{content:'';position:absolute;background:rgba(255,255,255,0.88);}
 #ch::before{width:2px;height:100%;left:50%;transform:translateX(-50%);}
 #ch::after{width:100%;height:2px;top:50%;transform:translateY(-50%);}
-
 #healthbar{position:fixed;top:88px;left:12px;background:rgba(0,0,0,0.55);border:2px solid rgba(255,255,255,0.18);border-radius:10px;padding:6px 12px;color:#fff;font-size:13px;font-weight:700;z-index:10;pointer-events:none;display:flex;align-items:center;gap:8px;}
 #hp-inner{width:110px;height:10px;background:#222;border-radius:6px;overflow:hidden;}
 #hp-fill{height:100%;width:100%;background:linear-gradient(90deg,#ff2222,#ff7722);border-radius:6px;transition:width .18s;}
-
 #carry-indicator{position:fixed;top:88px;right:12px;background:rgba(0,0,0,0.6);border:2px solid rgba(255,255,255,0.18);border-radius:10px;padding:6px 14px;color:#fff;font-size:13px;font-weight:700;z-index:10;pointer-events:none;display:none;}
-
-/* El durumu göstergesi */
-#hand-status{position:fixed;top:130px;left:12px;background:rgba(0,0,0,0.55);border:2px solid rgba(255,255,255,0.12);border-radius:10px;padding:6px 12px;color:#fff;font-size:11px;font-weight:700;z-index:10;pointer-events:none;display:flex;flex-direction:column;gap:3px;}
+#hand-status{position:fixed;top:116px;left:12px;background:rgba(0,0,0,0.55);border:2px solid rgba(255,255,255,0.12);border-radius:10px;padding:6px 12px;color:#fff;font-size:11px;font-weight:700;z-index:10;pointer-events:none;display:flex;flex-direction:column;gap:3px;}
 .hs-row{display:flex;align-items:center;gap:6px;}
-.hs-dot{width:10px;height:10px;border-radius:50%;background:#333;}
+.hs-dot{width:10px;height:10px;border-radius:50%;background:#333;flex-shrink:0;}
 .hs-dot.latched{background:#ffdd00;box-shadow:0 0 6px #ffdd00;}
 .hs-dot.flying{background:#44aaff;box-shadow:0 0 6px #44aaff;animation:blink .4s infinite;}
 .hs-dot.ready{background:#22dd44;box-shadow:0 0 4px #22dd44;}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
-
+#elec-status{position:fixed;top:88px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.7);border:2px solid rgba(255,200,0,0.3);border-radius:10px;padding:5px 14px;color:#ffcc00;font-size:12px;font-weight:700;z-index:10;pointer-events:none;display:none;gap:6px;align-items:center;}
+#objective{position:fixed;top:88px;right:12px;background:rgba(0,0,0,0.75);border:2px solid rgba(255,255,255,0.1);border-radius:10px;padding:8px 12px;color:#fff;font-size:11px;font-weight:700;z-index:10;pointer-events:none;max-width:200px;line-height:1.8;}
+#objective .obj-title{color:#ffcc44;font-size:12px;margin-bottom:2px;}
+.obj-item{display:flex;align-items:center;gap:5px;opacity:.5;transition:opacity .3s;}
+.obj-item.active{opacity:1;}
+.obj-item.done{opacity:.4;text-decoration:line-through;color:#aaa;}
+.obj-dot{width:8px;height:8px;border-radius:50%;border:2px solid #666;flex-shrink:0;}
+.obj-item.active .obj-dot{background:#ffcc00;border-color:#ffcc00;animation:blink .6s infinite;}
+.obj-item.done .obj-dot{background:#22dd44;border-color:#22dd44;}
 #hcooldown{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);display:flex;gap:18px;pointer-events:none;z-index:10;}
 .hcd{width:62px;height:62px;border-radius:50%;border:3px solid rgba(255,255,255,0.4);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;color:#fff;text-shadow:0 1px 3px #000;transition:all .15s;position:relative;}
 .hcd.cooldown{opacity:0.3;transform:scale(0.88);}
 .hcd.latched-glow{border-color:#ffdd00!important;box-shadow:0 0 18px #ffdd00!important;}
 .hcd .latch-icon{position:absolute;top:-8px;right:-8px;font-size:14px;display:none;}
 .hcd.latched-glow .latch-icon{display:block;}
-
-#notify{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,0.8);border:2px solid rgba(255,255,255,0.25);border-radius:18px;padding:12px 28px;color:#fff;font-size:20px;font-weight:900;text-align:center;z-index:100;pointer-events:none;opacity:0;transition:opacity .25s;}
+#notify{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,0.85);border:2px solid rgba(255,255,255,0.25);border-radius:18px;padding:12px 28px;color:#fff;font-size:18px;font-weight:900;text-align:center;z-index:100;pointer-events:none;opacity:0;transition:opacity .25s;}
 #hint{position:fixed;bottom:105px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.6);border-radius:12px;padding:5px 16px;color:#ffcc44;font-size:12px;font-weight:700;z-index:10;pointer-events:none;opacity:0;transition:opacity .3s;}
 #dmg-flash{position:fixed;inset:0;background:rgba(255,0,0,0.42);opacity:0;pointer-events:none;z-index:50;transition:opacity .07s;}
 #sprint-label{position:fixed;bottom:200px;left:28px;background:rgba(0,0,0,0.5);border-radius:8px;padding:4px 10px;color:#aaffaa;font-size:11px;font-weight:700;z-index:10;pointer-events:none;opacity:0;transition:opacity .2s;}
-
-/* Elektrik direği durumu */
-#elec-status{position:fixed;top:88px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.7);border:2px solid rgba(255,200,0,0.3);border-radius:10px;padding:5px 14px;color:#ffcc00;font-size:12px;font-weight:700;z-index:10;pointer-events:none;display:none;gap:6px;align-items:center;}
-
-#dead-screen{position:fixed;inset:0;background:rgba(80,0,0,0.88);display:none;align-items:center;justify-content:center;flex-direction:column;gap:22px;z-index:300;color:#fff;text-align:center;}
+#vignette{position:fixed;inset:0;pointer-events:none;z-index:8;transition:background .4s;}
+#vignette.danger{background:radial-gradient(ellipse at center,transparent 25%,rgba(180,0,0,0.45) 100%);}
+#vignette.critical{background:radial-gradient(ellipse at center,transparent 10%,rgba(220,0,0,0.72) 100%);animation:vpulse .4s infinite;}
+@keyframes vpulse{0%,100%{opacity:1}50%{opacity:.6}}
+#jumpscare{position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:400;font-size:clamp(80px,18vw,180px);}
+#dead-screen{position:fixed;inset:0;background:rgba(80,0,0,0.92);display:none;align-items:center;justify-content:center;flex-direction:column;gap:22px;z-index:300;color:#fff;text-align:center;}
 #dead-screen h2{font-size:52px;color:#ff4444;text-shadow:0 0 40px #ff0000;}
 #dead-screen p{font-size:18px;color:#ffaaaa;}
+#win-screen{position:fixed;inset:0;background:rgba(0,30,0,0.95);display:none;align-items:center;justify-content:center;flex-direction:column;gap:18px;z-index:300;color:#fff;text-align:center;}
+#win-screen h2{font-size:48px;color:#22ff88;text-shadow:0 0 40px #00ff44;}
+#win-screen p{font-size:16px;color:#aaffcc;max-width:380px;line-height:1.7;}
 .rbtn{padding:13px 38px;border-radius:26px;border:none;cursor:pointer;background:#cc0000;color:#fff;font-size:18px;font-weight:900;box-shadow:0 0 24px #ff000099;}
-
+.gbtn{padding:13px 38px;border-radius:26px;border:none;cursor:pointer;background:#007722;color:#fff;font-size:18px;font-weight:900;}
 #joy-zone{position:fixed;bottom:28px;left:28px;width:140px;height:140px;pointer-events:all;z-index:20;}
 #joy-base{width:140px;height:140px;border-radius:50%;background:rgba(255,255,255,0.07);border:3px solid rgba(255,255,255,0.22);position:relative;}
 #joy-knob{width:56px;height:56px;border-radius:50%;background:radial-gradient(circle at 40% 35%,rgba(255,255,255,0.9),rgba(160,160,160,0.5));border:2px solid rgba(255,255,255,0.4);position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);box-shadow:0 4px 14px rgba(0,0,0,0.5);}
-#jump-btn{position:fixed;bottom:115px;right:148px;width:62px;height:62px;border-radius:50%;background:radial-gradient(circle at 40% 35%,#aaffaa,#22cc44,#006622);border:3px solid rgba(255,255,255,0.35);box-shadow:0 0 14px #22cc4477;color:#fff;font-size:11px;font-weight:900;cursor:pointer;pointer-events:all;z-index:20;display:flex;align-items:center;justify-content:center;user-select:none;-webkit-user-select:none;}
+#jump-btn{position:fixed;bottom:115px;right:148px;width:62px;height:62px;border-radius:50%;background:radial-gradient(circle at 40% 35%,#aaffaa,#22cc44,#006622);border:3px solid rgba(255,255,255,0.35);color:#fff;font-size:11px;font-weight:900;cursor:pointer;pointer-events:all;z-index:20;display:flex;align-items:center;justify-content:center;user-select:none;-webkit-user-select:none;}
 #jump-btn:active{transform:scale(0.88);}
-#mob-left-btn{position:fixed;bottom:28px;right:190px;width:82px;height:82px;border-radius:50%;background:radial-gradient(circle at 40% 35%,#88ddff,#0066ff,#003399);border:4px solid rgba(255,255,255,0.4);box-shadow:0 0 24px #0066ffbb;color:#fff;font-size:11px;font-weight:900;cursor:pointer;pointer-events:all;z-index:20;display:flex;align-items:center;justify-content:center;text-align:center;line-height:1.3;user-select:none;-webkit-user-select:none;}
-#mob-right-btn{position:fixed;bottom:28px;right:90px;width:82px;height:82px;border-radius:50%;border:4px solid rgba(255,255,255,0.4);color:#fff;font-size:11px;font-weight:900;cursor:pointer;pointer-events:all;z-index:20;display:flex;align-items:center;justify-content:center;text-align:center;line-height:1.3;user-select:none;-webkit-user-select:none;background:radial-gradient(circle at 40% 35%,#ffaaaa,#ff2222,#880000);box-shadow:0 0 24px #ff2222bb;}
+#mob-left-btn{position:fixed;bottom:28px;right:190px;width:82px;height:82px;border-radius:50%;background:radial-gradient(circle at 40% 35%,#88ddff,#0066ff,#003399);border:4px solid rgba(255,255,255,0.4);color:#fff;font-size:11px;font-weight:900;cursor:pointer;pointer-events:all;z-index:20;display:flex;align-items:center;justify-content:center;text-align:center;line-height:1.3;user-select:none;-webkit-user-select:none;}
+#mob-right-btn{position:fixed;bottom:28px;right:90px;width:82px;height:82px;border-radius:50%;border:4px solid rgba(255,255,255,0.4);color:#fff;font-size:11px;font-weight:900;cursor:pointer;pointer-events:all;z-index:20;display:flex;align-items:center;justify-content:center;text-align:center;line-height:1.3;user-select:none;-webkit-user-select:none;background:radial-gradient(circle at 40% 35%,#ffaaaa,#ff2222,#880000);}
 #mob-left-btn:active,#mob-right-btn:active{transform:scale(0.88);}
 </style>
 </head>
 <body>
-
 <div id="overlay">
   <h1>🎮 POPPY OYUNU</h1>
   <div class="cols">
     <div class="col">
-      <b>WASD</b> — Yürü<br>
-      <b>Shift</b> — Sprint<br>
+      <b>WASD</b> — Yürü / <b>Shift</b> Sprint<br>
       <b>Space</b> — Zıpla<br>
-      <b>Q</b> — 🔵 Sol El Fırlat / Geri Al<br>
-      <b>E</b> — Sağ El Fırlat / Geri Al<br>
-      <b>Fare</b> — Bak<br>
+      <b>Q</b> — 🔵 Sol El (tekrar=geri al)<br>
+      <b>E</b> — Sağ El (tekrar=geri al)<br>
+      <b>Fare</b> — Bak
     </div>
     <div class="col">
-      <b>Z</b> — 🔴 Kırmızı El<br>
-      <b>X</b> — 🟡 Sarı El<br>
-      <b>C</b> — 🟢 Yeşil El<br>
-      <b>V</b> — 🟣 Mor El<br><br>
-      <b style="color:#ffcc44">El koldan ayrılır!</b><br>
-    </div>
-    <div class="col">
-      <b style="color:#66aaff">🔵 Mavi:</b> Bağlan / Kapı aç<br>
-      <b style="color:#ff5555">🔴 Kırmızı:</b> Kırmızı tarayıcı<br>
+      <b>Z</b>🔴 / <b>X</b>🟡 / <b>C</b>🟢 / <b>V</b>🟣<br>
+      <b style="color:#aa44ff">🟣 Mor:</b> Fırlatma plakası<br>
       <b style="color:#ffcc00">🟡 Sarı:</b> Ateş/Buz taşı<br>
-      <b style="color:#22dd44">🟢 Yeşil:</b> Elektrik aktar<br>
-      <b style="color:#aa44ff">🟣 Mor:</b> Fırlatma plakası!<br>
-      <b style="color:#ffdd00">⚡ Elektrik:</b> Kablo direklere değsin!<br>
+      <b style="color:#ffdd00">⚡ Direk:</b> Kablo değince aktive!
+    </div>
+    <div class="col">
+      <b style="color:#ff8800">🚇 Tünel:</b> Elektrikle açılır<br>
+      <b style="color:#ffaaaa">📦 Kutu:</b> İki elli çek → düşer<br>
+      <b style="color:#ff4444">🔴 Oda:</b> Cam kutuyu aç → Kazan!<br>
+      <b style="color:#22ff88">Normal duvar</b> → el hemen döner
     </div>
   </div>
   <button class="sbtn" onclick="startGame()">OYNAMAYA BAŞLA!</button>
 </div>
-
 <div id="dead-screen">
   <h2>💀 ÖLDÜN!</h2>
-  <p>Poppy seni yakaladı...</p>
+  <p id="dead-msg">Poppy seni yakaladı...</p>
   <button class="rbtn" onclick="respawn()">YENİDEN BAŞLA</button>
 </div>
-
+<div id="win-screen">
+  <h2>🎉 KAZANDIN!</h2>
+  <p>Poppy'yi durdurdun ve cam kutuyu açtın!<br>Fabrikadan kaçmayı başardın!</p>
+  <button class="gbtn" onclick="location.reload()">TEKRAR OYNA</button>
+</div>
+<div id="jumpscare">👾</div>
+<div id="vignette"></div>
 <div id="dmg-flash"></div>
 <div id="notify"></div>
 <div id="hint"></div>
-
 <div id="hand-switch-bar">
   <button class="hsbtn active" id="hsb-red"    onclick="switchRightHand('red')"   ><span>🔴</span>KIRMIZI<kbd>Z</kbd></button>
   <button class="hsbtn"        id="hsb-yellow" onclick="switchRightHand('yellow')"><span>🟡</span>SARI<kbd>X</kbd></button>
   <button class="hsbtn"        id="hsb-green"  onclick="switchRightHand('green')" ><span>🟢</span>YEŞİL<kbd>C</kbd></button>
   <button class="hsbtn"        id="hsb-purple" onclick="switchRightHand('purple')"><span>🟣</span>MOR<kbd>V</kbd></button>
 </div>
-
 <div id="hud">
   <div id="ch"></div>
   <div id="healthbar">❤️<div id="hp-inner"><div id="hp-fill"></div></div></div>
@@ -131,14 +133,23 @@ canvas{display:block;position:fixed;top:0;left:0;}
     <div class="hs-row"><div class="hs-dot ready" id="hs-left"></div><span id="hs-left-txt">🔵 Sol: Hazır</span></div>
     <div class="hs-row"><div class="hs-dot ready" id="hs-right"></div><span id="hs-right-txt">🔴 Sağ: Hazır</span></div>
   </div>
-  <div id="elec-status">⚡ Elektrik: <span id="elec-txt">0/3 direk</span></div>
+  <div id="elec-status">⚡ <span id="elec-txt">0/6 direk</span></div>
+  <div id="objective">
+    <div class="obj-title">🎯 HEDEFLER</div>
+    <div class="obj-item active" id="obj1"><div class="obj-dot"></div><span>Elektrik zinciri 1'i tamamla</span></div>
+    <div class="obj-item" id="obj2"><div class="obj-dot"></div><span>Tünel 1'e gir</span></div>
+    <div class="obj-item" id="obj3"><div class="obj-dot"></div><span>Elektrik zinciri 2'yi tamamla</span></div>
+    <div class="obj-item" id="obj4"><div class="obj-dot"></div><span>İki elli kutuyu çek</span></div>
+    <div class="obj-item" id="obj5"><div class="obj-dot"></div><span>Poppy'yi durdur!</span></div>
+    <div class="obj-item" id="obj6"><div class="obj-dot"></div><span>Kırmızı odayı bul</span></div>
+    <div class="obj-item" id="obj7"><div class="obj-dot"></div><span>Cam kutuyu aç → Kazan!</span></div>
+  </div>
   <div id="hcooldown">
-    <div class="hcd" id="hcd-left"  style="background:radial-gradient(circle at 40% 35%,#66bbff,#0055cc);box-shadow:0 0 18px #0066ffbb;">🔵<br>SOL<div class="latch-icon">📌</div></div>
+    <div class="hcd" id="hcd-left" style="background:radial-gradient(circle at 40% 35%,#66bbff,#0055cc);box-shadow:0 0 18px #0066ffbb;">🔵<br>SOL<div class="latch-icon">📌</div></div>
     <div class="hcd" id="hcd-right" style="background:radial-gradient(circle at 40% 35%,#ff7777,#cc0000);box-shadow:0 0 18px #ff2222bb;"><div id="hcd-right-label">🔴<br>SAĞ</div><div class="latch-icon">📌</div></div>
   </div>
 </div>
 <div id="sprint-label">⚡ SPRİNT</div>
-
 <div id="joy-zone"><div id="joy-base"><div id="joy-knob"></div></div></div>
 <button id="jump-btn" ontouchstart="keys['Space']=true" ontouchend="keys['Space']=false">ZIPLA</button>
 <button id="mob-left-btn"  ontouchstart="tryFireHand('left')"  onmousedown="tryFireHand('left')">🔵<br>SOL<br>EL</button>
@@ -146,69 +157,48 @@ canvas{display:block;position:fixed;top:0;left:0;}
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
-// ================================================================
+// ============================================================
 // GLOBALS
-// ================================================================
-let started=false, playerDead=false;
+// ============================================================
+let started=false,playerDead=false,gameWon=false;
 const keys={};
-// Key press tracking - prevent repeat
-const keyJustPressed={};
-let yaw=0, pitch=0, velY=0, onGround=false;
-let playerPos = new THREE.Vector3(0,2,18);
-let playerHP=100;
-let joyX=0, joyZ=0;
-let elapsed=0;
-let lastHitTime=-999;
+let yaw=0,pitch=0,velY=0,onGround=false;
+let playerPos=new THREE.Vector3(0,2,18);
+let playerHP=100,joyX=0,joyZ=0,elapsed=0,lastHitTime=-999;
 
-// Hand states
-let HS = { left:null, right:null };
-let rightType='red';
-let rightCarrying=null;
-let handSwitching=false, switchState=null;
+let HS={left:null,right:null};
+let rightType='red',rightCarrying=null;
+let handSwitching=false,switchState=null;
 
-// Scene objects
 let scene,camera,renderer,clock;
 let monster,monsterLight,monsterArms=[];
-let leftArmGroup, rightArmGroup;
-let leftHandMesh,  leftStumpCap;
-let rightHandMesh, rightStumpCap;
-let leftWristPos,  rightWristPos;
-let rightArmCarryLight;
+let leftArmGroup,rightArmGroup;
+let leftHandMesh,leftStumpCap,rightHandMesh,rightStumpCap;
+let leftWristPos,rightWristPos,rightArmCarryLight;
 
-let wallBoxes=[];
-let scanners=[];
-let interactObjs=[];
-let doorList=[];
-let notifyTO=null;
+let wallBoxes=[],scanners=[],interactObjs=[],doorList=[],notifyTO=null;
+let powerPoles=[],powerPoleChains=[];
 
-// ================================================================
-// ELEKTRİK DİREĞİ SİSTEMİ
-// Kablo direklere değince aktive olur, zincir açılırsa kapı açılır
-// ================================================================
-let powerPoles=[]; // {pos, mesh, ball, light, active, cableGroup}
-let powerPoleChains=[]; // [{poles:[idx,...], door:scannerIdx, activated:false}]
+// Story state
+let sf={t1Open:false,t1Entered:false,t2Open:false,boxPulled:false,monsterDead:false,redFound:false,won:false};
+let monsterFalling=false;
+let suspendedBox=null,suspendedBoxObj=null;
+let glassBox=null,glassBoxObj=null;
+let tunnelDoors={};  // id→mesh
+let tunnelWallEntries={};
+let pitOpen=false;
 
-// ================================================================
-// HAND DEFINITIONS
-// ================================================================
 const HD={
-  blue:  {arm:0x1155dd, hand:0x3377ff, glow:0x0044ff, emo:'🔵'},
-  red:   {arm:0xcc1111, hand:0xff3333, glow:0xff0000, emo:'🔴'},
-  yellow:{arm:0xcc9900, hand:0xffcc00, glow:0xffaa00, emo:'🟡'},
-  green: {arm:0x009922, hand:0x22dd44, glow:0x00ff44, emo:'🟢'},
-  purple:{arm:0x7700cc, hand:0xaa22ff, glow:0xcc00ff, emo:'🟣'},
+  blue:{arm:0x1155dd,hand:0x3377ff,glow:0x0044ff,emo:'🔵'},
+  red:{arm:0xcc1111,hand:0xff3333,glow:0xff0000,emo:'🔴'},
+  yellow:{arm:0xcc9900,hand:0xffcc00,glow:0xffaa00,emo:'🟡'},
+  green:{arm:0x009922,hand:0x22dd44,glow:0x00ff44,emo:'🟢'},
+  purple:{arm:0x7700cc,hand:0xaa22ff,glow:0xcc00ff,emo:'🟣'},
 };
 
-// ================================================================
-// LATCH TYPES - hangi objeler eli tutar, hangisi tutmaz
-// ================================================================
-// 'latch' = el orada kalır, tekrar Q/E ile geri çekilir
-// 'bounce' = el değer, efekt tetiklenir, hemen geri döner
-// Normal duvar = anında geri döner (latch yok)
-
-// ================================================================
+// ============================================================
 // START / RESPAWN
-// ================================================================
+// ============================================================
 function startGame(){
   document.getElementById('overlay').style.display='none';
   started=true;
@@ -217,33 +207,30 @@ function startGame(){
 }
 function respawn(){
   document.getElementById('dead-screen').style.display='none';
-  playerHP=100; playerDead=false;
-  playerPos.set(0,2,18); velY=0; onGround=false;
-  rightCarrying=null; handSwitching=false; switchState=null;
-  lastHitTime=-999;
-  ['left','right'].forEach(s=>{
-    if(HS[s]){ scene.remove(HS[s].mesh); scene.remove(HS[s].cable); HS[s]=null; }
-  });
-  if(leftHandMesh)  leftHandMesh.visible=true;
-  if(leftStumpCap)  leftStumpCap.visible=false;
+  playerHP=100;playerDead=false;gameWon=false;
+  playerPos.set(0,2,18);velY=0;onGround=false;
+  rightCarrying=null;handSwitching=false;switchState=null;lastHitTime=-999;
+  monsterFalling=false;
+  ['left','right'].forEach(s=>{if(HS[s]){scene.remove(HS[s].mesh);scene.remove(HS[s].cable);HS[s]=null;}});
+  if(leftHandMesh) leftHandMesh.visible=true;
+  if(leftStumpCap) leftStumpCap.visible=false;
   if(rightHandMesh) rightHandMesh.visible=true;
   if(rightStumpCap) rightStumpCap.visible=false;
-  updateHPBar(); updateCooldownUI(); updateCarryUI(); updateHandStatusUI();
-  monster.position.set(0,0,-25);
+  monster.visible=true;monster.position.set(0,0,-25);monster.rotation.x=0;
+  document.getElementById('vignette').className='';
+  updateHPBar();updateCooldownUI();updateCarryUI();updateHandStatusUI();
   started=true;
 }
 
-// ================================================================
+// ============================================================
 // INIT
-// ================================================================
+// ============================================================
 function init(){
   scene=new THREE.Scene();
   scene.background=new THREE.Color(0x050010);
-  scene.fog=new THREE.Fog(0x050010,30,120);
-
-  camera=new THREE.PerspectiveCamera(82,innerWidth/innerHeight,0.04,220);
+  scene.fog=new THREE.Fog(0x050010,30,150);
+  camera=new THREE.PerspectiveCamera(82,innerWidth/innerHeight,0.04,250);
   scene.add(camera);
-
   renderer=new THREE.WebGLRenderer({antialias:true});
   renderer.setPixelRatio(Math.min(devicePixelRatio,2));
   renderer.setSize(innerWidth,innerHeight);
@@ -251,166 +238,123 @@ function init(){
   renderer.shadowMap.type=THREE.PCFSoftShadowMap;
   document.body.appendChild(renderer.domElement);
   clock=new THREE.Clock();
-
   scene.add(new THREE.AmbientLight(0x1a0a2a,1.1));
   const dir=new THREE.DirectionalLight(0xffffff,0.45);
-  dir.position.set(10,25,10); dir.castShadow=true; scene.add(dir);
+  dir.position.set(10,25,10);dir.castShadow=true;scene.add(dir);
   mkLight(0x003399,2,50,-14,5,-14);
-  mkLight(0xff2200,2,50, 14,5,-14);
+  mkLight(0xff2200,2,50,14,5,-14);
   mkLight(0x330066,1.5,55,0,8,0);
-
   buildLevel();
   buildViewmodelArms();
   buildMonster();
   buildInteractives();
   buildPowerPoles();
+  buildTunnels();
+  buildEndgame();
   setupControls();
   animate();
 }
 function mkLight(c,i,d,x,y,z){const l=new THREE.PointLight(c,i,d);l.position.set(x,y,z);scene.add(l);return l;}
 
-// ================================================================
+// ============================================================
 // LEVEL
-// ================================================================
+// ============================================================
 function buildLevel(){
-  const fl=new THREE.Mesh(new THREE.PlaneGeometry(160,160),new THREE.MeshLambertMaterial({color:0x0c0820}));
-  fl.rotation.x=-Math.PI/2; fl.receiveShadow=true; scene.add(fl);
-  scene.add(new THREE.GridHelper(160,32,0x1a0033,0x0d0020));
-  const ceil=new THREE.Mesh(new THREE.PlaneGeometry(160,160),new THREE.MeshLambertMaterial({color:0x060012}));
-  ceil.rotation.x=Math.PI/2; ceil.position.y=14; scene.add(ceil);
-
+  const fl=new THREE.Mesh(new THREE.PlaneGeometry(200,200),new THREE.MeshLambertMaterial({color:0x0c0820}));
+  fl.rotation.x=-Math.PI/2;fl.receiveShadow=true;scene.add(fl);
+  scene.add(new THREE.GridHelper(200,40,0x1a0033,0x0d0020));
+  const ceil=new THREE.Mesh(new THREE.PlaneGeometry(200,200),new THREE.MeshLambertMaterial({color:0x060012}));
+  ceil.rotation.x=Math.PI/2;ceil.position.y=14;scene.add(ceil);
   const wm=new THREE.MeshLambertMaterial({color:0x110d22});
   function mkW(px,py,pz,sx,sy,sz){
     const m=new THREE.Mesh(new THREE.BoxGeometry(sx,sy,sz),wm);
-    m.position.set(px,py,pz); m.receiveShadow=true; m.castShadow=true; scene.add(m);
+    m.position.set(px,py,pz);m.receiveShadow=true;m.castShadow=true;scene.add(m);
     wallBoxes.push({minX:px-sx/2,maxX:px+sx/2,minY:py-sy/2,maxY:py+sy/2,minZ:pz-sz/2,maxZ:pz+sz/2});
   }
-  mkW(0,7,-80, 160,14,2); mkW(0,7,80, 160,14,2);
-  mkW(-80,7,0, 2,14,160); mkW(80,7,0, 2,14,160);
-  mkW(-32,7,-18,2,14,64); mkW(32,7,-18,2,14,64);
-  mkW(-32,7,32,2,14,32);  mkW(32,7,32,2,14,32);
-  mkW(0,7,-42,62,14,2);   mkW(0,7,48,62,14,2);
-  mkW(-52,7,12,2,14,64);  mkW(52,7,12,2,14,64);
-  mkW(0,7,-62,44,14,2);   mkW(0,7,65,44,14,2);
-
+  mkW(0,7,-80,160,14,2);mkW(0,7,80,160,14,2);
+  mkW(-80,7,0,2,14,160);mkW(80,7,0,2,14,160);
+  mkW(-32,7,-18,2,14,64);mkW(32,7,-18,2,14,64);
+  mkW(-32,7,32,2,14,32);mkW(32,7,32,2,14,32);
+  mkW(0,7,-42,62,14,2);mkW(0,7,48,62,14,2);
+  mkW(-52,7,12,2,14,64);mkW(52,7,12,2,14,64);
+  mkW(0,7,-62,44,14,2);mkW(0,7,65,44,14,2);
   const om=new THREE.MeshLambertMaterial({color:0x1a1030});
-  function mkB(px,py,pz,sx,sy,sz){
-    const m=new THREE.Mesh(new THREE.BoxGeometry(sx,sy,sz),om);
-    m.position.set(px,py,pz); m.castShadow=true; m.receiveShadow=true; scene.add(m);
-    wallBoxes.push({minX:px-sx/2,maxX:px+sx/2,minY:py-sy/2,maxY:py+sy/2,minZ:pz-sz/2,maxZ:pz+sz/2});
-  }
   [[8,2,-12,3,4,3],[-9,2,-8,4,3,4],[15,2,5,3,3,3],[-12,2,6,3,4,3],
    [0,2,-22,5,3,5],[-19,2,-17,3,4,3],[19,2,-17,3,4,3],[0,2,26,4,3,4],
    [-23,2,0,3,5,3],[23,2,0,3,5,3],[42,2,-32,4,4,4],[-42,2,-32,4,4,4],
    [42,2,52,5,4,5],[-42,2,52,5,4,5],[0,2,-58,6,5,4],[57,2,-32,4,5,4],
    [-57,2,-32,4,5,4],[57,2,42,4,4,4],[-57,2,42,4,4,4],[0,2,62,6,4,6],
-   [62,2,0,4,5,4],[-62,2,0,4,5,4]].forEach(a=>mkB(...a));
-
+   [62,2,0,4,5,4],[-62,2,0,4,5,4]].forEach(a=>{
+    const m=new THREE.Mesh(new THREE.BoxGeometry(a[3],a[4],a[5]),om);
+    m.position.set(a[0],a[1],a[2]);m.castShadow=true;scene.add(m);
+    wallBoxes.push({minX:a[0]-a[3]/2,maxX:a[0]+a[3]/2,minY:a[1]-a[4]/2,maxY:a[1]+a[4]/2,minZ:a[2]-a[5]/2,maxZ:a[2]+a[5]/2});
+  });
   const pm=new THREE.MeshLambertMaterial({color:0x2a2244});
   for(let i=-70;i<=70;i+=16){
     const p=new THREE.Mesh(new THREE.CylinderGeometry(0.28,0.28,160,8),pm);
-    p.rotation.z=Math.PI/2; p.position.set(0,13,i); scene.add(p);
+    p.rotation.z=Math.PI/2;p.position.set(0,13,i);scene.add(p);
   }
-  const ac=[0xff0000,0x0044ff,0xff6600,0x00ffcc,0xaa00ff,0xffff00];
-  ac.forEach((c,i)=>{
+  [0xff0000,0x0044ff,0xff6600,0x00ffcc,0xaa00ff,0xffff00].forEach((c,i)=>{
     const l=new THREE.PointLight(c,1.1,32);
-    const a=(i/ac.length)*Math.PI*2;
-    l.position.set(Math.cos(a)*40,11,Math.sin(a)*40); scene.add(l);
+    const a=(i/6)*Math.PI*2;
+    l.position.set(Math.cos(a)*40,11,Math.sin(a)*40);scene.add(l);
   });
 }
 
-// ================================================================
+// ============================================================
 // VIEWMODEL ARMS
-// ================================================================
+// ============================================================
 function buildViewmodelArms(){
-  leftArmGroup  = buildArmVM('blue', true);
-  rightArmGroup = buildArmVM(rightType, false);
-  camera.add(leftArmGroup);
-  camera.add(rightArmGroup);
+  leftArmGroup=buildArmVM('blue',true);
+  rightArmGroup=buildArmVM(rightType,false);
+  camera.add(leftArmGroup);camera.add(rightArmGroup);
   resetArmPos();
 }
-
-function buildArmVM(type, isLeft){
-  const g=new THREE.Group();
-  const d=HD[type];
-  const aM=new THREE.MeshLambertMaterial({color:d.arm, emissive:d.arm, emissiveIntensity:0.22});
+function buildArmVM(type,isLeft){
+  const g=new THREE.Group(),d=HD[type];
+  const aM=new THREE.MeshLambertMaterial({color:d.arm,emissive:d.arm,emissiveIntensity:0.22});
   const hM=new THREE.MeshLambertMaterial({color:d.hand,emissive:d.hand,emissiveIntensity:0.25});
   const yM=new THREE.MeshLambertMaterial({color:0xffcc00,emissive:0xffcc00,emissiveIntensity:0.2});
-
   const fore=new THREE.Mesh(new THREE.CylinderGeometry(0.058,0.075,1.8,10),aM);
-  fore.rotation.x=Math.PI/2; fore.position.set(0,0,0.82); g.add(fore);
-
+  fore.rotation.x=Math.PI/2;fore.position.set(0,0,0.82);g.add(fore);
   const wb=new THREE.Mesh(new THREE.CylinderGeometry(0.083,0.083,0.12,10),yM);
-  wb.rotation.x=Math.PI/2; wb.position.set(0,0,0.02); g.add(wb);
-
-  const stump=new THREE.Mesh(
-    new THREE.CylinderGeometry(0.072,0.072,0.06,14),
-    new THREE.MeshLambertMaterial({color:d.glow,emissive:d.glow,emissiveIntensity:1.0})
-  );
-  stump.rotation.x=Math.PI/2; stump.position.set(0,0,-0.05);
-  stump.visible=false; g.add(stump);
+  wb.rotation.x=Math.PI/2;wb.position.set(0,0,0.02);g.add(wb);
+  const stump=new THREE.Mesh(new THREE.CylinderGeometry(0.072,0.072,0.06,14),
+    new THREE.MeshLambertMaterial({color:d.glow,emissive:d.glow,emissiveIntensity:1.0}));
+  stump.rotation.x=Math.PI/2;stump.position.set(0,0,-0.05);stump.visible=false;g.add(stump);
   if(isLeft) leftStumpCap=stump; else rightStumpCap=stump;
-
   const hg=new THREE.Group();
-  const palm=new THREE.Mesh(new THREE.BoxGeometry(0.25,0.29,0.10),hM);
-  palm.position.set(0,0,-0.26); hg.add(palm);
-  for(let k=-1;k<=1;k++){
-    const kn=new THREE.Mesh(new THREE.SphereGeometry(0.044,6,6),hM);
-    kn.position.set(k*0.083,0.145,-0.26); hg.add(kn);
-  }
+  const palm=new THREE.Mesh(new THREE.BoxGeometry(0.25,0.29,0.10),hM);palm.position.set(0,0,-0.26);hg.add(palm);
+  for(let k=-1;k<=1;k++){const kn=new THREE.Mesh(new THREE.SphereGeometry(0.044,6,6),hM);kn.position.set(k*0.083,0.145,-0.26);hg.add(kn);}
   for(let f=0;f<4;f++){
     const fx=(f-1.5)*0.068;
-    const p1=new THREE.Mesh(new THREE.CylinderGeometry(0.027,0.029,0.18,6),hM);
-    p1.position.set(fx,0.26,-0.25); hg.add(p1);
-    const p2=new THREE.Mesh(new THREE.CylinderGeometry(0.022,0.027,0.13,6),hM);
-    p2.position.set(fx,0.41,-0.24); hg.add(p2);
-    const tip=new THREE.Mesh(new THREE.SphereGeometry(0.025,5,5),
-      new THREE.MeshLambertMaterial({color:0x111111}));
-    tip.position.set(fx,0.5,-0.24); hg.add(tip);
+    const p1=new THREE.Mesh(new THREE.CylinderGeometry(0.027,0.029,0.18,6),hM);p1.position.set(fx,0.26,-0.25);hg.add(p1);
+    const p2=new THREE.Mesh(new THREE.CylinderGeometry(0.022,0.027,0.13,6),hM);p2.position.set(fx,0.41,-0.24);hg.add(p2);
+    const tip=new THREE.Mesh(new THREE.SphereGeometry(0.025,5,5),new THREE.MeshLambertMaterial({color:0x111111}));
+    tip.position.set(fx,0.5,-0.24);hg.add(tip);
   }
   const thumb=new THREE.Mesh(new THREE.CylinderGeometry(0.029,0.031,0.15,6),hM);
-  thumb.position.set(isLeft?0.16:-0.16,0.12,-0.24);
-  thumb.rotation.z=isLeft?-0.5:0.5; hg.add(thumb);
-
+  thumb.position.set(isLeft?0.16:-0.16,0.12,-0.24);thumb.rotation.z=isLeft?-0.5:0.5;hg.add(thumb);
   g.add(hg);
   if(isLeft) leftHandMesh=hg; else rightHandMesh=hg;
-
-  const mark=new THREE.Object3D(); mark.position.set(0,0,-0.05); g.add(mark);
+  const mark=new THREE.Object3D();mark.position.set(0,0,-0.05);g.add(mark);
   if(isLeft) leftWristPos=mark; else rightWristPos=mark;
-
-  if(!isLeft){
-    rightArmCarryLight=new THREE.PointLight(0xffffff,0,1.5);
-    g.add(rightArmCarryLight);
-  }
-
+  if(!isLeft){rightArmCarryLight=new THREE.PointLight(0xffffff,0,1.5);g.add(rightArmCarryLight);}
   return g;
 }
-
 function rebuildRightArm(type){
   if(rightArmGroup) camera.remove(rightArmGroup);
-  rightType=type;
-  rightArmGroup=buildArmVM(type,false);
-  camera.add(rightArmGroup);
-  rightArmGroup.position.set(0.3, 2.8,-0.65);
-  rightArmGroup.rotation.set(0.2,-0.15,-0.06);
-  updateCarryUI(); updateCooldownUI(); updateHandBar();
+  rightType=type;rightArmGroup=buildArmVM(type,false);camera.add(rightArmGroup);
+  rightArmGroup.position.set(0.3,2.8,-0.65);rightArmGroup.rotation.set(0.2,-0.15,-0.06);
+  updateCarryUI();updateCooldownUI();updateHandBar();
 }
-
 function resetArmPos(){
-  leftArmGroup.position.set(-0.3,-0.44,-0.65);
-  leftArmGroup.rotation.set(0.2,0.15,0.06);
-  rightArmGroup.position.set(0.3,-0.44,-0.65);
-  rightArmGroup.rotation.set(0.2,-0.15,-0.06);
+  leftArmGroup.position.set(-0.3,-0.44,-0.65);leftArmGroup.rotation.set(0.2,0.15,0.06);
+  rightArmGroup.position.set(0.3,-0.44,-0.65);rightArmGroup.rotation.set(0.2,-0.15,-0.06);
 }
-
-// ================================================================
-// HAND SWITCH ANIMATION
-// ================================================================
 function switchRightHand(type){
   if(type===rightType||handSwitching||HS.right) return;
-  handSwitching=true; rightCarrying=null;
-  switchState={targetType:type,phase:'down',timer:0};
-  updateCarryUI();
+  handSwitching=true;rightCarrying=null;switchState={targetType:type,phase:'down',timer:0};updateCarryUI();
 }
 function updateSwitchAnim(dt){
   if(!switchState) return;
@@ -418,690 +362,668 @@ function updateSwitchAnim(dt){
   if(switchState.phase==='down'){
     const t=Math.min(switchState.timer/0.15,1);
     rightArmGroup.position.y=-0.44+(-3.2+0.44)*t;
-    if(t>=1){ rebuildRightArm(switchState.targetType); switchState.phase='up'; switchState.timer=0; }
+    if(t>=1){rebuildRightArm(switchState.targetType);switchState.phase='up';switchState.timer=0;}
   } else {
     const t=Math.min(switchState.timer/0.15,1);
     rightArmGroup.position.y=2.8+(-0.44-2.8)*t;
-    if(t>=1){ rightArmGroup.position.y=-0.44; switchState=null; handSwitching=false; }
+    if(t>=1){rightArmGroup.position.y=-0.44;switchState=null;handSwitching=false;}
   }
 }
 
-// ================================================================
+// ============================================================
 // MONSTER
-// ================================================================
+// ============================================================
 function buildMonster(){
-  monster=new THREE.Group();
-  monster.position.set(0,0,-25);
+  monster=new THREE.Group();monster.position.set(0,0,-25);
   const B=0x1a55dd,LB=0x2266ee,Y=0xffcc00,R=0xff1111,BK=0x111111;
   const bM=c=>new THREE.MeshLambertMaterial({color:c});
-
-  const body=new THREE.Mesh(new THREE.BoxGeometry(3.6,5,2.6),bM(B));
-  body.position.y=3.5; body.castShadow=true; monster.add(body);
-  const head=new THREE.Mesh(new THREE.BoxGeometry(3.1,3.1,2.6),bM(LB));
-  head.position.y=7.2; head.castShadow=true; monster.add(head);
+  const body=new THREE.Mesh(new THREE.BoxGeometry(3.6,5,2.6),bM(B));body.position.y=3.5;body.castShadow=true;monster.add(body);
+  const head=new THREE.Mesh(new THREE.BoxGeometry(3.1,3.1,2.6),bM(LB));head.position.y=7.2;head.castShadow=true;monster.add(head);
   [-0.72,0.72].forEach(x=>{
-    const sc=new THREE.Mesh(new THREE.SphereGeometry(0.45,12,12),bM(0xffffff));
-    sc.position.set(x,7.3,1.28); monster.add(sc);
-    const pu=new THREE.Mesh(new THREE.SphereGeometry(0.24,8,8),bM(BK));
-    pu.position.set(x,7.3,1.66); monster.add(pu);
+    const sc=new THREE.Mesh(new THREE.SphereGeometry(0.45,12,12),bM(0xffffff));sc.position.set(x,7.3,1.28);monster.add(sc);
+    const pu=new THREE.Mesh(new THREE.SphereGeometry(0.24,8,8),bM(BK));pu.position.set(x,7.3,1.66);monster.add(pu);
   });
-  const lip=new THREE.Mesh(new THREE.BoxGeometry(2.0,0.38,0.18),bM(R));
-  lip.position.set(0,6.5,1.3); monster.add(lip);
-  for(let i=-2;i<=2;i++){
-    const t=new THREE.Mesh(new THREE.BoxGeometry(0.22,0.3,0.12),bM(0xffffee));
-    t.position.set(i*0.31,6.33,1.38); monster.add(t);
-  }
+  monster.add(Object.assign(new THREE.Mesh(new THREE.BoxGeometry(2.0,0.38,0.18),bM(R)),{position:new THREE.Vector3(0,6.5,1.3)}));
+  for(let i=-2;i<=2;i++){const t=new THREE.Mesh(new THREE.BoxGeometry(0.22,0.3,0.12),bM(0xffffee));t.position.set(i*0.31,6.33,1.38);monster.add(t);}
   [-1,1].forEach(side=>{
     const arm=new THREE.Group();
-    const up=new THREE.Mesh(new THREE.CylinderGeometry(0.38,0.32,4.5,8),bM(B));
-    up.position.set(0,-2.2,0); arm.add(up);
-    const fore=new THREE.Mesh(new THREE.CylinderGeometry(0.3,0.26,4.0,8),bM(LB));
-    fore.position.set(0,-6.7,0); arm.add(fore);
-    const wb=new THREE.Mesh(new THREE.CylinderGeometry(0.3,0.3,0.5,10),bM(Y));
-    wb.position.set(0,-8.75,0); arm.add(wb);
-    const palm=new THREE.Mesh(new THREE.BoxGeometry(0.95,1.05,0.58),bM(Y));
-    palm.position.set(0,-9.4,0); arm.add(palm);
+    [new THREE.Mesh(new THREE.CylinderGeometry(0.38,0.32,4.5,8),bM(B)),
+     new THREE.Mesh(new THREE.CylinderGeometry(0.3,0.26,4.0,8),bM(LB)),
+     new THREE.Mesh(new THREE.CylinderGeometry(0.3,0.3,0.5,10),bM(Y)),
+     new THREE.Mesh(new THREE.BoxGeometry(0.95,1.05,0.58),bM(Y))].forEach((m,i)=>{
+       m.position.set(0,[-2.2,-6.7,-8.75,-9.4][i],0);arm.add(m);
+     });
     for(let f=0;f<4;f++){
       const fx=(f-1.5)*0.23;
       [[-9.98,0.52,0.085,0.095],[-10.52,0.4,0.07,0.085],[-11.0,0,0.072,0]].forEach(([py,h,r1,r2])=>{
-        const seg=r2>0
-          ? new THREE.Mesh(new THREE.CylinderGeometry(r1,r2,h,6),bM(Y))
-          : new THREE.Mesh(new THREE.SphereGeometry(r1,6,6),bM(0x222200));
-        seg.position.set(fx,py,0); arm.add(seg);
+        const seg=r2>0?new THREE.Mesh(new THREE.CylinderGeometry(r1,r2,h,6),bM(Y)):new THREE.Mesh(new THREE.SphereGeometry(r1,6,6),bM(0x222200));
+        seg.position.set(fx,py,0);arm.add(seg);
       });
     }
     const th=new THREE.Mesh(new THREE.CylinderGeometry(0.09,0.095,0.5,6),bM(Y));
-    th.position.set(side*0.58,-9.38,0.1); th.rotation.z=side*0.72; arm.add(th);
-    arm.position.set(side*2.35,6.5,0); arm.rotation.z=side*0.38;
-    monster.add(arm); monsterArms.push(arm);
+    th.position.set(side*0.58,-9.38,0.1);th.rotation.z=side*0.72;arm.add(th);
+    arm.position.set(side*2.35,6.5,0);arm.rotation.z=side*0.38;
+    monster.add(arm);monsterArms.push(arm);
   });
   [-0.72,0.72].forEach(x=>{
-    const leg=new THREE.Mesh(new THREE.CylinderGeometry(0.52,0.42,4.0,8),bM(B));
-    leg.position.set(x,0.9,0); monster.add(leg);
-    const foot=new THREE.Mesh(new THREE.BoxGeometry(1.1,0.52,1.8),bM(Y));
-    foot.position.set(x,-1.1,0.38); monster.add(foot);
-    for(let t=0;t<3;t++){
-      const toe=new THREE.Mesh(new THREE.SphereGeometry(0.14,6,6),bM(Y));
-      toe.position.set(x+(t-1)*0.3,-1.05,1.3); monster.add(toe);
-    }
+    monster.add(Object.assign(new THREE.Mesh(new THREE.CylinderGeometry(0.52,0.42,4.0,8),bM(B)),{position:new THREE.Vector3(x,0.9,0)}));
+    monster.add(Object.assign(new THREE.Mesh(new THREE.BoxGeometry(1.1,0.52,1.8),bM(Y)),{position:new THREE.Vector3(x,-1.1,0.38)}));
+    for(let t=0;t<3;t++){const toe=new THREE.Mesh(new THREE.SphereGeometry(0.14,6,6),bM(Y));toe.position.set(x+(t-1)*0.3,-1.05,1.3);monster.add(toe);}
   });
-  monsterLight=new THREE.PointLight(0x1144ff,3,24);
-  monsterLight.position.set(0,5,0); monster.add(monsterLight);
+  monsterLight=new THREE.PointLight(0x1144ff,3,24);monsterLight.position.set(0,5,0);monster.add(monsterLight);
   monster.scale.set(0.62,0.62,0.62);
   scene.add(monster);
 }
 
-// ================================================================
-// ELEKTRİK DİREKLERİ - KABLO DEĞİNCE AKTİF OLUR
-// ================================================================
+// ============================================================
+// POWER POLES — KABLO DEĞİNCE AKTİF, ZİNCİR TAMAM → TÜNEL AÇILIR
+// ============================================================
 function buildPowerPoles(){
-  // Zincir 1: sol taraf küme - 3 direk
-  const chain1Positions=[[40,0,-44],[44,0,-44],[42,0,-40]];
-  // Zincir 2: sağ taraf küme - 3 direk
-  const chain2Positions=[[-44,0,48],[-40,0,48],[-42,0,44]];
-
-  [chain1Positions, chain2Positions].forEach((cluster, ci)=>{
-    const chainPoles=[];
-    cluster.forEach(([x,,z])=>{
-      const poleIdx=powerPoles.length;
+  // Zincir 1 → Tünel 1 kapısı, Zincir 2 → Tünel 2 kapısı
+  const clusters=[
+    {pos:[[40,0,-44],[44,0,-44],[42,0,-40]],tid:'t1'},
+    {pos:[[-44,0,48],[-40,0,48],[-42,0,44]],tid:'t2'},
+  ];
+  clusters.forEach((cl,ci)=>{
+    const chainIdx=[];
+    cl.pos.forEach(([x,,z])=>{
+      const idx=powerPoles.length;
       const mat=new THREE.MeshLambertMaterial({color:0x334455,emissive:0x111122,emissiveIntensity:0.3});
       const pole=new THREE.Mesh(new THREE.CylinderGeometry(0.22,0.22,5,8),mat);
-      pole.position.set(x,2.5,z); scene.add(pole);
-
-      // Metal kafes / çerçeve
+      pole.position.set(x,2.5,z);scene.add(pole);
       const frameMat=new THREE.MeshLambertMaterial({color:0x445566,emissive:0x112233,emissiveIntensity:0.2});
       const frame=new THREE.Mesh(new THREE.TorusGeometry(0.55,0.08,8,12),frameMat);
-      frame.position.set(x,5,z); scene.add(frame);
-
+      frame.position.set(x,5,z);scene.add(frame);
       const ball=new THREE.Mesh(new THREE.SphereGeometry(0.38,12,12),
         new THREE.MeshLambertMaterial({color:0x334455,emissive:0x001122,emissiveIntensity:0.3}));
-      ball.position.set(x,5.4,z); scene.add(ball);
-
-      // İzolasyon halkaları
+      ball.position.set(x,5.4,z);scene.add(ball);
       [4.0,3.0,2.0].forEach(h=>{
-        const ring=new THREE.Mesh(new THREE.CylinderGeometry(0.28,0.28,0.2,8),
-          new THREE.MeshLambertMaterial({color:0x222222}));
-        ring.position.set(x,h,z); scene.add(ring);
+        const ring=new THREE.Mesh(new THREE.CylinderGeometry(0.28,0.28,0.2,8),new THREE.MeshLambertMaterial({color:0x222222}));
+        ring.position.set(x,h,z);scene.add(ring);
       });
-
-      const l=new THREE.PointLight(0x334455,0.3,5); l.position.set(x,5.5,z); scene.add(l);
-
-      // Etiket: DEVRE KAPALI
-      const labelSprite=makeTextSprite('⚡ KAPALI',x,6.2,z,0xff4400);
-
-      const poleObj={
-        pos:new THREE.Vector3(x,5.4,z),
-        posMid:new THREE.Vector3(x,3.0,z), // kablo için orta nokta
-        ball, pole, frame, light:l,
-        mat, ballMat:ball.material, poleMat:mat, frameMat,
-        active:false, labelSprite,
-        poleIdx
-      };
-      powerPoles.push(poleObj);
-      chainPoles.push(poleIdx);
+      const l=new THREE.PointLight(0x334455,0.3,5);l.position.set(x,5.5,z);scene.add(l);
+      const lbl=new THREE.PointLight(0xff4400,0.2,3);lbl.position.set(x,6.2,z);scene.add(lbl);
+      powerPoles.push({
+        pos:new THREE.Vector3(x,5.4,z),posMid:new THREE.Vector3(x,3.0,z),
+        ball,light:l,lblLight:lbl,mat,ballMat:ball.material,poleMat:mat,frameMat,
+        active:false,wires:[]
+      });
+      chainIdx.push(idx);
     });
-
-    // Zincir kapısı - her zincir farklı bir kapı açar
-    // Zincir 1 → 2. kapı (sağ taraf), Zincir 2 → 3. kapı (sol taraf)
-    powerPoleChains.push({
-      poleIndices: chainPoles,
-      activated: false,
-      scannerIdx: ci+1 // 1. ve 2. door scanner'ı bypass eder
-    });
-  });
-
-  // Direkleri tel ile birleştir (görsel)
-  powerPoleChains.forEach(chain=>{
-    for(let i=0;i<chain.poleIndices.length-1;i++){
-      const a=powerPoles[chain.poleIndices[i]];
-      const b=powerPoles[chain.poleIndices[i+1]];
-      const wireGeo=new THREE.BufferGeometry().setFromPoints([a.posMid.clone(),b.posMid.clone()]);
-      const wire=new THREE.Line(wireGeo,new THREE.LineBasicMaterial({color:0x223344,linewidth:2}));
-      scene.add(wire);
-      // Store wire for later activation
-      if(!a.wires) a.wires=[];
-      a.wires.push({line:wire, other:b});
+    for(let i=0;i<chainIdx.length-1;i++){
+      const a=powerPoles[chainIdx[i]],b=powerPoles[chainIdx[i+1]];
+      const geo=new THREE.BufferGeometry().setFromPoints([a.posMid.clone(),b.posMid.clone()]);
+      const wire=new THREE.Line(geo,new THREE.LineBasicMaterial({color:0x223344,linewidth:2}));
+      scene.add(wire);a.wires.push({line:wire});
     }
+    powerPoleChains.push({indices:chainIdx,tid:cl.tid,activated:false});
   });
-}
-
-function makeTextSprite(text, x, y, z, color){
-  // Basit bir ışıklı top kullanıyoruz etiket yerine (sprite API yok)
-  const l=new THREE.PointLight(color||0xff4400, 0.2, 3);
-  l.position.set(x,y,z); scene.add(l);
-  return l;
-}
-
-// Kablo direğe değiyor mu kontrol et
-function checkCableHitsPoles(cableFrom, cableTo){
-  // Kablo doğrusu ile her direği kontrol et
-  powerPoles.forEach((pole, idx)=>{
-    if(pole.active) return;
-    // Direğin silindir eksenine en yakın nokta
-    const closestDist=distanceFromLineToPoint(cableFrom, cableTo, pole.posMid);
-    if(closestDist < 1.8){ // 1.8 birim içinde → aktive et
-      activatePole(idx);
-    }
-  });
-}
-
-function distanceFromLineToPoint(lineStart, lineEnd, point){
-  const lineDiff=new THREE.Vector3().subVectors(lineEnd, lineStart);
-  const lineLen=lineDiff.length();
-  if(lineLen<0.001) return lineStart.distanceTo(point);
-  const t=Math.max(0,Math.min(1,
-    new THREE.Vector3().subVectors(point, lineStart).dot(lineDiff)/(lineLen*lineLen)
-  ));
-  const proj=lineStart.clone().addScaledVector(lineDiff,t);
-  return proj.distanceTo(point);
-}
-
-function activatePole(idx){
-  const pole=powerPoles[idx];
-  pole.active=true;
-
-  // Görsel güncelle
-  pole.ballMat.color.setHex(0xffee44);
-  pole.ballMat.emissive.setHex(0xffdd00);
-  pole.ballMat.emissiveIntensity=1.5;
-  pole.light.color.setHex(0xffcc00);
-  pole.light.intensity=4;
-  pole.light.distance=12;
-  pole.poleMat.color.setHex(0x557744);
-  pole.poleMat.emissive.setHex(0x224422);
-  pole.frameMat.color.setHex(0xffcc00);
-  pole.frameMat.emissive.setHex(0xaaaa00);
-  pole.frameMat.emissiveIntensity=0.8;
-
-  // Etiket ışığı yap sarı
-  if(pole.labelSprite){
-    pole.labelSprite.color.setHex(0xffdd00);
-    pole.labelSprite.intensity=1.5;
-  }
-
-  showNotify('⚡ DİREK AKTİF!','#ffdd00');
-
-  // Telleri parlat
-  if(pole.wires) pole.wires.forEach(w=>{
-    w.line.material.color.setHex(0xffcc00);
-  });
-
-  // Zincir kontrolü
-  checkPoleChains();
   updateElecStatus();
 }
-
-function checkPoleChains(){
-  powerPoleChains.forEach(chain=>{
-    if(chain.activated) return;
-    const allActive=chain.poleIndices.every(idx=>powerPoles[idx].active);
-    if(allActive){
-      chain.activated=true;
-      showNotify('⚡⚡ ELEKTRİK ZİNCİRİ TAMAMLANDI!','#ffff00');
-      // Bu zincirin kapısını aç
-      if(chain.scannerIdx < scanners.length){
-        const sc=scanners[chain.scannerIdx];
-        if(!sc.open){
-          sc.open=true;
-          openDoor(sc);
-        }
-      }
+function checkCableHitsPoles(from,to){
+  powerPoles.forEach((pole,idx)=>{
+    if(pole.active) return;
+    if(distLP(from,to,pole.posMid)<1.8) activatePole(idx);
+  });
+}
+function distLP(a,b,p){
+  const ab=new THREE.Vector3().subVectors(b,a),len=ab.length();
+  if(len<0.001) return a.distanceTo(p);
+  const t=Math.max(0,Math.min(1,new THREE.Vector3().subVectors(p,a).dot(ab)/(len*len)));
+  return a.clone().addScaledVector(ab,t).distanceTo(p);
+}
+function activatePole(idx){
+  const p=powerPoles[idx];p.active=true;
+  p.ballMat.color.setHex(0xffee44);p.ballMat.emissive.setHex(0xffdd00);p.ballMat.emissiveIntensity=1.5;
+  p.light.color.setHex(0xffcc00);p.light.intensity=4;p.light.distance=12;
+  p.poleMat.color.setHex(0x557744);p.poleMat.emissive.setHex(0x224422);
+  p.frameMat.color.setHex(0xffcc00);p.frameMat.emissive.setHex(0xaaaa00);p.frameMat.emissiveIntensity=0.8;
+  p.lblLight.color.setHex(0xffdd00);p.lblLight.intensity=1.5;
+  p.wires.forEach(w=>w.line.material.color.setHex(0xffcc00));
+  showNotify('⚡ DİREK AKTİF!','#ffdd00');
+  checkChains();updateElecStatus();
+}
+function checkChains(){
+  powerPoleChains.forEach(ch=>{
+    if(ch.activated) return;
+    if(ch.indices.every(i=>powerPoles[i].active)){
+      ch.activated=true;
+      showNotify('⚡⚡ ZİNCİR TAMAMLANDI — TÜNEL AÇILIYOR!','#ffff00');
+      openTunnelDoor(ch.tid);
+      if(ch.tid==='t1'){completeObj(1);setObjActive(2);}
+      if(ch.tid==='t2'){completeObj(3);sf.t2Open=true;setObjActive(4);}
     }
   });
 }
-
 function updateElecStatus(){
-  const active=powerPoles.filter(p=>p.active).length;
-  const total=powerPoles.length;
+  const n=powerPoles.filter(p=>p.active).length,tot=powerPoles.length;
   const el=document.getElementById('elec-status');
-  const txt=document.getElementById('elec-txt');
   el.style.display='flex';
-  txt.textContent=`${active}/${total} direk`;
-  el.style.borderColor=active>0?'rgba(255,220,0,0.6)':'rgba(255,200,0,0.3)';
+  document.getElementById('elec-txt').textContent=n+'/'+tot+' direk';
+  el.style.borderColor=n>0?'rgba(255,220,0,0.6)':'rgba(255,200,0,0.3)';
 }
 
-// ================================================================
-// INTERACTIVES
-// ================================================================
-function buildInteractives(){
-  function mkWallPlate(px,py,pz,col,axis){
-    const mat=new THREE.MeshLambertMaterial({color:col,emissive:col,emissiveIntensity:0.65});
-    const disc=new THREE.Mesh(new THREE.CylinderGeometry(1.7,1.7,0.22,20),mat);
-    if(axis==='x') disc.rotation.z=Math.PI/2; else disc.rotation.x=Math.PI/2;
-    disc.position.set(px,py,pz); scene.add(disc);
-    const inner=new THREE.Mesh(new THREE.CylinderGeometry(0.6,0.6,0.28,16),
-      new THREE.MeshLambertMaterial({color:0xffffff,emissive:0xffffff,emissiveIntensity:0.9}));
-    inner.rotation.copy(disc.rotation); inner.position.set(px,py,pz); scene.add(inner);
-    const ring=new THREE.Mesh(new THREE.TorusGeometry(1.55,0.12,8,20),
-      new THREE.MeshLambertMaterial({color:col,emissive:col,emissiveIntensity:1.0}));
-    ring.rotation.copy(disc.rotation); ring.position.set(px,py,pz); scene.add(ring);
-    const l=new THREE.PointLight(col,2.0,9); l.position.set(px,py,pz); scene.add(l);
-    return {disc,inner,ring,light:l};
-  }
-
-  // ── LAUNCH PLATES (purple, on floor) ── MOR EL İÇİN
-  const lpPos=[[0,0,-34],[19,0,9],[-19,0,9],[0,0,37],[30,0,-24],[-30,0,-24],
-               [47,0,32],[-47,0,32],[0,0,-62],[57,0,-12],[-57,0,-12]];
-  lpPos.forEach(([x,,z])=>{
-    const mat=new THREE.MeshLambertMaterial({color:0xaa22ff,emissive:0xaa22ff,emissiveIntensity:0.65});
-    const disc=new THREE.Mesh(new THREE.CylinderGeometry(1.7,1.7,0.22,20),mat);
-    disc.position.set(x,0.12,z); scene.add(disc);
-    const inner=new THREE.Mesh(new THREE.CylinderGeometry(0.6,0.6,0.28,16),
-      new THREE.MeshLambertMaterial({color:0xffffff,emissive:0xffffff,emissiveIntensity:0.9}));
-    inner.position.set(x,0.22,z); scene.add(inner);
-    const ring=new THREE.Mesh(new THREE.TorusGeometry(1.55,0.12,8,20),
-      new THREE.MeshLambertMaterial({color:0xaa22ff,emissive:0xaa22ff,emissiveIntensity:1.0}));
-    ring.position.set(x,0.14,z); scene.add(ring);
-    // "MOR EL" etiketi ışığı
-    const label=new THREE.PointLight(0xdd00ff,0.5,5);
-    label.position.set(x,1.5,z); scene.add(label);
-    const l=new THREE.PointLight(0xaa22ff,1.5,7); l.position.set(x,1,z); scene.add(l);
-    interactObjs.push({type:'launch',pos:new THREE.Vector3(x,0.5,z),ring,disc,light:l,labelLight:label,radius:2.5});
+// ============================================================
+// TÜNELLER — elektrişle açılır, içine girince canavar ışınlanır
+// ============================================================
+function buildTunnels(){
+  // Tünel 1: (-55,0,-70) yönü Z
+  buildOneTunnel('t1',-55,0,-70,20,7,7);
+  // Tünel 2: (55,0,70) yönü Z  
+  buildOneTunnel('t2',55,0,70,20,7,7);
+}
+function buildOneTunnel(id,cx,cy,cz,len,w,h){
+  const tm=new THREE.MeshLambertMaterial({color:0x1a1030,emissive:0x05000f,emissiveIntensity:0.2});
+  // Sol-sağ duvar
+  [-w/2,w/2].forEach(ox=>{
+    const m=new THREE.Mesh(new THREE.BoxGeometry(0.5,h,len),tm);
+    m.position.set(cx+ox,cy+h/2,cz);scene.add(m);
+    wallBoxes.push({minX:cx+ox-0.5,maxX:cx+ox+0.5,minY:cy,maxY:cy+h,minZ:cz-len/2,maxZ:cz+len/2,tunnelWall:true});
   });
+  // Tavan
+  const rv=new THREE.Mesh(new THREE.BoxGeometry(w,0.5,len),tm);
+  rv.position.set(cx,cy+h,cz);scene.add(rv);
+  // Zemin
+  const fl=new THREE.Mesh(new THREE.PlaneGeometry(w,len),new THREE.MeshLambertMaterial({color:0x0d0a1e}));
+  fl.rotation.x=-Math.PI/2;fl.position.set(cx,cy+0.02,cz);scene.add(fl);
+  // Turuncu ışık
+  const tl=new THREE.PointLight(0xff5500,2,15);tl.position.set(cx,cy+4,cz);scene.add(tl);
 
-  // ── DOOR SCANNERS ──
-  // latchType: 'latch' = el kalır, tekrar tuşa basınca geri gelir
-  const doorDefs=[
-    {bp:[-30,4,-50,'z'], rp:[-26,4,-50,'z'], dp:[0,3.5,-50.5], ds:[55,7,1.5], col:0xff3333},
-    {bp:[ 26,4, 48,'z'], rp:[ 30,4, 48,'z'], dp:[0,3.5,48.5],  ds:[55,7,1.5], col:0xffcc00},
-    {bp:[-79,4,-10,'x'], rp:[-79,4,-6, 'x'], dp:[-79.5,3.5,0], ds:[1.5,7,18], col:0x22dd44},
-  ];
-  doorDefs.forEach(dd=>{
-    const doorMat=new THREE.MeshLambertMaterial({color:0x1e1e2e,emissive:0x0a0a1a,emissiveIntensity:0.3});
-    const doorMesh=new THREE.Mesh(new THREE.BoxGeometry(...dd.ds),doorMat);
-    doorMesh.position.set(...dd.dp); doorMesh.castShadow=true; scene.add(doorMesh);
-    wallBoxes.push({minX:dd.dp[0]-dd.ds[0]/2,maxX:dd.dp[0]+dd.ds[0]/2,
-                    minY:dd.dp[1]-dd.ds[1]/2,maxY:dd.dp[1]+dd.ds[1]/2,
-                    minZ:dd.dp[2]-dd.ds[2]/2,maxZ:dd.dp[2]+dd.ds[2]/2});
-    doorList.push(doorMesh);
+  // KAPI — tünel girişi önünde (z negatifse z+len/2, pozitifse z-len/2)
+  const dz=cz<0?cz+len/2+0.4:cz-len/2-0.4;
+  const dmat=new THREE.MeshLambertMaterial({color:0x223344,emissive:0x112233,emissiveIntensity:0.5});
+  const door=new THREE.Mesh(new THREE.BoxGeometry(w,h,0.6),dmat);
+  door.position.set(cx,cy+h/2,dz);scene.add(door);
+  tunnelDoors[id]=door;
+  const we={minX:cx-w/2,maxX:cx+w/2,minY:cy,maxY:cy+h,minZ:dz-0.5,maxZ:dz+0.5,tunnelDoor:id};
+  wallBoxes.push(we);tunnelWallEntries[id]=we;
+  // Kapı ışığı — kırmızı (kapalı)
+  const dl=new THREE.PointLight(0xff2200,2,6);dl.position.set(cx,cy+h+0.5,dz);scene.add(dl);
+  tunnelDoors[id+'_light']=dl;
 
-    const bScan=mkWallPlate(...dd.bp.slice(0,3),0x0066ff,dd.bp[3]);
-    const rScan=mkWallPlate(...dd.rp.slice(0,3),dd.col,dd.rp[3]);
-    const bPos=new THREE.Vector3(...dd.bp.slice(0,3));
-    const rPos=new THREE.Vector3(...dd.rp.slice(0,3));
-
-    scanners.push({
-      type:'door',
-      bluePos:bPos, rightPos:rPos,
-      blueScan:bScan, rightScan:rScan,
-      doorMesh, wallEntry:wallBoxes[wallBoxes.length-1],
-      blueLit:false, rightLit:false,
-      open:false,
-    });
-  });
-
-  // ── FIRE SOURCE wall plate (orange) ── EL DOKUNUP HEMEN GERI DONER, ateşi alir
-  {const {disc,light}=mkWallPlate(-79,4,22,0xff5500,'x');
-  interactObjs.push({type:'fire',pos:new THREE.Vector3(-79,4,22),mesh:disc,light,radius:3.5});}
-
-  // ── ICE SOURCE wall plate (cyan) ──
-  {const {disc,light}=mkWallPlate(79,4,-22,0x44ccff,'x');
-  interactObjs.push({type:'ice',pos:new THREE.Vector3(79,4,-22),mesh:disc,light,radius:3.5});}
-
-  // ── WOOD BLOCKS ──
-  [[-6,1,-18],[9,1,7],[-13,1,23],[41,1,-44],[-41,1,46]].forEach(([x,y,z])=>{
-    const m=new THREE.Mesh(new THREE.BoxGeometry(2.5,2,2.5),
-      new THREE.MeshLambertMaterial({color:0x7a4010}));
-    m.position.set(x,y,z); m.castShadow=true; scene.add(m);
-    interactObjs.push({type:'wood',pos:new THREE.Vector3(x,y,z),mesh:m,radius:2,burning:false});
-  });
-
-  // ── ICE BLOCKS ──
-  [[7,1,-10],[-8,1,17],[43,1,32],[-43,1,-33]].forEach(([x,y,z])=>{
-    const m=new THREE.Mesh(new THREE.BoxGeometry(2,2,2),
-      new THREE.MeshLambertMaterial({color:0x7799aa}));
-    m.position.set(x,y,z); m.castShadow=true; scene.add(m);
-    interactObjs.push({type:'block',pos:new THREE.Vector3(x,y,z),mesh:m,radius:1.8,frozen:false});
-  });
-
-  // ── GRAB HOOKS - EL ORADA KALIR ──
-  const hookPositions=[
-    [0,5,-79,'z'],[0,8,-79,'z'],[20,5,-79,'z'],[-20,5,-79,'z'],
-    [0,5,79,'z'],[20,5,79,'z'],[-20,5,79,'z'],
-    [-79,5,0,'x'],[-79,8,0,'x'],[-79,5,20,'x'],[-79,5,-20,'x'],
-    [79,5,0,'x'],[79,8,0,'x'],[79,5,20,'x'],[79,5,-20,'x'],
-    [0,13.5,-20,'y'],[15,13.5,-10,'y'],[-15,13.5,-10,'y'],
-    [0,13.5,20,'y'],[30,13.5,0,'y'],[-30,13.5,0,'y'],
-  ];
-  hookPositions.forEach(([x,y,z,ax])=>{
-    const mat=new THREE.MeshLambertMaterial({color:0xddaa00,emissive:0xddaa00,emissiveIntensity:0.6});
-    const stub=new THREE.Mesh(new THREE.CylinderGeometry(0.14,0.14,0.55,8),mat);
-    if(ax==='x')      stub.rotation.z=Math.PI/2;
-    else if(ax==='y') stub.rotation.x=Math.PI/2;
-    stub.position.set(x,y,z); scene.add(stub);
-    const cap=new THREE.Mesh(new THREE.SphereGeometry(0.2,8,8),
-      new THREE.MeshLambertMaterial({color:0xffdd22,emissive:0xffdd22,emissiveIntensity:0.85}));
-    const capOff=ax==='x'?new THREE.Vector3(0.35,0,0):ax==='y'?new THREE.Vector3(0,0,-0.35):new THREE.Vector3(0,0,0.35);
-    if(x<0) capOff.x*=-1; if(z>0&&ax==='z') capOff.z*=-1;
-    cap.position.set(x+capOff.x,y+capOff.y,z+capOff.z); scene.add(cap);
-    const l=new THREE.PointLight(0xffdd22,0.8,4); l.position.set(x,y,z); scene.add(l);
-    interactObjs.push({type:'hook',pos:new THREE.Vector3(x,y,z),cap,light:l,radius:1.4});
-  });
-}
-
-// ================================================================
-// FIRE HAND
-// ================================================================
-function tryFireHand(side){
-  if(!started||playerDead) return;
-  if(side==='right'&&handSwitching) return;
-
-  // Eğer el zaten latched ise → geri çek
-  if(HS[side]){
-    if(HS[side].latched){
-      recallLatchedHand(side);
-    }
-    return;
-  }
-  fireHand(side);
-}
-
-// Latched elin geri çekilmesi
-function recallLatchedHand(side){
-  const h=HS[side];
-  if(!h||!h.latched) return;
-  h.latched=false;
-  h.returning=true;
-  h.returnTrav=0;
-  h.hitPos=h.mesh.position.clone();
-
-  // Scanner reset
-  for(const sc of scanners){
-    if(!sc.open){
-      if(side==='left'&&sc.blueLit){ sc.blueLit=false; resetScanner(sc,'blue'); }
-      if(side==='right'&&sc.rightLit){ sc.rightLit=false; resetScanner(sc,'right'); }
-    }
-  }
-  updateCooldownUI();
-  updateHandStatusUI();
-}
-
-function resetScanner(sc, side){
-  if(side==='blue'){
-    sc.blueScan.disc.material.emissiveIntensity=0.65;
-    sc.blueScan.light.intensity=2;
-    sc.blueScan.light.color.setHex(0x0066ff);
-  } else {
-    sc.rightScan.disc.material.emissiveIntensity=0.65;
-    sc.rightScan.light.intensity=2;
+  // Tetikleyici: tünel ortasına girince canavar gelir (sadece t1)
+  if(id==='t1'){
+    interactObjs.push({type:'tunnel1_trigger',pos:new THREE.Vector3(cx,cy+2,cz),radius:6,triggered:false});
   }
 }
-
-function buildFlyHand(type){
-  const d=HD[type];
-  const g=new THREE.Group();
-  const hM=new THREE.MeshLambertMaterial({color:d.hand,emissive:d.hand,emissiveIntensity:0.4});
-  const aM=new THREE.MeshLambertMaterial({color:d.arm,emissive:d.arm,emissiveIntensity:0.22});
-  const yM=new THREE.MeshLambertMaterial({color:0xffcc00,emissive:0xffcc00,emissiveIntensity:0.3});
-
-  const fore=new THREE.Mesh(new THREE.CylinderGeometry(0.058,0.075,0.5,10),aM);
-  fore.rotation.x=Math.PI/2; fore.position.z=0.22; g.add(fore);
-  const wb=new THREE.Mesh(new THREE.CylinderGeometry(0.083,0.083,0.12,10),yM);
-  wb.rotation.x=Math.PI/2; g.add(wb);
-
-  const palm=new THREE.Mesh(new THREE.BoxGeometry(0.25,0.29,0.10),hM);
-  palm.position.set(0,0,-0.26); g.add(palm);
-  for(let k=-1;k<=1;k++){
-    const kn=new THREE.Mesh(new THREE.SphereGeometry(0.044,6,6),hM);
-    kn.position.set(k*0.083,0.145,-0.26); g.add(kn);
-  }
-  for(let f=0;f<4;f++){
-    const fx=(f-1.5)*0.068;
-    const p1=new THREE.Mesh(new THREE.CylinderGeometry(0.027,0.029,0.18,6),hM);
-    p1.position.set(fx,0.26,-0.25); g.add(p1);
-    const p2=new THREE.Mesh(new THREE.CylinderGeometry(0.022,0.027,0.13,6),hM);
-    p2.position.set(fx,0.41,-0.24); g.add(p2);
-    const tip=new THREE.Mesh(new THREE.SphereGeometry(0.025,5,5),
-      new THREE.MeshLambertMaterial({color:0x111111}));
-    tip.position.set(fx,0.5,-0.24); g.add(tip);
-  }
-  const thumb=new THREE.Mesh(new THREE.CylinderGeometry(0.029,0.031,0.15,6),hM);
-  const iB=type==='blue';
-  thumb.position.set(iB?0.16:-0.16,0.12,-0.24); thumb.rotation.z=iB?-0.5:0.5; g.add(thumb);
-
-  const gl=new THREE.PointLight(d.glow,5,7); g.add(gl);
-  return g;
-}
-
-function fireHand(side){
-  const type=side==='left'?'blue':rightType;
-  const hg=buildFlyHand(type);
-
-  const mark=side==='left'?leftWristPos:rightWristPos;
-  const startW=new THREE.Vector3(); mark.getWorldPosition(startW);
-
-  const dir=new THREE.Vector3(0,0,-1).applyQuaternion(camera.quaternion).normalize();
-  const targetPos=startW.clone().addScaledVector(dir,40);
-
-  hg.position.copy(startW);
-  hg.quaternion.copy(camera.quaternion);
-
-  const cGeo=new THREE.BufferGeometry().setFromPoints([startW.clone(),startW.clone()]);
-  const cable=new THREE.Line(cGeo,new THREE.LineBasicMaterial({color:0x080808,linewidth:5}));
-  scene.add(cable); scene.add(hg);
-
-  if(side==='left'){
-    leftHandMesh.visible=false;
-    leftStumpCap.visible=true;
-  } else {
-    rightHandMesh.visible=false;
-    rightStumpCap.visible=true;
-  }
-
-  HS[side]={
-    mesh:hg, cable,
-    startPos:startW.clone(), targetPos,
-    dir:dir.clone(),
-    dist:0, returning:false, hitPos:null,
-    returnTrav:0,
-    type,
-    latched:false,
-    latchPos:null,
-    pullTriggered:false,
-  };
-  updateCooldownUI();
-  updateHandStatusUI();
-
-  const ag=side==='left'?leftArmGroup:rightArmGroup;
-  ag.position.z-=0.09;
-  setTimeout(()=>{ ag.position.z=-0.65; },160);
-}
-
-// ================================================================
-// INTERACT - hangi obje eli tutar?
-// LATCH = el kalır (scanner, hook)
-// BOUNCE = el geri döner (launch plate, fire/ice source, wood/ice block)
-// NORMAL DUVAR = zaten hemen geri döner
-// ================================================================
-function checkInteract(handPos, side, h){
-  const type=h.type;
-
-  // ── DOOR SCANNERS (LATCH) ──
-  for(const sc of scanners){
-    if(sc.open) continue;
-    const bDist=handPos.distanceTo(sc.bluePos);
-    const rDist=handPos.distanceTo(sc.rightPos);
-
-    if(side==='left' && bDist<2.2 && !sc.blueLit){
-      sc.blueLit=true;
-      sc.blueScan.disc.material.emissiveIntensity=1.2;
-      sc.blueScan.light.intensity=4;
-      sc.blueScan.light.color.setHex(0x44aaff);
-      latchHand(h,handPos); // EL KALIR
-      showNotify('🔵 Bağlandı! Sağ eli de bağla! (Q = geri al)','#44aaff');
-      updateHandStatusUI();
-      return;
-    }
-    if(side==='right' && rDist<2.2 && !sc.rightLit){
-      sc.rightLit=true;
-      sc.rightScan.disc.material.emissiveIntensity=1.2;
-      sc.rightScan.light.intensity=4;
-      latchHand(h,handPos); // EL KALIR
-      showNotify(`${HD[type].emo} Bağlandı! Sol eli de bağla! (E = geri al)`,`#${HD[type].glow.toString(16).padStart(6,'0')}`);
-      updateHandStatusUI();
-      return;
-    }
-    if(sc.blueLit && sc.rightLit && !sc.open){
-      sc.open=true;
-      openDoor(sc);
-    }
-  }
-
-  // ── GRAB HOOKS (LATCH) - el kalır, Q/E ile geri gelir ──
-  for(const iv of interactObjs){
-    if(iv.type!=='hook') continue;
-    if(handPos.distanceTo(iv.pos)<iv.radius){
-      latchHand(h,handPos);
-      iv.light.intensity=3;
-      showHint(`📌 El bağlandı! ${side==='left'?'Q':'E'} ile geri al veya ${side==='left'?'Q':'E'} ile kendini çek!`);
-      updateHandStatusUI();
-      return;
-    }
-  }
-
-  // ── LAUNCH PLATE - SADECE MOR EL (BOUNCE - hemen geri döner) ──
-  for(const iv of interactObjs){
-    if(iv.type!=='launch') continue;
-    if(handPos.distanceTo(iv.pos)<iv.radius){
-      // Sadece MOR el fırlatır
-      if(type==='purple'){
-        velY=30; onGround=false;
-        showNotify('🚀 MOR EL FIRLATILDI!','#aa22ff');
-        // Bounce: geri döner
-        h.returning=true; h.returnTrav=0; h.hitPos=handPos.clone();
-      } else {
-        // Diğer eller: sadece dokun geri gel, fırlatma yok
-        showHint('🟣 Bu plaka sadece MOR el ile çalışır!');
-        h.returning=true; h.returnTrav=0; h.hitPos=handPos.clone();
-      }
-      return;
-    }
-  }
-
-  // ── POWER NODES (eski sistem - artık KABLO sistemi var ama bunu da bırakıyorum) ──
-  // (artık powerPoles sistemi var, eski powercluster kaldırıldı)
-
-  // ── FIRE SOURCE - SARGI EL (BOUNCE) ──
-  for(const iv of interactObjs){
-    if(iv.type!=='fire') continue;
-    if(type==='yellow' && !rightCarrying && handPos.distanceTo(iv.pos)<iv.radius){
-      rightCarrying='fire'; updateCarryUI();
-      showNotify('🔥 ATEŞ ALINDI!','#ff6600');
-      // Bounce
-      h.returning=true; h.returnTrav=0; h.hitPos=handPos.clone();
-      return;
-    }
-  }
-  // ── ICE SOURCE (BOUNCE) ──
-  for(const iv of interactObjs){
-    if(iv.type!=='ice') continue;
-    if(type==='yellow' && !rightCarrying && handPos.distanceTo(iv.pos)<iv.radius){
-      rightCarrying='ice'; updateCarryUI();
-      showNotify('❄️ BUZ ALINDI!','#44ccff');
-      h.returning=true; h.returnTrav=0; h.hitPos=handPos.clone();
-      return;
-    }
-  }
-
-  // ── WOOD BLOCK (BOUNCE) ──
-  for(const iv of interactObjs){
-    if(iv.type!=='wood'||iv.burning) continue;
-    if(type==='yellow' && rightCarrying==='fire' && handPos.distanceTo(iv.pos)<iv.radius){
-      iv.burning=true;
-      iv.mesh.material.color.setHex(0xff3300);
-      iv.mesh.material.emissive=new THREE.Color(0xff2200);
-      iv.mesh.material.emissiveIntensity=0.6;
-      const fl=new THREE.PointLight(0xff4400,3,8); fl.position.copy(iv.pos); scene.add(fl);
-      rightCarrying=null; updateCarryUI();
-      showNotify('🔥 TAHTA YANIYOR!','#ff4400');
-      h.returning=true; h.returnTrav=0; h.hitPos=handPos.clone();
-      return;
-    }
-  }
-  // ── ICE BLOCK (BOUNCE) ──
-  for(const iv of interactObjs){
-    if(iv.type!=='block'||iv.frozen) continue;
-    if(type==='yellow' && rightCarrying==='ice' && handPos.distanceTo(iv.pos)<iv.radius){
-      iv.frozen=true;
-      iv.mesh.material.color.setHex(0x88ddff);
-      iv.mesh.material.emissive=new THREE.Color(0x2288aa);
-      iv.mesh.material.emissiveIntensity=0.5;
-      const il=new THREE.PointLight(0x44aaff,2,8); il.position.copy(iv.pos); scene.add(il);
-      rightCarrying=null; updateCarryUI();
-      showNotify('❄️ BLOK DONDU!','#44ccff');
-      h.returning=true; h.returnTrav=0; h.hitPos=handPos.clone();
-      return;
-    }
-  }
-}
-
-function latchHand(h, pos){
-  h.latched=true;
-  h.hitPos=pos.clone();
-  h.latchPos=pos.clone();
-}
-
-function openDoor(sc){
-  showNotify('🚪 KAPI AÇILDI!','#22ff44');
-  const dm=sc.doorMesh;
-  const startY=dm.position.y;
-  let t=0;
+function openTunnelDoor(id){
+  const door=tunnelDoors[id];if(!door) return;
+  const dl=tunnelDoors[id+'_light'];
+  if(dl){dl.color.setHex(0x22ff44);dl.intensity=3;}
+  const sy=door.position.y;let t=0;
   function slide(){
-    t+=0.025;
-    dm.position.y=startY+t*9;
-    dm.material.opacity=1-t;
-    dm.material.transparent=true;
+    t+=0.03;door.position.y=sy+t*9;
+    door.material.opacity=Math.max(0,1-t);door.material.transparent=true;
     if(t<1) requestAnimationFrame(slide);
-    else {
-      scene.remove(dm);
-      const idx=wallBoxes.indexOf(sc.wallEntry);
-      if(idx>-1) wallBoxes.splice(idx,1);
+    else{
+      scene.remove(door);
+      const we=tunnelWallEntries[id];
+      const idx=wallBoxes.indexOf(we);if(idx>-1) wallBoxes.splice(idx,1);
+      if(id==='t1'){sf.t1Open=true;}
     }
   }
   slide();
 }
 
-// ================================================================
-// UPDATE HANDS each frame
-// ================================================================
+// ============================================================
+// ENDGAME — Asılı kutu, çukur, kırmızı oda, cam kutu
+// ============================================================
+function buildEndgame(){
+  const bx=-55,bz=-80;
+  // Asılı kutu (tavana yakın)
+  const boxMat=new THREE.MeshLambertMaterial({color:0x554400,emissive:0x221100,emissiveIntensity:0.4});
+  suspendedBox=new THREE.Mesh(new THREE.BoxGeometry(1.8,3.0,1.8),boxMat);
+  suspendedBox.position.set(bx,11.5,bz);scene.add(suspendedBox);
+  const ropeGeo=new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(bx,14,bz),new THREE.Vector3(bx,13,bz)]);
+  scene.add(new THREE.Line(ropeGeo,new THREE.LineBasicMaterial({color:0x886644,linewidth:3})));
+  const bl=new THREE.PointLight(0xff8800,1.5,8);bl.position.set(bx,10,bz);scene.add(bl);
+  suspendedBoxObj={pos:new THREE.Vector3(bx,11.5,bz),radius:4,leftLatched:false,rightLatched:false,falling:false};
+  interactObjs.push({type:'suspbox',pos:suspendedBoxObj.pos,radius:4,obj:suspendedBoxObj});
+
+  // Kırmızı oda kapı 1 (elle açılır)
+  buildGrabDoor('rr1',bx,0,-88,8,8);
+  // Kırmızı oda kapı 2
+  buildGrabDoor('rr2',bx,0,-98,8,8);
+
+  // Kırmızı oda
+  buildRedRoom(bx,-105);
+}
+
+function buildGrabDoor(id,x,y,z,w,h){
+  const mat=new THREE.MeshLambertMaterial({color:0x441111,emissive:0x220000,emissiveIntensity:0.5});
+  const door=new THREE.Mesh(new THREE.BoxGeometry(w,h,0.5),mat);
+  door.position.set(x,y+h/2,z);scene.add(door);
+  const we={minX:x-w/2,maxX:x+w/2,minY:y,maxY:y+h,minZ:z-0.5,maxZ:z+0.5,grabDoor:id};
+  wallBoxes.push(we);
+  const hm=new THREE.MeshLambertMaterial({color:0xffcc00,emissive:0xffaa00,emissiveIntensity:0.9});
+  const handle=new THREE.Mesh(new THREE.SphereGeometry(0.25,8,8),hm);
+  handle.position.set(x+w/2-0.6,y+h/2,z);scene.add(handle);
+  const hl=new THREE.PointLight(0xffcc00,1.5,6);hl.position.set(x,y+h/2,z);scene.add(hl);
+  interactObjs.push({type:'grabdoor',id,pos:new THREE.Vector3(x,y+h/2,z),doorMesh:door,wallEntry:we,light:hl,open:false});
+}
+
+function buildRedRoom(rx,rz){
+  const rm=new THREE.MeshLambertMaterial({color:0x4a0000,emissive:0x200000,emissiveIntensity:0.4});
+  // Zemin
+  const fl=new THREE.Mesh(new THREE.PlaneGeometry(16,16),new THREE.MeshLambertMaterial({color:0x660000,emissive:0x220000,emissiveIntensity:0.3}));
+  fl.rotation.x=-Math.PI/2;fl.position.set(rx,0,rz);scene.add(fl);
+  // Duvarlar
+  [[rx,5,rz-8,16,10,1],[rx,5,rz+8,16,10,1],[rx-8,5,rz,1,10,16],[rx+8,5,rz,1,10,16]].forEach(([x,y,z,sx,sy,sz])=>{
+    const m=new THREE.Mesh(new THREE.BoxGeometry(sx,sy,sz),rm);m.position.set(x,y,z);scene.add(m);
+    wallBoxes.push({minX:x-sx/2,maxX:x+sx/2,minY:y-sy/2,maxY:y+sy/2,minZ:z-sz/2,maxZ:z+sz/2});
+  });
+  const rl=new THREE.PointLight(0xff0000,4,24);rl.position.set(rx,8,rz);scene.add(rl);
+  // Masa
+  const tm=new THREE.MeshLambertMaterial({color:0x5a3000,emissive:0x1a0a00,emissiveIntensity:0.3});
+  const top=new THREE.Mesh(new THREE.BoxGeometry(3,0.2,1.5),tm);top.position.set(rx,2.1,rz);scene.add(top);
+  [-1,1].forEach(s=>[-0.6,0.6].forEach(ss=>{
+    const leg=new THREE.Mesh(new THREE.BoxGeometry(0.15,2,0.15),tm);leg.position.set(rx+s,1,rz+ss*0.55);scene.add(leg);
+  }));
+  // Cam kutu
+  const gm=new THREE.MeshLambertMaterial({color:0xaaddff,emissive:0x4488cc,emissiveIntensity:0.6,transparent:true,opacity:0.75});
+  glassBox=new THREE.Mesh(new THREE.BoxGeometry(0.9,0.65,0.55),gm);
+  glassBox.position.set(rx,2.6,rz);scene.add(glassBox);
+  const gl=new THREE.PointLight(0x44aaff,3,6);gl.position.set(rx,3.5,rz);scene.add(gl);
+  glassBoxObj={pos:new THREE.Vector3(rx,2.6,rz),radius:4,grabbed:false};
+  interactObjs.push({type:'glassbox',pos:glassBoxObj.pos,radius:4,obj:glassBoxObj});
+}
+
+// ============================================================
+// INTERACTIVES — Ateş, buz, mor plaka, hook, scanner KORUNUR
+// ============================================================
+function buildInteractives(){
+  function mkWallPlate(px,py,pz,col,axis){
+    const mat=new THREE.MeshLambertMaterial({color:col,emissive:col,emissiveIntensity:0.65});
+    const disc=new THREE.Mesh(new THREE.CylinderGeometry(1.7,1.7,0.22,20),mat);
+    if(axis==='x') disc.rotation.z=Math.PI/2; else disc.rotation.x=Math.PI/2;
+    disc.position.set(px,py,pz);scene.add(disc);
+    const inner=new THREE.Mesh(new THREE.CylinderGeometry(0.6,0.6,0.28,16),
+      new THREE.MeshLambertMaterial({color:0xffffff,emissive:0xffffff,emissiveIntensity:0.9}));
+    inner.rotation.copy(disc.rotation);inner.position.set(px,py,pz);scene.add(inner);
+    const ring=new THREE.Mesh(new THREE.TorusGeometry(1.55,0.12,8,20),
+      new THREE.MeshLambertMaterial({color:col,emissive:col,emissiveIntensity:1.0}));
+    ring.rotation.copy(disc.rotation);ring.position.set(px,py,pz);scene.add(ring);
+    const l=new THREE.PointLight(col,2.0,9);l.position.set(px,py,pz);scene.add(l);
+    return {disc,inner,ring,light:l};
+  }
+
+  // MOR EL PLAKALARI — BOUNCE (hemen geri döner)
+  [[0,0,-34],[19,0,9],[-19,0,9],[0,0,37],[30,0,-24],[-30,0,-24],[47,0,32],[-47,0,32],[0,0,-62],[57,0,-12],[-57,0,-12]].forEach(([x,,z])=>{
+    const mat=new THREE.MeshLambertMaterial({color:0xaa22ff,emissive:0xaa22ff,emissiveIntensity:0.65});
+    const disc=new THREE.Mesh(new THREE.CylinderGeometry(1.7,1.7,0.22,20),mat);disc.position.set(x,0.12,z);scene.add(disc);
+    const inner=new THREE.Mesh(new THREE.CylinderGeometry(0.6,0.6,0.28,16),new THREE.MeshLambertMaterial({color:0xffffff,emissive:0xffffff,emissiveIntensity:0.9}));
+    inner.position.set(x,0.22,z);scene.add(inner);
+    const ring=new THREE.Mesh(new THREE.TorusGeometry(1.55,0.12,8,20),new THREE.MeshLambertMaterial({color:0xaa22ff,emissive:0xaa22ff,emissiveIntensity:1.0}));
+    ring.position.set(x,0.14,z);scene.add(ring);
+    const lbl=new THREE.PointLight(0xdd00ff,0.5,5);lbl.position.set(x,1.5,z);scene.add(lbl);
+    const l=new THREE.PointLight(0xaa22ff,1.5,7);l.position.set(x,1,z);scene.add(l);
+    interactObjs.push({type:'launch',pos:new THREE.Vector3(x,0.5,z),disc,ring,light:l,labelLight:lbl,radius:2.5});
+  });
+
+  // DOOR SCANNERS — LATCH (her iki el → kapı açılır)
+  const doorDefs=[
+    {bp:[-30,4,-50,'z'],rp:[-26,4,-50,'z'],dp:[0,3.5,-50.5],ds:[55,7,1.5],col:0xff3333},
+    {bp:[26,4,48,'z'],rp:[30,4,48,'z'],dp:[0,3.5,48.5],ds:[55,7,1.5],col:0xffcc00},
+    {bp:[-79,4,-10,'x'],rp:[-79,4,-6,'x'],dp:[-79.5,3.5,0],ds:[1.5,7,18],col:0x22dd44},
+  ];
+  doorDefs.forEach(dd=>{
+    const doorMat=new THREE.MeshLambertMaterial({color:0x1e1e2e,emissive:0x0a0a1a,emissiveIntensity:0.3});
+    const doorMesh=new THREE.Mesh(new THREE.BoxGeometry(...dd.ds),doorMat);
+    doorMesh.position.set(...dd.dp);doorMesh.castShadow=true;scene.add(doorMesh);
+    const we={minX:dd.dp[0]-dd.ds[0]/2,maxX:dd.dp[0]+dd.ds[0]/2,minY:dd.dp[1]-dd.ds[1]/2,maxY:dd.dp[1]+dd.ds[1]/2,minZ:dd.dp[2]-dd.ds[2]/2,maxZ:dd.dp[2]+dd.ds[2]/2};
+    wallBoxes.push(we);doorList.push(doorMesh);
+    const bScan=mkWallPlate(...dd.bp.slice(0,3),0x0066ff,dd.bp[3]);
+    const rScan=mkWallPlate(...dd.rp.slice(0,3),dd.col,dd.rp[3]);
+    scanners.push({
+      bluePos:new THREE.Vector3(...dd.bp.slice(0,3)),rightPos:new THREE.Vector3(...dd.rp.slice(0,3)),
+      blueScan:bScan,rightScan:rScan,doorMesh,wallEntry:we,blueLit:false,rightLit:false,open:false,
+    });
+  });
+
+  // ATEŞ kaynağı — BOUNCE
+  {const {disc,light}=mkWallPlate(-79,4,22,0xff5500,'x');
+  interactObjs.push({type:'fire',pos:new THREE.Vector3(-79,4,22),mesh:disc,light,radius:3.5});}
+  // BUZ kaynağı — BOUNCE
+  {const {disc,light}=mkWallPlate(79,4,-22,0x44ccff,'x');
+  interactObjs.push({type:'ice',pos:new THREE.Vector3(79,4,-22),mesh:disc,light,radius:3.5});}
+
+  // AHŞAP bloklar
+  [[-6,1,-18],[9,1,7],[-13,1,23],[41,1,-44],[-41,1,46]].forEach(([x,y,z])=>{
+    const m=new THREE.Mesh(new THREE.BoxGeometry(2.5,2,2.5),new THREE.MeshLambertMaterial({color:0x7a4010}));
+    m.position.set(x,y,z);m.castShadow=true;scene.add(m);
+    interactObjs.push({type:'wood',pos:new THREE.Vector3(x,y,z),mesh:m,radius:2,burning:false});
+  });
+  // BUZ bloklar
+  [[7,1,-10],[-8,1,17],[43,1,32],[-43,1,-33]].forEach(([x,y,z])=>{
+    const m=new THREE.Mesh(new THREE.BoxGeometry(2,2,2),new THREE.MeshLambertMaterial({color:0x7799aa}));
+    m.position.set(x,y,z);m.castShadow=true;scene.add(m);
+    interactObjs.push({type:'block',pos:new THREE.Vector3(x,y,z),mesh:m,radius:1.8,frozen:false});
+  });
+
+  // GRAB HOOKS — LATCH (el kalır, Q/E ile geri çek)
+  [[0,5,-79,'z'],[0,8,-79,'z'],[20,5,-79,'z'],[-20,5,-79,'z'],
+   [0,5,79,'z'],[20,5,79,'z'],[-20,5,79,'z'],
+   [-79,5,0,'x'],[-79,8,0,'x'],[-79,5,20,'x'],[-79,5,-20,'x'],
+   [79,5,0,'x'],[79,8,0,'x'],[79,5,20,'x'],[79,5,-20,'x'],
+   [0,13.5,-20,'y'],[15,13.5,-10,'y'],[-15,13.5,-10,'y'],
+   [0,13.5,20,'y'],[30,13.5,0,'y'],[-30,13.5,0,'y']].forEach(([x,y,z,ax])=>{
+    const mat=new THREE.MeshLambertMaterial({color:0xddaa00,emissive:0xddaa00,emissiveIntensity:0.6});
+    const stub=new THREE.Mesh(new THREE.CylinderGeometry(0.14,0.14,0.55,8),mat);
+    if(ax==='x') stub.rotation.z=Math.PI/2; else if(ax==='y') stub.rotation.x=Math.PI/2;
+    stub.position.set(x,y,z);scene.add(stub);
+    const cap=new THREE.Mesh(new THREE.SphereGeometry(0.2,8,8),
+      new THREE.MeshLambertMaterial({color:0xffdd22,emissive:0xffdd22,emissiveIntensity:0.85}));
+    const co=ax==='x'?new THREE.Vector3(0.35,0,0):ax==='y'?new THREE.Vector3(0,0,-0.35):new THREE.Vector3(0,0,0.35);
+    if(x<0) co.x*=-1;if(z>0&&ax==='z') co.z*=-1;
+    cap.position.set(x+co.x,y+co.y,z+co.z);scene.add(cap);
+    const l=new THREE.PointLight(0xffdd22,0.8,4);l.position.set(x,y,z);scene.add(l);
+    interactObjs.push({type:'hook',pos:new THREE.Vector3(x,y,z),cap,light:l,radius:1.4});
+  });
+}
+
+// ============================================================
+// FIRE HAND
+// ============================================================
+function tryFireHand(side){
+  if(!started||playerDead||gameWon) return;
+  if(side==='right'&&handSwitching) return;
+  if(HS[side]){
+    if(HS[side].latched) recallLatchedHand(side);
+    return;
+  }
+  fireHand(side);
+}
+function recallLatchedHand(side){
+  const h=HS[side];if(!h||!h.latched) return;
+  h.latched=false;h.returning=true;h.returnTrav=0;h.hitPos=h.mesh.position.clone();
+  // Grab door: geri çekilince açılır
+  interactObjs.forEach(iv=>{
+    if(iv.type==='grabdoor'&&iv._latchSide===side&&!iv.open) openGrabDoor(iv);
+  });
+  // Glass box: geri çekilince açılır
+  interactObjs.forEach(iv=>{
+    if(iv.type==='glassbox'&&iv._latchSide===side&&iv.obj.grabbed) triggerWin();
+  });
+  for(const sc of scanners){
+    if(!sc.open){
+      if(side==='left'&&sc.blueLit){sc.blueLit=false;resetScanVis(sc,'blue');}
+      if(side==='right'&&sc.rightLit){sc.rightLit=false;resetScanVis(sc,'right');}
+    }
+  }
+  updateCooldownUI();updateHandStatusUI();
+}
+function resetScanVis(sc,side){
+  if(side==='blue'){sc.blueScan.disc.material.emissiveIntensity=0.65;sc.blueScan.light.intensity=2;sc.blueScan.light.color.setHex(0x0066ff);}
+  else{sc.rightScan.disc.material.emissiveIntensity=0.65;sc.rightScan.light.intensity=2;}
+}
+function buildFlyHand(type){
+  const d=HD[type],g=new THREE.Group();
+  const hM=new THREE.MeshLambertMaterial({color:d.hand,emissive:d.hand,emissiveIntensity:0.4});
+  const aM=new THREE.MeshLambertMaterial({color:d.arm,emissive:d.arm,emissiveIntensity:0.22});
+  const yM=new THREE.MeshLambertMaterial({color:0xffcc00,emissive:0xffcc00,emissiveIntensity:0.3});
+  const fore=new THREE.Mesh(new THREE.CylinderGeometry(0.058,0.075,0.5,10),aM);
+  fore.rotation.x=Math.PI/2;fore.position.z=0.22;g.add(fore);
+  g.add(Object.assign(new THREE.Mesh(new THREE.CylinderGeometry(0.083,0.083,0.12,10),yM),{rotation:{x:Math.PI/2,y:0,z:0}}));
+  const palm=new THREE.Mesh(new THREE.BoxGeometry(0.25,0.29,0.10),hM);palm.position.set(0,0,-0.26);g.add(palm);
+  for(let k=-1;k<=1;k++){const kn=new THREE.Mesh(new THREE.SphereGeometry(0.044,6,6),hM);kn.position.set(k*0.083,0.145,-0.26);g.add(kn);}
+  for(let f=0;f<4;f++){
+    const fx=(f-1.5)*0.068;
+    const p1=new THREE.Mesh(new THREE.CylinderGeometry(0.027,0.029,0.18,6),hM);p1.position.set(fx,0.26,-0.25);g.add(p1);
+    const p2=new THREE.Mesh(new THREE.CylinderGeometry(0.022,0.027,0.13,6),hM);p2.position.set(fx,0.41,-0.24);g.add(p2);
+    const tip=new THREE.Mesh(new THREE.SphereGeometry(0.025,5,5),new THREE.MeshLambertMaterial({color:0x111111}));tip.position.set(fx,0.5,-0.24);g.add(tip);
+  }
+  const thumb=new THREE.Mesh(new THREE.CylinderGeometry(0.029,0.031,0.15,6),hM);
+  const iB=type==='blue';
+  thumb.position.set(iB?0.16:-0.16,0.12,-0.24);thumb.rotation.z=iB?-0.5:0.5;g.add(thumb);
+  g.add(new THREE.PointLight(d.glow,5,7));
+  return g;
+}
+function fireHand(side){
+  const type=side==='left'?'blue':rightType;
+  const hg=buildFlyHand(type);
+  const mark=side==='left'?leftWristPos:rightWristPos;
+  const startW=new THREE.Vector3();mark.getWorldPosition(startW);
+  const dir=new THREE.Vector3(0,0,-1).applyQuaternion(camera.quaternion).normalize();
+  hg.position.copy(startW);hg.quaternion.copy(camera.quaternion);
+  const cGeo=new THREE.BufferGeometry().setFromPoints([startW.clone(),startW.clone()]);
+  const cable=new THREE.Line(cGeo,new THREE.LineBasicMaterial({color:0x080808,linewidth:5}));
+  scene.add(cable);scene.add(hg);
+  if(side==='left'){leftHandMesh.visible=false;leftStumpCap.visible=true;}
+  else{rightHandMesh.visible=false;rightStumpCap.visible=true;}
+  HS[side]={mesh:hg,cable,startPos:startW.clone(),dir:dir.clone(),dist:0,returning:false,hitPos:null,returnTrav:0,type,latched:false,latchPos:null};
+  updateCooldownUI();updateHandStatusUI();
+  const ag=side==='left'?leftArmGroup:rightArmGroup;
+  ag.position.z-=0.09;setTimeout(()=>{ag.position.z=-0.65;},160);
+}
+
+// ============================================================
+// INTERACT
+// ============================================================
+function checkInteract(handPos,side,h){
+  const type=h.type;
+
+  // DOOR SCANNERS → LATCH
+  for(const sc of scanners){
+    if(sc.open) continue;
+    if(side==='left'&&handPos.distanceTo(sc.bluePos)<2.2&&!sc.blueLit){
+      sc.blueLit=true;sc.blueScan.disc.material.emissiveIntensity=1.2;
+      sc.blueScan.light.intensity=4;sc.blueScan.light.color.setHex(0x44aaff);
+      latchHand(h,handPos);showNotify('🔵 Bağlandı! Sağ eli de bağla! (Q=geri al)','#44aaff');
+      updateHandStatusUI();return;
+    }
+    if(side==='right'&&handPos.distanceTo(sc.rightPos)<2.2&&!sc.rightLit){
+      sc.rightLit=true;sc.rightScan.disc.material.emissiveIntensity=1.2;sc.rightScan.light.intensity=4;
+      latchHand(h,handPos);showNotify(HD[type].emo+' Bağlandı! Sol eli de bağla! (E=geri al)','#ffcc00');
+      updateHandStatusUI();return;
+    }
+    if(sc.blueLit&&sc.rightLit&&!sc.open){sc.open=true;openDoor(sc);}
+  }
+
+  // GRAB HOOKS → LATCH
+  for(const iv of interactObjs){
+    if(iv.type!=='hook') continue;
+    if(handPos.distanceTo(iv.pos)<iv.radius){
+      latchHand(h,handPos);iv.light.intensity=3;
+      showHint('📌 El bağlandı! '+( side==='left'?'Q':'E')+' ile geri al!');
+      updateHandStatusUI();return;
+    }
+  }
+
+  // MOR EL PLAKALARI → BOUNCE (her zaman bounce)
+  for(const iv of interactObjs){
+    if(iv.type!=='launch') continue;
+    if(handPos.distanceTo(iv.pos)<iv.radius){
+      if(type==='purple'){velY=30;onGround=false;showNotify('🚀 FIRLATILDI!','#aa22ff');}
+      else showHint('🟣 Sadece MOR el fırlatır!');
+      h.returning=true;h.returnTrav=0;h.hitPos=handPos.clone();return;
+    }
+  }
+
+  // ATEŞ kaynağı → BOUNCE
+  for(const iv of interactObjs){
+    if(iv.type!=='fire') continue;
+    if(type==='yellow'&&!rightCarrying&&handPos.distanceTo(iv.pos)<iv.radius){
+      rightCarrying='fire';updateCarryUI();showNotify('🔥 ATEŞ ALINDI!','#ff6600');
+      h.returning=true;h.returnTrav=0;h.hitPos=handPos.clone();return;
+    }
+  }
+  // BUZ kaynağı → BOUNCE
+  for(const iv of interactObjs){
+    if(iv.type!=='ice') continue;
+    if(type==='yellow'&&!rightCarrying&&handPos.distanceTo(iv.pos)<iv.radius){
+      rightCarrying='ice';updateCarryUI();showNotify('❄️ BUZ ALINDI!','#44ccff');
+      h.returning=true;h.returnTrav=0;h.hitPos=handPos.clone();return;
+    }
+  }
+  // AHŞAP → BOUNCE
+  for(const iv of interactObjs){
+    if(iv.type!=='wood'||iv.burning) continue;
+    if(type==='yellow'&&rightCarrying==='fire'&&handPos.distanceTo(iv.pos)<iv.radius){
+      iv.burning=true;iv.mesh.material.color.setHex(0xff3300);
+      iv.mesh.material.emissive=new THREE.Color(0xff2200);iv.mesh.material.emissiveIntensity=0.6;
+      const fl=new THREE.PointLight(0xff4400,3,8);fl.position.copy(iv.pos);scene.add(fl);
+      rightCarrying=null;updateCarryUI();showNotify('🔥 TAHTA YANIYOR!','#ff4400');
+      h.returning=true;h.returnTrav=0;h.hitPos=handPos.clone();return;
+    }
+  }
+  // BUZ BLOK → BOUNCE
+  for(const iv of interactObjs){
+    if(iv.type!=='block'||iv.frozen) continue;
+    if(type==='yellow'&&rightCarrying==='ice'&&handPos.distanceTo(iv.pos)<iv.radius){
+      iv.frozen=true;iv.mesh.material.color.setHex(0x88ddff);
+      iv.mesh.material.emissive=new THREE.Color(0x2288aa);iv.mesh.material.emissiveIntensity=0.5;
+      const il=new THREE.PointLight(0x44aaff,2,8);il.position.copy(iv.pos);scene.add(il);
+      rightCarrying=null;updateCarryUI();showNotify('❄️ BLOK DONDU!','#44ccff');
+      h.returning=true;h.returnTrav=0;h.hitPos=handPos.clone();return;
+    }
+  }
+
+  // ASILI KUTU → LATCH, iki el birden → düşer
+  for(const iv of interactObjs){
+    if(iv.type!=='suspbox'||iv.obj.falling) continue;
+    if(handPos.distanceTo(iv.pos)<iv.radius){
+      latchHand(h,handPos);
+      if(side==='left') iv.obj.leftLatched=true; else iv.obj.rightLatched=true;
+      showHint('📦 İki elli tut → Q+E ile birlikte geri çek!');
+      // Her iki el de latch'lıyse düşür
+      if(iv.obj.leftLatched&&iv.obj.rightLatched){
+        iv.obj.falling=true;sf.boxPulled=true;
+        showNotify('📦 KUTU DÜŞÜYOR!','#ff8800');
+        dropBox(iv);completeObj(4);setObjActive(5);
+      }
+      updateHandStatusUI();return;
+    }
+  }
+
+  // GRAB DOOR → LATCH, geri çekince açılır
+  for(const iv of interactObjs){
+    if(iv.type!=='grabdoor'||iv.open) continue;
+    if(handPos.distanceTo(iv.pos)<iv.radius){
+      iv._latchSide=side;
+      latchHand(h,handPos);
+      showHint('🚪 El takıldı! '+(side==='left'?'Q':'E')+' ile geri çek → kapı açılır!');
+      updateHandStatusUI();return;
+    }
+  }
+
+  // CAM KUTU → LATCH, geri çekince oyun biter
+  for(const iv of interactObjs){
+    if(iv.type!=='glassbox'||iv.obj.grabbed) continue;
+    if(!sf.monsterDead){showHint('⚠️ Önce Poppy\'yi durdur!');return;}
+    if(!sf.redFound){showHint('⚠️ Kırmızı odayı bul!');return;}
+    if(handPos.distanceTo(iv.pos)<iv.radius){
+      iv.obj.grabbed=true;iv._latchSide=side;
+      latchHand(h,handPos);showHint('🔷 El tuttu! Geri çek → kutu açılır → KAZANDIN!');
+      updateHandStatusUI();return;
+    }
+  }
+
+  // TÜNEL 1 TETİKLEYİCİ
+  for(const iv of interactObjs){
+    if(iv.type==='tunnel1_trigger'&&!iv.triggered&&handPos.distanceTo(iv.pos)<iv.radius){
+      iv.triggered=true;triggerTunnel1();
+    }
+  }
+}
+
+function latchHand(h,pos){h.latched=true;h.hitPos=pos.clone();h.latchPos=pos.clone();}
+
+function openDoor(sc){
+  showNotify('🚪 KAPI AÇILDI!','#22ff44');
+  const dm=sc.doorMesh,sy=dm.position.y;let t=0;
+  function slide(){t+=0.025;dm.position.y=sy+t*9;dm.material.opacity=1-t;dm.material.transparent=true;
+    if(t<1) requestAnimationFrame(slide);
+    else{scene.remove(dm);const i=wallBoxes.indexOf(sc.wallEntry);if(i>-1)wallBoxes.splice(i,1);}
+  }slide();
+}
+function openGrabDoor(iv){
+  iv.open=true;showNotify('🚪 Kapı açıldı!','#ffcc44');
+  const dm=iv.doorMesh,sy=dm.position.y;let t=0;
+  function slide(){t+=0.03;dm.position.y=sy+t*8;dm.material.opacity=Math.max(0,1-t);dm.material.transparent=true;
+    if(t<1) requestAnimationFrame(slide);
+    else{scene.remove(dm);const i=wallBoxes.indexOf(iv.wallEntry);if(i>-1)wallBoxes.splice(i,1);}
+  }slide();
+  if(iv.id==='rr2'){sf.redFound=true;completeObj(6);setObjActive(7);showNotify('🔴 KIRMIZI ODA! Cam kutuyu bul!','#ff4444');}
+}
+
+function dropBox(iv){
+  if(!suspendedBox) return;
+  let vy=0;
+  const fall=()=>{
+    vy-=0.4;suspendedBox.position.y+=vy*0.05;
+    suspendedBox.rotation.x+=0.04;
+    if(suspendedBox.position.y>0) requestAnimationFrame(fall);
+    else{
+      scene.remove(suspendedBox);suspendedBox=null;
+      showNotify('💥 CANAVAR ZEMİNE DÜŞTÜ!','#ff4400');
+      // Canavar zemine düşer, kayar, ölür
+      setTimeout(()=>{
+        monsterFalling=true;
+        showNotify('😵 POPPY AŞAĞI DÜŞÜYOR!','#22ffaa');
+        setTimeout(()=>{
+          monster.visible=false;sf.monsterDead=true;monsterFalling=false;
+          completeObj(5);setObjActive(6);
+          showNotify('💀 POPPY ÖLDÜ! Kırmızı odayı bul!','#22ff44');
+        },3000);
+      },1500);
+    }
+  };fall();
+}
+
+function triggerTunnel1(){
+  if(!sf.t1Entered){
+    sf.t1Entered=true;completeObj(2);setObjActive(3);
+    setTimeout(()=>{
+      monster.position.set(-55,0,-64);
+      showNotify('😱 POPPY IŞINLANDI! Koş!','#ff0000');
+      showHint('📦 Yukarıdaki kutuyu iki elli çek!');
+    },600);
+  }
+}
+
+function triggerWin(){
+  if(sf.won) return;
+  sf.won=true;gameWon=true;started=false;
+  completeObj(7);
+  glassBox.material.color.setHex(0xffffff);
+  glassBox.material.emissiveIntensity=2;
+  const wl=new THREE.PointLight(0xffffff,10,15);wl.position.copy(glassBox.position);scene.add(wl);
+  showNotify('✨ CAM KUTU AÇILDI!','#ffffff');
+  setTimeout(()=>{document.getElementById('win-screen').style.display='flex';},2500);
+}
+
+// ============================================================
+// UPDATE HANDS
+// ============================================================
 function updateHands(dt){
   ['left','right'].forEach(side=>{
-    const h=HS[side];
-    if(!h) return;
-
+    const h=HS[side];if(!h) return;
     const mark=side==='left'?leftWristPos:rightWristPos;
-    const wW=new THREE.Vector3(); mark.getWorldPosition(wW);
+    const wW=new THREE.Vector3();mark.getWorldPosition(wW);
 
-    // ── LATCHED ──
     if(h.latched){
       h.mesh.position.copy(h.latchPos);
       updateCablePts(h.cable,wW,h.latchPos);
-
-      // Kablo direğe değiyor mu? (latched durumda da kontrol)
-      checkCableHitsPoles(wW, h.latchPos);
-
-      // Hook latched → Q/E ile çek
-      // (recallLatchedHand tryFireHand'dan çağrılıyor)
+      checkCableHitsPoles(wW,h.latchPos);
+      // Tünel tetikleyici kontrol
+      for(const iv of interactObjs){
+        if(iv.type==='tunnel1_trigger'&&!iv.triggered&&h.latchPos.distanceTo(iv.pos)<iv.radius){
+          iv.triggered=true;triggerTunnel1();
+        }
+      }
       return;
     }
 
     if(!h.returning){
-      const step=44*dt;
-      h.dist+=step;
+      h.dist+=44*dt;
       const np=h.startPos.clone().addScaledVector(h.dir,h.dist);
-
-      // Kablo yolunu direklere karşı kontrol et
-      checkCableHitsPoles(wW, np);
-
+      checkCableHitsPoles(wW,np);
       if(isInWall(np,0.20)||h.dist>=40){
         h.dist=Math.min(h.dist,40);
         h.hitPos=h.startPos.clone().addScaledVector(h.dir,h.dist);
         h.mesh.position.copy(h.hitPos);
         checkInteract(h.hitPos,side,h);
-        if(!h.latched&&!h.returning){
-          // Normal duvar = ANİNDE geri döner
-          h.returning=true; h.returnTrav=0;
-        }
+        if(!h.latched&&!h.returning){h.returning=true;h.returnTrav=0;}
         updateCablePts(h.cable,wW,h.mesh.position);
       } else {
         h.mesh.position.copy(np);
@@ -1109,28 +1031,21 @@ function updateHands(dt){
         updateCablePts(h.cable,wW,np);
       }
     } else {
-      // Geri dönüş
       h.returnTrav+=44*dt;
       const d=h.hitPos.distanceTo(wW)||0.01;
       const t=Math.min(h.returnTrav/d,1);
       h.mesh.position.lerpVectors(h.hitPos,wW,t);
       updateCablePts(h.cable,wW,h.mesh.position);
-
-      // Kablo geri gelirken de direkleri kontrol et
-      checkCableHitsPoles(wW, h.mesh.position);
-
+      checkCableHitsPoles(wW,h.mesh.position);
       if(t>=1){
-        scene.remove(h.mesh); scene.remove(h.cable);
-        HS[side]=null;
-        if(side==='left'){ leftHandMesh.visible=true; leftStumpCap.visible=false; }
-        else { rightHandMesh.visible=true; rightStumpCap.visible=false; }
-        updateCooldownUI();
-        updateHandStatusUI();
-        // Scanner reset
+        scene.remove(h.mesh);scene.remove(h.cable);HS[side]=null;
+        if(side==='left'){leftHandMesh.visible=true;leftStumpCap.visible=false;}
+        else{rightHandMesh.visible=true;rightStumpCap.visible=false;}
+        updateCooldownUI();updateHandStatusUI();
         for(const sc of scanners){
           if(!sc.open){
-            if(side==='left'&&sc.blueLit){ sc.blueLit=false; resetScanner(sc,'blue'); }
-            if(side==='right'&&sc.rightLit){ sc.rightLit=false; resetScanner(sc,'right'); }
+            if(side==='left'&&sc.blueLit){sc.blueLit=false;resetScanVis(sc,'blue');}
+            if(side==='right'&&sc.rightLit){sc.rightLit=false;resetScanVis(sc,'right');}
           }
         }
         showHint('');
@@ -1150,76 +1065,103 @@ function updateCablePts(line,from,to){
   line.geometry.attributes.position.needsUpdate=true;
 }
 
-// ================================================================
+// ============================================================
 // MONSTER AI
-// ================================================================
+// ============================================================
 function updateMonster(dt,el){
+  if(monsterFalling){
+    monster.position.y-=12*dt;monster.rotation.x+=dt*2;
+    if(monster.position.y<-12) monster.visible=false;
+    return;
+  }
+  if(!monster.visible||sf.monsterDead) return;
+
   monster.position.y=Math.sin(el*1.4)*0.2;
   if(monsterArms[0]) monsterArms[0].rotation.z=0.38+Math.sin(el*2)*0.42;
   if(monsterArms[1]) monsterArms[1].rotation.z=-0.38+Math.sin(el*2+Math.PI)*0.42;
 
   const toP=new THREE.Vector3().subVectors(playerPos,monster.position);
-  toP.y=0; const dist=toP.length();
+  toP.y=0;const dist=toP.length();
   let spd=1.6;
-  if(dist<35) spd=2.4; if(dist<20) spd=4.8; if(dist<10) spd=7.5; if(dist<5) spd=10;
-  if(dist>2.4){ toP.normalize().multiplyScalar(spd*dt); monster.position.add(toP); }
-  const ang=Math.atan2(playerPos.x-monster.position.x,playerPos.z-monster.position.z);
-  monster.rotation.y=ang;
+  if(dist<35) spd=2.4;if(dist<20) spd=4.8;if(dist<10) spd=7.5;if(dist<5) spd=10;
+  if(dist>2.4){toP.normalize().multiplyScalar(spd*dt);monster.position.add(toP);}
+  monster.rotation.y=Math.atan2(playerPos.x-monster.position.x,playerPos.z-monster.position.z);
 
+  // Vignette
+  const vig=document.getElementById('vignette');
+  if(dist<6) vig.className='critical';
+  else if(dist<18) vig.className='danger';
+  else vig.className='';
+
+  if(dist<2.0&&!playerDead&&elapsed-lastHitTime>1.2){
+    doJumpscare();return;
+  }
   if(dist<3.2&&!playerDead&&elapsed-lastHitTime>1.1){
-    lastHitTime=elapsed;
-    damagePlayer(22);
+    lastHitTime=elapsed;damagePlayer(22);
     const knock=new THREE.Vector3().subVectors(playerPos,monster.position);
-    knock.y=0; if(knock.length()<0.01) knock.set(0,0,1);
+    knock.y=0;if(knock.length()<0.01) knock.set(0,0,1);
     knock.normalize().multiplyScalar(7.5);
-    playerPos.add(knock); velY=5; onGround=false;
+    playerPos.add(knock);velY=5;onGround=false;
   }
   if(monsterLight) monsterLight.intensity=2.5+Math.sin(el*3)*1.0;
 }
 
-// ================================================================
+function doJumpscare(){
+  if(playerDead) return;
+  const js=document.getElementById('jumpscare');
+  js.textContent=['😱','👹','💀','🫦','👁️'][Math.floor(Math.random()*5)];
+  js.style.display='flex';
+  let f=0,bg=true;
+  const fi=setInterval(()=>{
+    js.style.background=bg?'#ff0000':'#000';bg=!bg;f++;
+    if(f>8){clearInterval(fi);js.style.display='none';killPlayer();}
+  },80);
+}
+
+// ============================================================
 // DAMAGE / HP
-// ================================================================
+// ============================================================
 function damagePlayer(a){
   if(playerDead) return;
-  playerHP-=a; if(playerHP<=0){playerHP=0;killPlayer();}
+  playerHP-=a;if(playerHP<=0){playerHP=0;killPlayer();}
   updateHPBar();
-  const f=document.getElementById('dmg-flash');
-  f.style.opacity='1'; setTimeout(()=>f.style.opacity='0',80);
+  const f=document.getElementById('dmg-flash');f.style.opacity='1';setTimeout(()=>f.style.opacity='0',80);
 }
-function killPlayer(){ playerDead=true; started=false; document.getElementById('dead-screen').style.display='flex'; }
-function updateHPBar(){ document.getElementById('hp-fill').style.width=Math.max(0,playerHP)+'%'; }
+function killPlayer(){if(playerDead||gameWon) return;playerDead=true;started=false;document.getElementById('dead-screen').style.display='flex';}
+function updateHPBar(){document.getElementById('hp-fill').style.width=Math.max(0,playerHP)+'%';}
 
+// ============================================================
+// OBJECTIVE UI
+// ============================================================
+function completeObj(n){
+  const el=document.getElementById('obj'+n);if(!el) return;
+  el.className='obj-item done';
+}
+function setObjActive(n){
+  const el=document.getElementById('obj'+n);if(!el) return;
+  el.className='obj-item active';
+}
+
+// ============================================================
+// UI UPDATES
+// ============================================================
 function updateCooldownUI(){
-  const leftLatched=HS.left&&HS.left.latched;
-  const rightLatched=HS.right&&HS.right.latched;
-
-  const lEl=document.getElementById('hcd-left');
-  const rEl=document.getElementById('hcd-right');
-
-  lEl.classList.toggle('cooldown',!!HS.left&&!leftLatched);
-  lEl.classList.toggle('latched-glow',!!leftLatched);
-
-  rEl.classList.toggle('cooldown',!!HS.right&&!rightLatched);
-  rEl.classList.toggle('latched-glow',!!rightLatched);
+  const ll=HS.left&&HS.left.latched,rl=HS.right&&HS.right.latched;
+  const le=document.getElementById('hcd-left'),re=document.getElementById('hcd-right');
+  le.classList.toggle('cooldown',!!HS.left&&!ll);le.classList.toggle('latched-glow',!!ll);
+  re.classList.toggle('cooldown',!!HS.right&&!rl);re.classList.toggle('latched-glow',!!rl);
 }
-
 function updateHandStatusUI(){
-  const ls=HS.left, rs=HS.right;
-  const lDot=document.getElementById('hs-left');
-  const rDot=document.getElementById('hs-right');
-  const lTxt=document.getElementById('hs-left-txt');
-  const rTxt=document.getElementById('hs-right-txt');
-
-  if(!ls){ lDot.className='hs-dot ready'; lTxt.textContent='🔵 Sol: Hazır'; }
-  else if(ls.latched){ lDot.className='hs-dot latched'; lTxt.textContent='🔵 Sol: 📌 Bağlı (Q=geri al)'; }
-  else { lDot.className='hs-dot flying'; lTxt.textContent='🔵 Sol: Uçuyor...'; }
-
-  if(!rs){ rDot.className='hs-dot ready'; rTxt.textContent=HD[rightType].emo+' Sağ: Hazır'; }
-  else if(rs.latched){ rDot.className='hs-dot latched'; rTxt.textContent=HD[rightType].emo+' Sağ: 📌 Bağlı (E=geri al)'; }
-  else { rDot.className='hs-dot flying'; rTxt.textContent=HD[rightType].emo+' Sağ: Uçuyor...'; }
+  const ls=HS.left,rs=HS.right;
+  const ld=document.getElementById('hs-left'),rd=document.getElementById('hs-right');
+  const lt=document.getElementById('hs-left-txt'),rt=document.getElementById('hs-right-txt');
+  if(!ls){ld.className='hs-dot ready';lt.textContent='🔵 Sol: Hazır';}
+  else if(ls.latched){ld.className='hs-dot latched';lt.textContent='🔵 Sol: 📌 Bağlı (Q=geri)';}
+  else{ld.className='hs-dot flying';lt.textContent='🔵 Sol: Uçuyor...';}
+  if(!rs){rd.className='hs-dot ready';rt.textContent=HD[rightType].emo+' Sağ: Hazır';}
+  else if(rs.latched){rd.className='hs-dot latched';rt.textContent=HD[rightType].emo+' Sağ: 📌 Bağlı (E=geri)';}
+  else{rd.className='hs-dot flying';rt.textContent=HD[rightType].emo+' Sağ: Uçuyor...';}
 }
-
 function updateCarryUI(){
   const ci=document.getElementById('carry-indicator');
   if(rightCarrying==='fire'){ci.style.display='block';ci.textContent='🔥 ATEŞ TAŞIYOR';ci.style.color='#ff6600';}
@@ -1232,61 +1174,45 @@ function updateCarryUI(){
   }
 }
 function updateHandBar(){
-  ['red','yellow','green','purple'].forEach(t=>{
-    document.getElementById('hsb-'+t).classList.toggle('active',t===rightType);
-  });
+  ['red','yellow','green','purple'].forEach(t=>document.getElementById('hsb-'+t).classList.toggle('active',t===rightType));
   const d=HD[rightType];
   const el=document.getElementById('hcd-right');
   el.style.background=`radial-gradient(circle at 40% 35%,#aaa4,#${d.hand.toString(16).padStart(6,'0')})`;
   el.style.boxShadow=`0 0 18px #${d.glow.toString(16).padStart(6,'0')}99`;
   document.getElementById('hcd-right-label').innerHTML=d.emo+'<br>SAĞ';
   const mb=document.getElementById('mob-right-btn');
-  const bg={red:'radial-gradient(circle at 40% 35%,#ffaaaa,#ff2222,#880000)',
-             yellow:'radial-gradient(circle at 40% 35%,#ffee88,#ffcc00,#886600)',
-             green:'radial-gradient(circle at 40% 35%,#aaffaa,#22dd44,#006622)',
-             purple:'radial-gradient(circle at 40% 35%,#ddaaff,#aa22ff,#550088)'};
-  mb.style.background=bg[rightType];
-  mb.innerHTML=d.emo+'<br>SAĞ';
+  const bg={red:'radial-gradient(circle at 40% 35%,#ffaaaa,#ff2222,#880000)',yellow:'radial-gradient(circle at 40% 35%,#ffee88,#ffcc00,#886600)',
+            green:'radial-gradient(circle at 40% 35%,#aaffaa,#22dd44,#006622)',purple:'radial-gradient(circle at 40% 35%,#ddaaff,#aa22ff,#550088)'};
+  mb.style.background=bg[rightType];mb.innerHTML=d.emo+'<br>SAĞ';
   updateHandStatusUI();
 }
-
-// ================================================================
-// NOTIFY / HINT
-// ================================================================
 function showNotify(text,color){
   const el=document.getElementById('notify');
-  el.textContent=text; el.style.color=color||'#fff';
-  el.style.borderColor=(color||'#fff')+'44'; el.style.opacity='1';
+  el.textContent=text;el.style.color=color||'#fff';
+  el.style.borderColor=(color||'#fff')+'44';el.style.opacity='1';
   if(notifyTO) clearTimeout(notifyTO);
-  notifyTO=setTimeout(()=>el.style.opacity='0',2800);
+  notifyTO=setTimeout(()=>el.style.opacity='0',3000);
 }
 function showHint(text){
   const el=document.getElementById('hint');
   if(!text){el.style.opacity='0';return;}
-  el.textContent=text; el.style.opacity='1';
+  el.textContent=text;el.style.opacity='1';
 }
-
-// ================================================================
-// WALL COLLISION
-// ================================================================
 function resolveWall(pos,r){
   for(const b of wallBoxes){
     const cx=Math.max(b.minX,Math.min(pos.x,b.maxX));
     const cz=Math.max(b.minZ,Math.min(pos.z,b.maxZ));
-    const dx=pos.x-cx, dz=pos.z-cz;
-    const d2=dx*dx+dz*dz;
-    if(d2<r*r&&d2>0.00001){ const d=Math.sqrt(d2); pos.x+=(dx/d)*(r-d); pos.z+=(dz/d)*(r-d); }
+    const dx=pos.x-cx,dz=pos.z-cz,d2=dx*dx+dz*dz;
+    if(d2<r*r&&d2>0.00001){const d=Math.sqrt(d2);pos.x+=(dx/d)*(r-d);pos.z+=(dz/d)*(r-d);}
   }
 }
 
-// ================================================================
+// ============================================================
 // CONTROLS
-// ================================================================
+// ============================================================
 function setupControls(){
   document.addEventListener('keydown',e=>{
-    if(keys[e.code]) return; // Repeat önle
-    keys[e.code]=true;
-
+    if(keys[e.code]) return;keys[e.code]=true;
     if(e.code==='KeyQ') tryFireHand('left');
     if(e.code==='KeyE') tryFireHand('right');
     if(e.code==='KeyZ') switchRightHand('red');
@@ -1295,90 +1221,77 @@ function setupControls(){
     if(e.code==='KeyV') switchRightHand('purple');
     if(e.code==='Space') e.preventDefault();
   });
-  document.addEventListener('keyup',e=>{ keys[e.code]=false; });
-
+  document.addEventListener('keyup',e=>{keys[e.code]=false;});
   document.addEventListener('mousemove',e=>{
     if(!document.pointerLockElement) return;
-    yaw-=e.movementX*0.002; pitch-=e.movementY*0.002;
+    yaw-=e.movementX*0.002;pitch-=e.movementY*0.002;
     pitch=Math.max(-1.2,Math.min(1.2,pitch));
   });
-  document.addEventListener('click',()=>{ if(started&&!playerDead) renderer?.domElement.requestPointerLock?.(); });
-
+  document.addEventListener('click',()=>{if(started&&!playerDead&&!gameWon) renderer?.domElement.requestPointerLock?.();});
   let lastLook=null;
   renderer.domElement.addEventListener('touchstart',e=>{
-    for(const t of e.touches){
-      if(t.clientX>innerWidth*0.38&&t.clientX<innerWidth*0.72)
-        lastLook={x:t.clientX,y:t.clientY,id:t.identifier};
-    }
+    for(const t of e.touches){if(t.clientX>innerWidth*0.38&&t.clientX<innerWidth*0.72) lastLook={x:t.clientX,y:t.clientY,id:t.identifier};}
   },{passive:true});
   renderer.domElement.addEventListener('touchmove',e=>{
     if(!lastLook) return;
-    for(const t of e.touches){
-      if(t.identifier===lastLook.id){
-        yaw-=(t.clientX-lastLook.x)*0.005; pitch-=(t.clientY-lastLook.y)*0.005;
-        pitch=Math.max(-1.2,Math.min(1.2,pitch));
-        lastLook={x:t.clientX,y:t.clientY,id:t.identifier};
-      }
-    }
+    for(const t of e.touches){if(t.identifier===lastLook.id){
+      yaw-=(t.clientX-lastLook.x)*0.005;pitch-=(t.clientY-lastLook.y)*0.005;
+      pitch=Math.max(-1.2,Math.min(1.2,pitch));lastLook={x:t.clientX,y:t.clientY,id:t.identifier};
+    }}
   },{passive:false});
   renderer.domElement.addEventListener('touchend',e=>{
-    if(lastLook){ const ids=[...e.touches].map(t=>t.identifier); if(!ids.includes(lastLook.id)) lastLook=null; }
+    if(lastLook){const ids=[...e.touches].map(t=>t.identifier);if(!ids.includes(lastLook.id)) lastLook=null;}
   },{passive:true});
-
-  const jBase=document.getElementById('joy-base');
-  const jKnob=document.getElementById('joy-knob');
+  const jBase=document.getElementById('joy-base'),jKnob=document.getElementById('joy-knob');
   function handleJoy(cx,cy){
     const r=jBase.getBoundingClientRect();
-    let dx=cx-(r.left+r.width/2), dy=cy-(r.top+r.height/2);
-    const max=46, d=Math.sqrt(dx*dx+dy*dy);
-    if(d>max){dx=dx/d*max;dy=dy/d*max;}
+    let dx=cx-(r.left+r.width/2),dy=cy-(r.top+r.height/2);
+    const max=46,d=Math.sqrt(dx*dx+dy*dy);if(d>max){dx=dx/d*max;dy=dy/d*max;}
     jKnob.style.transform=`translate(calc(-50% + ${dx}px),calc(-50% + ${dy}px))`;
-    joyX=dx/max; joyZ=dy/max;
+    joyX=dx/max;joyZ=dy/max;
   }
   jBase.addEventListener('touchstart',e=>{handleJoy(e.touches[0].clientX,e.touches[0].clientY);},{passive:true});
-  jBase.addEventListener('touchmove', e=>{handleJoy(e.touches[0].clientX,e.touches[0].clientY);},{passive:true});
-  jBase.addEventListener('touchend',  ()=>{joyX=0;joyZ=0;jKnob.style.transform='translate(-50%,-50%)';});
-
-  window.addEventListener('resize',()=>{ camera.aspect=innerWidth/innerHeight; camera.updateProjectionMatrix(); renderer.setSize(innerWidth,innerHeight); });
+  jBase.addEventListener('touchmove',e=>{handleJoy(e.touches[0].clientX,e.touches[0].clientY);},{passive:true});
+  jBase.addEventListener('touchend',()=>{joyX=0;joyZ=0;jKnob.style.transform='translate(-50%,-50%)';});
+  window.addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);});
 }
 
-// ================================================================
+// ============================================================
 // MAIN LOOP
-// ================================================================
+// ============================================================
 function animate(){
   requestAnimationFrame(animate);
   if(!scene) return;
-  if(!started&&!playerDead){ renderer.render(scene,camera); return; }
-  if(playerDead){ renderer.render(scene,camera); return; }
+  if(!started&&!playerDead&&!gameWon){renderer.render(scene,camera);return;}
+  if(playerDead||gameWon){renderer.render(scene,camera);return;}
 
   const dt=Math.min(clock.getDelta(),0.05);
   elapsed+=dt;
 
   const sprinting=keys['ShiftLeft']||keys['ShiftRight'];
-  const speed=sprinting?16:8;
   document.getElementById('sprint-label').style.opacity=sprinting?'1':'0';
+  const speed=sprinting?16:8;
 
   const move=new THREE.Vector3();
-  if(keys['KeyW']||keys['ArrowUp'])    move.z-=1;
-  if(keys['KeyS']||keys['ArrowDown'])  move.z+=1;
-  if(keys['KeyA']||keys['ArrowLeft'])  move.x-=1;
-  if(keys['KeyD']||keys['ArrowRight']) move.x+=1;
-  move.x+=joyX; move.z+=joyZ;
-  if(move.length()>0){ move.normalize().applyEuler(new THREE.Euler(0,yaw,0)); playerPos.addScaledVector(move,speed*dt); }
+  if(keys['KeyW']||keys['ArrowUp'])   move.z-=1;
+  if(keys['KeyS']||keys['ArrowDown']) move.z+=1;
+  if(keys['KeyA']||keys['ArrowLeft']) move.x-=1;
+  if(keys['KeyD']||keys['ArrowRight'])move.x+=1;
+  move.x+=joyX;move.z+=joyZ;
+  if(move.length()>0){move.normalize().applyEuler(new THREE.Euler(0,yaw,0));playerPos.addScaledVector(move,speed*dt);}
 
   resolveWall(playerPos,0.6);
 
-  if(keys['Space']&&onGround){ velY=9.5; onGround=false; }
-  velY-=23*dt; playerPos.y+=velY*dt;
-  if(playerPos.y<=2){ playerPos.y=2; velY=0; onGround=true; }
+  if(keys['Space']&&onGround){velY=9.5;onGround=false;}
+  velY-=23*dt;playerPos.y+=velY*dt;
+  if(playerPos.y<=2){playerPos.y=2;velY=0;onGround=true;}
 
   camera.position.copy(playerPos);
   camera.rotation.order='YXZ';
-  camera.rotation.y=yaw; camera.rotation.x=pitch;
+  camera.rotation.y=yaw;camera.rotation.x=pitch;
 
-  const moving=move.length()>0.01;
   const bobT=-0.44;
-  if(moving){
+  if(move.length()>0.01){
     const bob=Math.sin(elapsed*13)*0.013;
     leftArmGroup.position.y=bobT+bob;
     if(!switchState) rightArmGroup.position.y=bobT-bob;
@@ -1387,19 +1300,28 @@ function animate(){
     if(!switchState) rightArmGroup.position.y+=(bobT-rightArmGroup.position.y)*0.15;
   }
 
-  // Pulse launch plates
+  // Tünel 1 tetikleyici (oyuncu yaklaşınca)
+  if(sf.t1Open&&!sf.t1Entered){
+    const tv=interactObjs.find(v=>v.type==='tunnel1_trigger');
+    if(tv&&!tv.triggered&&playerPos.distanceTo(tv.pos)<tv.radius){
+      tv.triggered=true;triggerTunnel1();
+    }
+  }
+
+  // Cam kutu parıltısı
+  if(glassBox&&sf.redFound&&!sf.won){
+    glassBox.material.emissiveIntensity=0.5+Math.sin(elapsed*5)*0.4;
+  }
+
+  // Mor plaka pulse
   interactObjs.filter(v=>v.type==='launch').forEach(v=>{
     if(v.light) v.light.intensity=1.5+Math.sin(elapsed*3+v.pos.x)*0.7;
     if(v.disc)  v.disc.material.emissiveIntensity=0.5+Math.sin(elapsed*3+v.pos.z)*0.3;
     if(v.labelLight) v.labelLight.intensity=0.4+Math.sin(elapsed*4+v.pos.z)*0.3;
   });
 
-  // Elektrik direklerini pulse et
-  powerPoles.forEach(pole=>{
-    if(pole.active){
-      pole.light.intensity=3+Math.sin(elapsed*8+pole.pos.x)*1.5;
-    }
-  });
+  // Elektrik direkleri pulse
+  powerPoles.forEach(p=>{if(p.active) p.light.intensity=3+Math.sin(elapsed*8+p.pos.x)*1.5;});
 
   updateSwitchAnim(dt);
   updateHands(dt);
@@ -1407,7 +1329,6 @@ function animate(){
   renderer.render(scene,camera);
 }
 
-// Init UI
 updateHandBar();
 updateHandStatusUI();
 </script>
